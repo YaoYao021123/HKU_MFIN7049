@@ -248,6 +248,10 @@
       .hero, .section { padding: 18px; }
     }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
 </head>
 <body>
   <main class="shell">
@@ -604,6 +608,40 @@ withdraw late  → r2 = 1.813</code></pre>
         <div class="answer">
           <p><strong>答案：</strong>核心不变的是“短期可退出的债权 / 准债权 + 对资产价值或流动性的怀疑 + 提前退出的相对优势”。</p>
           <p>所以现代金融里的 run 不只发生在商业银行，也会发生在 shadow banking system。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Hard Mode：更接近作业的高阶题</h2>
+          <p class="section-note">这组题不再只问 DD 模型定义，而是逼你把流动性保险、挤兑均衡和监管副作用连成一条完整逻辑。</p>
+        </div>
+        <span class="badge">Assignment-level</span>
+      </div>
+
+      <details>
+        <summary>H1. 若一项债务工具可 demand redemption，但不可二级市场交易，它在课程框架里更像哪类银行脆弱性来源？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>更像 redeemability 驱动的 run fragility，而不是 tradability 驱动的 market liquidity 问题。</p>
+          <p>高阶题的关键是区分“你是把资产卖给别人”还是“你直接向发行人要钱”。前者是交易市场流动性，后者是挤兑与清偿顺序问题。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 若存款保险覆盖提高到几乎全部存款，但资本监管和检查频率下降，银行体系风险一定下降吗？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>不一定。</p>
+          <p>panic risk 会下降，但 asset-side risk-taking incentive 可能变强。更接近作业的答法是：bad equilibrium 被切断，但 moral hazard 可能沿另一条线抬头。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H3. 如果题目把 bank run 搬到 shadow banking，比如 MMMF 或 repo funding，核心机制变了吗？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>没有本质改变，只是合同载体换了。</p>
+          <p>只要存在短期可撤回融资、资产长期且需折价变现、以及先走者受益的支付顺序，就会出现 run-like fragility。高分答案应指出：商业银行存款并不是 run 的唯一载体。</p>
         </div>
       </details>
     </section>

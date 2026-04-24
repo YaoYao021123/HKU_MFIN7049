@@ -1,0 +1,34 @@
+.math-inline,
+.math-display,
+.math-display-line {
+  color: inherit;
+}
+
+.math-inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.math-display {
+  margin: 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(22, 34, 37, 0.14);
+}
+
+.math-display-line + .math-display-line {
+  margin-top: 8px;
+}
+
+.math-display-label {
+  margin: 0 0 8px;
+  color: rgba(22, 34, 37, 0.72);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.math-render-error {
+  font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+}

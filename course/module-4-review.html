@@ -290,6 +290,10 @@
       .hero, .section { padding: 18px; }
     }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
 </head>
 <body>
   <main class="shell">
@@ -658,6 +662,40 @@ Equity value = 0.5 × 40 + 0.5 × 0 = 20</code></pre>
         <div class="answer">
           <p><strong>答案：</strong>至少会缓解两类问题。</p>
           <p>一是 ex ante 的 adverse selection，因为更高净值和抵押品能帮助区分类型；二是 ex post 的 risk-shifting，因为 borrower 偏离的成本变高，covenant/monitoring 也更容易约束项目替换。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Hard Mode：更接近作业的高阶题</h2>
+          <p class="section-note">这组题要求你把 ex ante hidden type 和 ex post payoff 扭曲拆开写。不要只说“debt 更好”或“equity 更差”，要点名是哪一层摩擦造成的。</p>
+        </div>
+        <span class="badge">Assignment-level</span>
+      </div>
+
+      <details>
+        <summary>H1. 若市场对 firm quality 的分散程度上升，而其他条件不变，pooling equity 通常会变得更容易还是更难维持？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>通常更难维持。</p>
+          <p>质量分散越大，good type 在 pooling price 下被低估得越严重，退出激励越强；bad type 被高估得越多，更愿意留下。也就是说，wealth transfer 变大，pooling 更脆弱。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 某题告诉你一个新项目总 NPV 为正，但它会显著提高资产波动率。若公司已有面值很高的债务，问股东与债权人对该项目的看法最可能如何分化？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>股东可能支持、债权人更可能反对。</p>
+          <p>这是 risk-shifting 的标准结构。波动率上升会提高股权这种凸性索取权的价值，同时压低债权的回收质量。高阶题的关键不是先看 NPV，而是先看 payoff convexity。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H3. 如果题目同时存在新项目融资和 old debt overhang，正确解题顺序是什么？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>先看新项目总增量价值，再把增量价值分解到 old debt、new debt 和 old equity。</p>
+          <p>很多人一上来就比较“银行愿不愿借”，但更硬的题目要求你先拆 <code>ΔFirm</code>、<code>ΔDebt</code>、<code>ΔEquity</code>。只有这样才能判断是 financing infeasibility、debt overhang，还是两者同时存在。</p>
         </div>
       </details>
     </section>

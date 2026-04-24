@@ -290,6 +290,10 @@
       .hero, .section { padding: 18px; }
     }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
 </head>
 <body>
   <main class="shell">
@@ -667,6 +671,40 @@ Var(r~ | θ) = σ²σ²_θ / (σ² + σ²_θ)</code></pre>
         <div class="answer">
           <p><strong>答案：</strong>两者都受影响，但考试最重要的是看到 <code>posterior variance</code> 明确下降。</p>
           <p><code>σ²_θ</code> 下降时，权重 <code>β</code> 上升，posterior mean 对 signal 更敏感；同时 <code>v = σ²σ²_θ/(σ² + σ²_θ)</code> 下降。由于 premium 取决于 <code>(1 - η)v</code>，所以 risk premium 下降。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Hard Mode：更接近作业的高阶题</h2>
+          <p class="section-note">这组题开始把信息更新、风险补偿和均衡概念压在同一题里。作答时不要只给结论，至少写一句“变的是 mean、variance，还是 price aggregation 机制”。</p>
+        </div>
+        <span class="badge">Assignment-level</span>
+      </div>
+
+      <details>
+        <summary>H1. 若 signal realization 很高，但 signal precision 很差，价格一定会大幅上升吗？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>不一定。</p>
+          <p>高 realization 只会通过 posterior mean 推高价格，但如果 precision 很差，则权重很低，posterior mean 上调有限；同时 posterior variance 下降也有限，所以 risk premium 压缩也有限。作业风格常用“好信号”三个字诱导你忽略 precision。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 若从 WE 切换到 REE，但 fundamentals 与私有信号分布完全不变，uninformed trader 的 demand 一定不变吗？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>不一定，通常会变。</p>
+          <p>因为在 REE 中，价格本身会进入 belief updating。即便 primitives 没变，uninformed trader 对 payoff 的 posterior belief 会因价格含义改变而改变，因此最优 demand 也会变。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H3. 设两个制度下 prior variance 相同，但制度 A 有更多信息使 posterior variance 更低。若题目同时问 <code>E(R~)</code>、<code>Rf</code> 和 premium 哪个方向最稳，如何答？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>premium 更稳妥地下降，<code>E(R~)</code> 和 <code>Rf</code> 则还取决于 posterior mean 如何变。</p>
+          <p>因为在课程模型里 premium 直接吃的是 posterior variance；而 expected risky return 与 risk-free rate 还会一起受到 posterior mean 的影响。高阶题常故意让 mean 和 variance 同时变，逼你分开看。</p>
         </div>
       </details>
     </section>

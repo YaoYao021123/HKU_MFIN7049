@@ -248,6 +248,10 @@
       .hero, .section { padding: 18px; }
     }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
 </head>
 <body>
   <main class="shell">
@@ -586,6 +590,40 @@ traditional short-end steering weakens
         <div class="answer">
           <p><strong>答案：</strong>因为 price stability 和 output stability 并不等于 credit market、asset prices 和 leverage 也稳定。</p>
           <p>全球金融危机后的重要教训之一正是：低通胀环境下照样可能积累巨大的金融脆弱性，所以宏观审慎政策不能缺位。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Hard Mode：更接近作业的高阶题</h2>
+          <p class="section-note">政策题真正拉分的地方不在名词，而在 transmission mechanism。这组题要求你把央行工具和银行、收益率曲线、风险利差的变化接起来。</p>
+        </div>
+        <span class="badge">Assignment-level</span>
+      </div>
+
+      <details>
+        <summary>H1. 若央行做 open market purchase，但银行选择把新增准备金大部分留在超额准备金账户，而不是扩张贷款，广义货币一定同步大涨吗？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>不一定。</p>
+          <p>基础货币 <code>MB</code> 会增加，但广义货币还取决于银行放贷意愿、资本约束和存款人资产选择。高阶政策题常在这里考你：央行能直接控的是 base，不是 every layer of money creation。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 在零利率附近，为什么同样是“买债”，QE 与常规短端公开市场操作的经济含义不同？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>因为 QE 重点是直接压低长端收益率、期限溢价和部分风险利差，而不是只在 reserve market 微调短端资金价格。</p>
+          <p>更硬的写法是：常规操作主要沿短端利率走，QE 则更多沿 portfolio balance、term premium 和 expectations channel 走。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H3. 若一个国家 CPI 很稳定，但信贷和房价持续快速上涨，为什么考试不会接受“inflation targeting 已经成功，所以政策没问题”这种答法？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>因为 price stability 不等于 financial stability。</p>
+          <p>课程后半段的关键收束就是：政策框架若只盯通胀，可能漏掉 leverage cycle、抵押品价格和金融中介风险承担。更完整的答案应顺带提到 macroprudential policy 的必要性。</p>
         </div>
       </details>
     </section>

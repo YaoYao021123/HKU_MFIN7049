@@ -248,6 +248,10 @@
       .hero, .section { padding: 18px; }
     }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
 </head>
 <body>
   <main class="shell">
@@ -586,6 +590,40 @@ After devaluation = 100 × 1.5 = 150</code></pre>
         <div class="answer">
           <p><strong>答案：</strong>因为回报不只取决于 fundamentals，还取决于别人怎么解读并交易。</p>
           <p>当你必须预测“平均意见的平均意见”时，公共信号对协调别人行为最有用，所以会被过度加权。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Hard Mode：更接近作业的高阶题</h2>
+          <p class="section-note">危机题最容易被写成事件流水账。这组题专门训练你抓住“约束如何被价格恶化反过来放大”这一层。</p>
+        </div>
+        <span class="badge">Assignment-level</span>
+      </div>
+
+      <details>
+        <summary>H1. 若两个国家都本币贬值，但只有一个国家同时爆发银行危机，题目最可能在暗示哪种结构性差异？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>更严重的 <code>currency mismatch</code>、更脆弱的银行资产负债表，或更短的外部融资期限结构。</p>
+          <p>单纯汇率变化不自动推出 twin crisis。更硬的答法会写：外币负债、本币收入、短债滚动依赖和资本流入逆转共同决定危机是否穿透到银行系统。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 若资产价格下跌触发追加保证金，追加保证金迫使卖出，而卖出又进一步压低价格。这条链里哪个环节最体现“市场不是摩擦less”的含义？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>融资约束和 haircut / margin requirement 的内生收紧。</p>
+          <p>如果市场真是 frictionless，价格偏离 fundamental 时套利者会无限接盘。现实里正是 funding constraint 把“你可能长期是对的”改写成“你会在回归前先死掉”。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H3. beauty contest 环境里，为什么公共信号质量下降时，市场波动可能反而更大？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>因为大家仍会高度关注一个协调基准，但这个基准本身更噪，从而把共同行为推得更偏。</p>
+          <p>这不是单纯“信息更差所以均值更差”的故事，而是协调对象更差会把群体行为的同步误差放大。作业型题常让你把信息质量和 coordination motive 放在一起解释。</p>
         </div>
       </details>
     </section>

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 Mock Exam</title>
+  <style>
+    :root {
+      --bg: #f2eee8;
+      --panel: rgba(252, 249, 244, 0.96);
+      --panel-strong: #fffdfa;
+      --ink: #1d2a2f;
+      --muted: #607074;
+      --accent: #8a4b1f;
+      --accent-soft: #f2e0d3;
+      --line: rgba(29, 42, 47, 0.14);
+      --shadow: 0 18px 42px rgba(40, 32, 24, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(138, 75, 31, 0.12), transparent 32%),
+        radial-gradient(circle at top right, rgba(29, 107, 80, 0.08), transparent 26%),
+        linear-gradient(180deg, #faf7f2 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 28px; margin-bottom: 20px; }
+    .section { padding: 24px; margin-top: 20px; }
+    .hero-grid, .grid-2 {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid { grid-template-columns: 1.2fr 0.9fr; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.8);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { margin: 0 0 12px; line-height: 1.15; }
+    h1 { font-size: clamp(34px, 5vw, 54px); }
+    h2 { font-size: clamp(24px, 3vw, 32px); }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .card strong { display: block; margin-bottom: 8px; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 70ch;
+    }
+    .paper-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+    .paper-list li {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.7);
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.72);
+      padding: 0 16px;
+    }
+    details + details { margin-top: 12px; }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1f252a;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    code { font-family: var(--mono); }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(138, 75, 31, 0.28);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2 { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Mock Exam · Assignment-style</div>
+          <h1>模拟卷</h1>
+          <p class="lede">
+            这页把课程主线压成一套更接近作业难度的模拟卷。结构按考试比例组织：前半部分偏客观题和机制判断，后半部分偏计算与推导。做题时建议先完整作答，再打开参考答案核对。
+          </p>
+        </div>
+        <div class="card">
+          <strong>建议做法</strong>
+          <p>先按正式考试方式限时完成，再回来对答案。客观题重点看你是否抓对 friction 和目标函数；计算题重点看步骤是否干净。</p>
+          <p><span class="badge">Structure: 10 objective + 4 calculation</span></p>
+          <p><span class="badge">Difficulty: above basic review</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Section A：客观题与机制题</h2>
+          <p class="section-note">这一组约占整套卷面的 70%。不要只猜选项，先在纸上写一句“这题在问什么摩擦”。</p>
+        </div>
+        <span class="badge">10 questions</span>
+      </div>
+      <ol class="paper-list">
+        <li><strong>Q1.</strong> 在 REE 中，若价格变得更 informative，uninformed trader 的 demand 一定更接近 informed trader 吗？说明理由。</li>
+        <li><strong>Q2.</strong> 某项目在 pooling equity 融资下被平均质量定价。若 good type 的比例下降，good type 留在市场的激励会增强还是减弱？</li>
+        <li><strong>Q3.</strong> 一个新增项目总 NPV 为正，但增量现金流大多先流向 old debt。问 old equity holder 是否一定支持？指出对应机制。</li>
+        <li><strong>Q4.</strong> 在 hidden-action 模型里，一份合同让投资者 break even。为什么这还不够说明 first best 实现？</li>
+        <li><strong>Q5.</strong> Diamond-Dybvig 模型里，为什么“银行更有效”和“银行更脆弱”不是矛盾命题？</li>
+        <li><strong>Q6.</strong> 若存款保险增强了系统稳定性，为什么资本监管仍然不能被拿掉？</li>
+        <li><strong>Q7.</strong> 解释 <code>flight to quality</code> 与 <code>flight to liquidity</code> 的区别，并给出一个它们可能同时出现的情形。</li>
+        <li><strong>Q8.</strong> 一个国家通胀稳定，但资产价格和信贷高速扩张。为什么 inflation targeting 的成功不能自动推出金融稳定？</li>
+        <li><strong>Q9.</strong> 在 beauty contest 环境里，为什么公共信号质量下降可能反而放大市场波动？</li>
+        <li><strong>Q10.</strong> 当政策利率接近零时，为什么 QE 的传导重点不再是 reserve market 的短端微调？</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Section B：计算与推导题</h2>
+          <p class="section-note">这一组约占整套卷面的 30%。每题都建议先写结构，再代数字。</p>
+        </div>
+        <span class="badge">4 questions</span>
+      </div>
+      <ol class="paper-list">
+        <li>
+          <strong>Q11. Valuation</strong>
+          <p>项目明日现金流为：good 状态 <code>180</code>，bad 状态 <code>60</code>；两状态概率各半。市场组合 gross return 分别为 <code>1.25</code> 与 <code>0.95</code>，无风险 gross return 为 <code>1.05</code>。若市场给出的当前价格是 <code>P=105</code>：</p>
+          <p>1. 求 <code>β_C</code>、<code>β_p</code> 与 required return。</p>
+          <p>2. 判断该价格是高估还是低估。</p>
+          <p>3. 分别写出 <code>IRR</code> 与 required return，并解释差异。</p>
+        </li>
+        <li>
+          <strong>Q12. Financing Frictions</strong>
+          <p>公司已有旧债，面值 <code>K=100</code>。现在可选两个项目：</p>
+          <pre><code>Project A: 0.5 概率 220, 0.5 概率 120
+Project B: 0.5 概率 280, 0.5 概率 20</code></pre>
+          <p>1. 从 firm、debt、equity 的角度分别比较两个项目。</p>
+          <p>2. 指出对应机制是 <code>asset substitution</code>、<code>debt overhang</code>，还是两者都不是。</p>
+        </li>
+        <li>
+          <strong>Q13. Moral Hazard</strong>
+          <p>项目需要外部融资 <code>I=90</code>。若 entrepreneur 努力，现金流为 <code>240</code> with prob 0.5, <code>120</code> with prob 0.5；若偷懒，现金流为 <code>180</code> with prob 0.5, <code>80</code> with prob 0.5。努力成本为 <code>c</code>。</p>
+          <p>1. 求股权融资下支持高努力的最大 <code>c</code>。</p>
+          <p>2. 求债务融资下支持高努力的最大 <code>c</code>。</p>
+          <p>3. 解释为什么两个结果会不同。</p>
+        </li>
+        <li>
+          <strong>Q14. Information and Risk Premium</strong>
+          <p>设 <code>ln R~ = r~ ~ N(μ, σ²)</code>，其中 <code>μ=0.01</code>、<code>σ²=0.16</code>、<code>η=0.8</code>。现有信号 <code>θ~ = r~ + e~</code>，其中 <code>e~ ~ N(0, 0.04)</code>，且 realization <code>θ=0.09</code>。</p>
+          <p>1. 求 posterior mean 和 posterior variance。</p>
+          <p>2. 求 <code>E(R~|θ)</code>、<code>Rf(θ)</code> 和 conditional premium。</p>
+          <p>3. 与无信号情形相比，指出 premium 为何变化。</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>答案与讲解</h2>
+          <p class="section-note">先自己做，再展开。这里的讲解重点放在“为什么这题像作业”。</p>
+        </div>
+        <span class="badge">Answer key</span>
+      </div>
+
+      <details>
+        <summary>Section A 参考答案</summary>
+        <div class="answer">
+          <p><strong>Q1.</strong> 不一定完全接近，但通常会更接近，因为价格含的信息增多会改善 uninformed trader 的 posterior belief；只要价格仍不 fully revealing，二者不会完全一致。</p>
+          <p><strong>Q2.</strong> 减弱。因为 pool 平均质量更差，good type 被低估更严重，退出激励更强。</p>
+          <p><strong>Q3.</strong> 不一定支持，对应 <code>debt overhang</code>。关键看 <code>ΔEquity</code>，不是只看 <code>ΔFirm</code>。</p>
+          <p><strong>Q4.</strong> 因为还要检查 IC。融资闭合不等于行为正确。</p>
+          <p><strong>Q5.</strong> 同一份 demandable deposit contract 一方面提供流动性保险，另一方面在先到先得下制造 self-fulfilling run fragility。</p>
+          <p><strong>Q6.</strong> 因为 deposit insurance 压低了 panic incentive，但也削弱市场纪律、提高 risk-taking incentive。</p>
+          <p><strong>Q7.</strong> quality 是从 risky 转向 safer；liquidity 是从 hard-to-sell 转向 easy-to-sell。危机时安全国债常同时满足两者。</p>
+          <p><strong>Q8.</strong> 因为低通胀不等于低杠杆、低资产泡沫或低金融中介风险承担。</p>
+          <p><strong>Q9.</strong> 因为大家仍把公共信号当协调基准，但这个基准更噪，会放大同步错误。</p>
+          <p><strong>Q10.</strong> 因为 ZLB 附近短端进一步压降空间有限，政策转而通过 term premium、portfolio balance 和 expectations channel 影响长端。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q11 参考答案</summary>
+        <div class="answer">
+          <pre><code>E(C~) = 120
+市场 net return: 0.25, -0.05
+E(rm~) = 0.10
+
+Cov(C~, rm~)
+= 0.5(180-120)(0.25-0.10) + 0.5(60-120)(-0.05-0.10)
+= 9
+
+Var(rm~) = 0.5(0.15)^2 + 0.5(-0.15)^2 = 0.0225
+β_C = 9 / 0.0225 = 400
+β_p = 400 / 105 ≈ 3.81
+k = 5% + 3.81(10%-5%) ≈ 24.05%
+P* = 120 / 1.2405 ≈ 96.74</code></pre>
+          <p>因此市场价格 <code>105</code> 高于公平值。若按 105 买入，<code>IRR = 120/105 - 1 ≈ 14.29%</code>，低于 required return。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q12 参考答案</summary>
+        <div class="answer">
+          <pre><code>E(C_A) = 170
+E(C_B) = 150
+firm 更偏好 A
+
+E[min(C_A,100)] = 100
+E[min(C_B,100)] = 0.5×100 + 0.5×20 = 60
+debt 更偏好 A
+
+E[max(C_A-100,0)] = 0.5×120 + 0.5×20 = 70
+E[max(C_B-100,0)] = 0.5×180 + 0 = 90
+equity 更偏好 B</code></pre>
+          <p>这是标准 <code>asset substitution / risk shifting</code>，不是 debt overhang。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q13 参考答案</summary>
+        <div class="answer">
+          <pre><code>E(C|H)=180
+E(C|L)=130
+
+Equity:
+α = 90 / 180 = 0.5
+c*_E = (1-α)(180-130) = 25
+
+Debt:
+0.5K + 0.5×120 = 90
+K = 60
+
+high effort payoff = 0.5(240-60) + 0.5(120-60) - c = 120 - c
+shirk payoff = 0.5(180-60) + 0.5(80-60) = 70
+c*_D = 50</code></pre>
+          <p>debt 更强，是因为它让 entrepreneur 在成功态保留更多 residual upside，从而提高高努力的 private return。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q14 参考答案</summary>
+        <div class="answer">
+          <pre><code>w = 0.16 / (0.16 + 0.04) = 0.8
+m = 0.01 + 0.8(0.09-0.01) = 0.074
+v = 0.16×0.04 / 0.20 = 0.032
+
+E(R~|θ) = exp(0.074 + 0.5×0.032) = exp(0.09)
+ln Rf(θ) = 0.074 + 0.5(2×0.8-1)0.032 = 0.0836
+premium = 0.09 - 0.0836 = 0.0064</code></pre>
+          <p>无信号时 premium 为 <code>(1-η)σ² = 0.032</code>。信号把 posterior variance 从 <code>0.16</code> 压到 <code>0.032</code>，所以 premium 明显下降。</p>
+        </div>
+      </details>
+
+      <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+    </section>
+  </main>
+</body>
+</html>

@@ -248,6 +248,10 @@
       .hero, .section { padding: 18px; }
     }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
 </head>
 <body>
   <main class="shell">
@@ -641,6 +645,40 @@ c ≤ 0.5(200-K)
         <div class="answer">
           <p><strong>答案：</strong>通常 debt 和 equity 都会改善，但 debt 里常更直接。</p>
           <p>因为 success-state upside 变大，会提高 entrepreneur 在成功时留下的剩余 payoff。若合同让 entrepreneur 主要吃成功态 upside，high effort 的 private benefit 就上升，IC 更容易满足。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Hard Mode：更接近作业的高阶题</h2>
+          <p class="section-note">这组题开始同时考 participation、break-even 和 IC。碰到这类题，先把“融资可行”和“努力可行”分成两行，不要混写。</p>
+        </div>
+        <span class="badge">Assignment-level</span>
+      </div>
+
+      <details>
+        <summary>H1. 一份合同让投资者刚好 break even。是否就能推出高努力一定实现？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>不能。</p>
+          <p>break-even 只说明融资方程闭合，不能说明 entrepreneur 的私人成本收益比较满足高努力。高阶题常把两个条件写在同一段里，逼你分清 participation / financing feasibility 和 IC 是两件事。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 若成功态 payoff 上升、失败态 payoff 不变，而 face value <code>K</code> 也因投资者 break-even 被调高，debt 的激励效果一定增强吗？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>不一定，但通常先看 entrepreneur 在成功态保留的 residual 是否净增加。</p>
+          <p>正确做法不是机械说“成功态更大所以激励更强”，而是比较 <code>max(C_H-K,0)</code> 的变化。若 <code>K</code> 也同步上升很多，净激励未必变强。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H3. 连续努力题里，若 effort cost 凸性增强，而 payoff 对 effort 的斜率不变，最优 effort 与融资可行性通常怎么变？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>最优 effort 通常下降，高努力或高 effort 融资更难维持。</p>
+          <p>因为 entrepreneur 的一阶条件会在更高的边际成本下更早停止。作业型题目常不直接问你“求导”，而是通过参数变化让你判断 <code>e^*</code> 和融资可行区间的方向。</p>
         </div>
       </details>
     </section>
