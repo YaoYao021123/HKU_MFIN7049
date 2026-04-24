@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HKU MFIN7049 static study review site with bilingual description toggle and module-based HTML reviews.">
+  <title>HKU MFIN7049 Study Review</title>
+  <style>
+    :root {
+      --bg: #eef2ef;
+      --panel: #fbfaf5;
+      --ink: #162225;
+      --muted: #5a686b;
+      --accent: #176b5b;
+      --accent-2: #9a4c20;
+      --line: rgba(22, 34, 37, 0.14);
+      --shadow: 0 18px 45px rgba(31, 42, 37, 0.08);
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--serif);
+      background:
+        linear-gradient(135deg, rgba(23, 107, 91, 0.12), transparent 32%),
+        linear-gradient(225deg, rgba(154, 76, 32, 0.10), transparent 30%),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    .shell {
+      width: min(1040px, calc(100% - 32px));
+      margin: 34px auto 58px;
+    }
+
+    header, section {
+      background: rgba(251, 250, 245, 0.94);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    header {
+      padding: 30px;
+      border-radius: 20px;
+    }
+
+    section {
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: 16px;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .lang-toggle {
+      display: inline-flex;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    button[aria-pressed="true"] {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+
+    h1 {
+      max-width: 12ch;
+      font-size: clamp(38px, 6vw, 64px);
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      max-width: 72ch;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .module-card {
+      display: block;
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .module-card:hover {
+      border-color: rgba(23, 107, 91, 0.45);
+      box-shadow: 0 12px 30px rgba(23, 107, 91, 0.08);
+    }
+
+    .module-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .module-card span {
+      display: block;
+      color: var(--muted);
+    }
+
+    code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+
+    [data-lang="en"] {
+      display: none;
+    }
+
+    body.lang-en [data-lang="zh"] {
+      display: none;
+    }
+
+    body.lang-en [data-lang="en"] {
+      display: block;
+    }
+
+    body.lang-en strong[data-lang="en"] {
+      display: block;
+    }
+
+    body.lang-en span[data-lang="en"] {
+      display: block;
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+
+      header, section {
+        padding: 18px;
+      }
+
+      .modules {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+  <main class="shell">
+    <header>
+      <div class="topline">
+        <span class="badge">HKU MFIN7049 · Static Review Site</span>
+        <div class="lang-toggle" aria-label="Language switch">
+          <button type="button" id="zhBtn" aria-pressed="true">中文</button>
+          <button type="button" id="enBtn" aria-pressed="false">English</button>
+        </div>
+      </div>
+
+      <div data-lang="zh">
+        <h1>MFIN7049 复习站</h1>
+        <p>这是一个按主题模块组织的静态 HTML 复习站点，用于复习 HKU MFIN7049。内容从金融体系大图景开始，逐步进入利率、估值、风险定价、信息摩擦、融资激励、银行挤兑、金融危机和货币政策。</p>
+        <p>页面采用“概念展开 + 公式链 + 完整例题 + 互动题组”的结构。核心概念按定义、直觉、考试问法和易错点展开。</p>
+      </div>
+
+      <div data-lang="en">
+        <h1>MFIN7049 Study Review</h1>
+        <p>This is a static HTML review site for HKU MFIN7049. The material is organized by topic modules, starting from the big picture of the financial system and moving into interest rates, valuation, risk pricing, information frictions, financing incentives, bank runs, financial crises, and monetary policy.</p>
+        <p>Each page follows a structured review format: expanded concepts, formula chains, worked examples, interactive questions, feedback, and a bridge to the next module.</p>
+      </div>
+    </header>
+
+    <section>
+      <div data-lang="zh">
+        <h2>已完成模块</h2>
+        <p>当前已生成模块 1 和模块 2。后续模块会继续沿用同一 HTML 模板，并保持中英文入口说明可切换。</p>
+      </div>
+      <div data-lang="en">
+        <h2>Available Modules</h2>
+        <p>Modules 1 and 2 are available now. Future modules will follow the same HTML template and keep the bilingual entry description toggle.</p>
+      </div>
+
+      <div class="modules">
+        <a class="module-card" href="module-1-review.html">
+          <strong data-lang="zh">模块 1：课程大图景与金融体系基础</strong>
+          <strong data-lang="en">Module 1: Big Picture and Financial-System Foundations</strong>
+          <span data-lang="zh">Finance 的本质、金融系统结构、money 的功能、债权/股权差异、一级/二级市场关系。</span>
+          <span data-lang="en">The nature of finance, financial-system structure, functions of money, debt versus equity, and primary versus secondary markets.</span>
+        </a>
+
+        <a class="module-card" href="module-2-review.html">
+          <strong data-lang="zh">模块 2：利率、期限结构与估值引擎</strong>
+          <strong data-lang="en">Module 2: Interest Rates, Term Structure, and Valuation</strong>
+          <span data-lang="zh">PV、YTM、return、risk/term structure、DCF、tracking portfolio、certainty equivalent 和 HW1 估值母题。</span>
+          <span data-lang="en">PV, YTM, returns, risk and term structure, DCF, tracking portfolios, certainty equivalents, and the HW1 valuation template.</span>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <div data-lang="zh">
+        <h2>仓库说明</h2>
+        <p>本仓库只发布生成后的复习页面、复习控制文件和部署配置。原始课程 PDF、课件和作业原件不纳入仓库。</p>
+      </div>
+      <div data-lang="en">
+        <h2>Repository Description</h2>
+        <p>This repository publishes only generated review pages, the study control file, and deployment configuration. Raw course PDFs, lecture slides, and assignment originals are excluded.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const zhBtn = document.getElementById("zhBtn");
+    const enBtn = document.getElementById("enBtn");
+
+    function setLanguage(lang) {
+      document.body.classList.toggle("lang-en", lang === "en");
+      document.body.classList.toggle("lang-zh", lang === "zh");
+      zhBtn.setAttribute("aria-pressed", String(lang === "zh"));
+      enBtn.setAttribute("aria-pressed", String(lang === "en"));
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      localStorage.setItem("mfin7049-lang", lang);
+    }
+
+    zhBtn.addEventListener("click", () => setLanguage("zh"));
+    enBtn.addEventListener("click", () => setLanguage("en"));
+    setLanguage(localStorage.getItem("mfin7049-lang") || "zh");
+  </script>
+</body>
+</html>
