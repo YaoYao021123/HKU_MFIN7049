@@ -21,6 +21,24 @@
   margin-top: 8px;
 }
 
+.math-display-line.math-display-pair {
+  display: grid;
+  grid-template-columns: minmax(180px, auto) 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.math-display-pair .math-display-pair-label {
+  color: rgba(22, 34, 37, 0.82);
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: pre-wrap;
+}
+
+.math-display-pair .math-display-pair-formula {
+  min-width: 0;
+}
+
 .math-display-label {
   margin: 0 0 8px;
   color: rgba(22, 34, 37, 0.72);
@@ -31,4 +49,11 @@
 .math-render-error {
   font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
   white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .math-display-line.math-display-pair {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 }

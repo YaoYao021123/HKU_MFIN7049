@@ -9,6 +9,7 @@
       .replace(/→/g, "\\to ")
       .replace(/×/g, "\\times ")
       .replace(/·/g, "\\cdot ")
+      .replace(/\s\*\s/g, " \\cdot ")
       .replace(/−/g, "-")
       .replace(/²/g, "^2")
       .replace(/³/g, "^3")
@@ -22,6 +23,17 @@
       .replace(/\bmin\(/g, "\\min(")
       .replace(/\bmax\(/g, "\\max(")
       .replace(/\bexp\(/g, "\\exp(");
+  }
+
+  function splitLabelAndFormula(line) {
+    const eqIndex = line.indexOf("=");
+    if (eqIndex === -1) return null;
+    const left = line.slice(0, eqIndex).trim();
+    const right = line.slice(eqIndex + 1).trim();
+    if (!left || !right) return null;
+    if (!/\s/.test(left)) return null;
+    if (/[0-9μσβθαηΔ~<>≤≥()+\-/*]/.test(left)) return null;
+    return { label: left, formula: right };
   }
 
   function looksLikeInlineMath(text) {
@@ -80,15 +92,36 @@
         if (!trimmed) return;
         const row = document.createElement("div");
         if (looksLikeBlockMathLine(trimmed)) {
-          row.className = "math-display-line";
-          try {
-            katex.render(normalizeMath(trimmed), row, {
-              throwOnError: false,
-              displayMode: true
-            });
-          } catch (error) {
-            row.className = "math-display-line math-render-error";
-            row.textContent = trimmed;
+          const pair = splitLabelAndFormula(trimmed);
+          if (pair) {
+            row.className = "math-display-line math-display-pair";
+            const label = document.createElement("div");
+            label.className = "math-display-pair-label";
+            label.textContent = pair.label;
+            const formula = document.createElement("div");
+            formula.className = "math-display-pair-formula";
+            try {
+              katex.render(normalizeMath(pair.formula), formula, {
+                throwOnError: false,
+                displayMode: true
+              });
+            } catch (error) {
+              formula.className = "math-display-pair-formula math-render-error";
+              formula.textContent = pair.formula;
+            }
+            row.appendChild(label);
+            row.appendChild(formula);
+          } else {
+            row.className = "math-display-line";
+            try {
+              katex.render(normalizeMath(trimmed), row, {
+                throwOnError: false,
+                displayMode: true
+              });
+            } catch (error) {
+              row.className = "math-display-line math-render-error";
+              row.textContent = trimmed;
+            }
           }
         } else {
           row.className = "math-display-label";
