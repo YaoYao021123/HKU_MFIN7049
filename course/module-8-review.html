@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 8 复习</title>
+  <style>
+    :root {
+      --bg: #e8edf4;
+      --panel: rgba(248, 251, 254, 0.94);
+      --panel-strong: #fcfdff;
+      --ink: #1a2f3d;
+      --muted: #61717c;
+      --accent: #285f9a;
+      --accent-soft: #dce9f7;
+      --line: rgba(26, 47, 61, 0.14);
+      --good: #1d6b50;
+      --warn: #8c5a12;
+      --shadow: 0 18px 42px rgba(25, 39, 58, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(40, 95, 154, 0.14), transparent 34%),
+        radial-gradient(circle at top right, rgba(29, 107, 80, 0.08), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(40, 95, 154, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+    h3 { font-size: 20px; }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+    .hero-grid, .grid-2, .grid-3, .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .concept-list { grid-template-columns: 1fr; }
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+    .meta-card, .card, .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .concept-block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+    }
+    .concept-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .concept-meta div {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+    .concept-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+    .meta-card strong, .card strong, .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(40, 95, 154, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+    details + details { margin-top: 12px; }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(40, 95, 154, 0.28);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .concept-meta { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 8 · HTML Review</div>
+          <h1>央行、货币供给与政策框架</h1>
+          <p class="lede">
+            这一模块把整门课最后收束到政策层：中央银行到底在控制什么，货币供应是怎么通过基础货币、银行和存款人共同决定的，常规政策失灵后为什么会转向 <code>QE</code> 与 forward guidance，以及这些机制在中国债券市场和银行间市场里如何落地。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% 判断/解释</li>
+            <li>30% 计算/推导</li>
+            <li>Anchor: Slides 14-17 + China Bond</li>
+            <li>Mode: 混合互动</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>对应材料</strong>
+          <ul class="mini-list">
+            <li><code>Slides - 14.pdf</code></li>
+            <li><code>Slides - 15.pdf</code></li>
+            <li><code>Slides - 16.pdf</code></li>
+            <li><code>Slides - 17.pdf</code></li>
+            <li><code>Slides - Chinese Bond Markets and Interbank Market.pdf</code></li>
+            <li><code>Teaching Notes-3.pdf</code> inflation / QE</li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：8</span>
+            <span class="badge">当前状态：进行中</span>
+            <span class="badge">下轮：模块 9/10</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">模块 8 的重点不是“背央行机构图”，而是把货币、利率、银行资产负债表和政策工具放到一条传导链上。</p>
+        </div>
+        <span class="badge">6 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>第一步：央行是谁</strong>
+          <p>央行不是普通银行，而是负责货币政策、金融稳定、最后贷款人和支付清算基础设施的公共机构。它的独立性和目标设定决定了政策可信度。</p>
+        </div>
+        <div class="card">
+          <strong>第二步：货币供给是谁共同决定的</strong>
+          <p>不是央行一个人拍脑袋决定。课程里的“三个玩家”是央行、银行和存款人，三方共同决定基础货币和 money multiplier。</p>
+        </div>
+        <div class="card">
+          <strong>第三步：常规政策怎么运作</strong>
+          <p>在正常时期，open market operations、discount policy、reserve requirements 和 interest on reserves 通过 reserve market 影响联邦基金利率和广义货币。</p>
+        </div>
+        <div class="card">
+          <strong>第四步：为什么会走到 QE</strong>
+          <p>当政策利率接近零、金融体系卡住、长期利率还偏高时，央行会从“调短端”转向“直接买长债或特定资产”，也就是 QE / credit easing / forward guidance。</p>
+        </div>
+        <div class="card">
+          <strong>第五步：目标函数是什么</strong>
+          <p>央行不只盯 inflation，也要看就业、金融稳定、汇率和输出波动。问题在于不同目标之间有短期冲突，所以要用 nominal anchor 和 policy strategy 来约束自己。</p>
+        </div>
+        <div class="card">
+          <strong>一句话抓住这讲</strong>
+          <p><span class="good">货币政策真正难的地方，不是“印钱”本身，而是如何在金融结构、预期管理和制度约束下，把政策意图变成市场利率与信用条件的变化。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>核心概念</h2>
+          <p class="section-note">模块 8 的题通常不难算，但很容易答空。关键是概念展开必须能和传导机制连上。</p>
+        </div>
+        <span class="badge">详细概念展开 8 组</span>
+      </div>
+      <div class="concept-list">
+        <div class="concept-block">
+          <h3>1. Central Bank Independence and Functions</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>央行的核心职能包括维护价格稳定、提供流动性、管理支付清算、在危机中充当最后贷款人，并在很多国家承担监管或宏观审慎职责。</div>
+            <div><b>直觉</b>央行越能免于短期政治压力，越可能可信地守住长期 nominal anchor；但它又必须被制度化约束，不能变成无人负责的 technocracy。</div>
+            <div><b>考试问法</b>常问 ECB、Fed、PBoC 等机构的结构差异，以及为什么独立性与 accountability 要同时存在。</div>
+            <div><b>易错点</b>只写“央行控制货币供给”。更高分的写法要把 lender of last resort 和 price stability 一起写进去。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>2. Monetary Base vs Money Supply</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>MB = C + R</code>，即流通中的现金加银行体系准备金；广义货币供给则是在此基础上通过银行存款创造放大出来的。</div>
+            <div><b>直觉</b>基础货币像“高能货币”，是整个存款创造的底盘，但不是经济里最终被家庭和企业持有的全部货币。</div>
+            <div><b>考试问法</b>常考 open market operation 如何影响 <code>MB</code>，以及为什么广义货币不只取决于央行，还取决于银行和存款人的行为。</div>
+            <div><b>易错点</b>把 MB 和 M1/M2 混掉，或者把“央行买债 = 钱直接进入实体经济”写得过于机械。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>3. Three Players in the Money Supply Process</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>货币供给过程由三个主体共同决定：央行、银行、存款人。</div>
+            <div><b>直觉</b>央行决定基础货币和政策环境；银行决定愿不愿意放贷与保留多少 excess reserves；存款人决定持币还是持存款。</div>
+            <div><b>考试问法</b>会问 money multiplier 为什么会变，或者为什么同样的基础货币扩张在不同情境下传导强度不同。</div>
+            <div><b>易错点</b>只盯央行。危机时期 money multiplier 崩塌，恰恰说明银行与存款人的行为同样关键。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>4. Conventional Monetary Policy Tools</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>常规工具主要包括 open market operations、discount lending、reserve requirements 和 interest on reserves。</div>
+            <div><b>直觉</b>这些工具本质上都在动 reserve market 的供需，从而影响短端利率和银行扩表约束。</div>
+            <div><b>考试问法</b>常考不同工具对 federal funds rate 的方向影响、优缺点比较，以及为什么 open market operations 是主工具。</div>
+            <div><b>易错点</b>只背工具清单，不说明它们各自的 controllability、precision 和 reversibility。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>5. Zero Lower Bound, QE, and Forward Guidance</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>当政策利率接近零、传统工具难以继续压低短端利率时，央行会转向大规模资产购买、定向流动性支持和前瞻指引。</div>
+            <div><b>直觉</b>此时问题不是“储备够不够”，而是长端利率、风险利差和信用市场功能是否恢复。</div>
+            <div><b>考试问法</b>常问 conventional tools 为什么在金融恐慌中失效，以及 QE 和 credit easing 要解决什么问题。</div>
+            <div><b>易错点</b>把 QE 说成单纯“印钱”。更准确的写法是：央行通过买长久期或特定资产，直接影响期限结构和信用条件。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>6. Nominal Anchor, Inflation Targeting, and Mandates</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>nominal anchor</code> 是把价格水平锚住的名义变量，如 inflation target；央行 mandate 可分为 hierarchical 和 dual mandate。</div>
+            <div><b>直觉</b>没有 nominal anchor，央行容易落入 time-inconsistency：短期总想多刺激一点，长期却把通胀预期搞散。</div>
+            <div><b>考试问法</b>常让你比较 inflation targeting 的优缺点，或解释 price stability 为什么应当成为长期主目标。</div>
+            <div><b>易错点</b>把 inflation targeting 写成机械 rule。课程强调的是透明度、责任约束和中长期 anchor，而不是只盯一个数字。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>7. Policy Instruments, Intermediate Targets, and the Taylor Rule</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>央行要在 reserve aggregate 和 interest-rate targeting 之间选择 operating instrument；Taylor rule 是一个把通胀缺口和产出缺口映射到政策利率的经验公式。</div>
+            <div><b>直觉</b>政策不是直接打最终目标，而是先选一个可观测、可控制且对目标有较稳定作用的操作变量。</div>
+            <div><b>考试问法</b>常问 choosing policy instrument 的四个标准，以及为何 reserve targeting 和 interest-rate targeting 不能同时独立成立。</div>
+            <div><b>易错点</b>把 Taylor rule 当成现实中央行每天死守的机械公式。它更像 benchmark，而不是完整策略。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>8. Chinese Bond Markets and the Interbank Market</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>中国债券市场主要由银行间市场和交易所市场组成，其中银行间市场体量最大，由 PBoC 主监管，参与者以机构为主。</div>
+            <div><b>直觉</b>中国的利率形成、流动性管理和政策传导，很大程度上要经过银行间市场而不是纯粹股票市场。</div>
+            <div><b>考试问法</b>会问 CIBM 与 exchange market 的参与者和监管差异、债券类型划分、信用评级与隐性担保、以及银行在政策传导中的特殊角色。</div>
+            <div><b>易错点</b>把中国债市当成静态制度题。更高分的写法要把 interbank market 和 monetary policy transmission 连起来。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>必会公式 / 推导</h2>
+          <p class="section-note">模块 8 的公式是“短”，但几乎每条都能单独出一个小题。</p>
+        </div>
+        <span class="badge">核心公式链</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>基础货币</strong>
+          <pre><code>Monetary Base:
+MB = C + R
+
+C = currency in circulation
+R = total reserves</code></pre>
+          <p>open market purchase 无论从谁手里买，都会让 <code>MB</code> 上升，只是上升在 <code>C</code> 还是 <code>R</code> 上的分配不同。</p>
+        </div>
+        <div class="card">
+          <strong>公开市场操作</strong>
+          <pre><code>Open market purchase
+→ Fed assets (securities) ↑
+→ Fed liabilities (reserves or currency) ↑
+→ monetary base ↑
+
+Open market sale
+→ opposite direction</code></pre>
+          <p>这条是货币供给过程里最基础的 T-account 逻辑。</p>
+        </div>
+        <div class="card">
+          <strong>Reserve market 的供需</strong>
+          <pre><code>If federal funds rate &gt; ior:
+reserve demand is downward sloping
+
+At ior:
+reserve demand becomes flat
+
+At discount rate id:
+reserve supply can become horizontal</code></pre>
+          <p>考试喜欢问：为什么有了 <code>ior</code> 之后，联邦基金利率波动会被“夹住”。</p>
+        </div>
+        <div class="card">
+          <strong>政策工具的方向</strong>
+          <pre><code>Open market purchase → iff ↓
+Open market sale      → iff ↑
+Reserve requirement ↑ → iff ↑
+Reserve requirement ↓ → iff ↓</code></pre>
+          <p>前提通常是供需交点在 demand curve 的 downward-sloping 区间。</p>
+        </div>
+        <div class="card">
+          <strong>Taylor Rule</strong>
+          <pre><code>Federal funds target
+= inflation rate
+  + equilibrium real fed funds rate
+  + 0.5(inflation gap)
+  + 0.5(output gap)</code></pre>
+          <p>记法上抓住两件事：它对通胀偏离和产出偏离都“加反馈”。</p>
+        </div>
+        <div class="card">
+          <strong>中国银行间市场的政策传导</strong>
+          <pre><code>Interbank market:
+excess reserves banks lend to deficit banks
+
+When effective reserve / fed-funds-like rate ≈ 0:
+traditional short-end steering weakens
+→ central bank may buy long-term assets
+→ influence long-term yields directly (QE logic)</code></pre>
+          <p>这条把 <code>Teaching Notes-3</code> 的 QE 逻辑和银行间市场连起来。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1 道完整例题</h2>
+          <p class="section-note">下面做一题“常规政策到 QE”的机制题，目的是把 reserve market、zero lower bound 和 long-rate transmission 串起来。</p>
+        </div>
+        <span class="badge">综合机制题</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>题目设定</strong>
+          <p>某经济体已经把短端政策利率降到接近 0，银行体系持有大量准备金，但投资和信贷仍然疲弱，长期利率偏高。问：</p>
+          <p>1. 为什么传统 open market operations 可能已难以继续刺激经济？</p>
+          <p>2. 为什么央行会转向 QE 和 forward guidance？</p>
+        </div>
+
+        <div class="step">
+          <strong>第 1 步：先解释传统工具为什么“边际失灵”</strong>
+          <p>当政策利率已接近零，reserve market 的交点可能落在 demand curve 的 flat section 附近。此时再做 open market purchase，新增准备金未必继续显著压低短端利率。</p>
+          <p>更关键的是，问题已经不是“银行缺不缺准备金”，而是风险偏好低、信用市场不通、长期利率仍高。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 2 步：QE 的逻辑</strong>
+          <p>央行直接购买长期国债或特定资产，把注意力从短端利率切到 long end。这样做的目标是：</p>
+          <p>1. 直接压低长期收益率；</p>
+          <p>2. 缓解期限溢价和部分信用利差；</p>
+          <p>3. 修复某些失灵市场的流动性。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 3 步：forward guidance 的逻辑</strong>
+          <p>如果央行可信地承诺“未来较长时间维持低利率”，市场对未来短端利率路径的预期会下降，于是当前长期利率也会下降。</p>
+          <p>所以 forward guidance 不是一句口头安慰，而是在改写整个收益率曲线预期。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 4 步：把中国银行间市场逻辑接进来</strong>
+          <p>在银行间市场里，只要机构之间借 reserve 的成本已很低，短端继续压一口气的边际效果会变弱。此时若要继续宽松，政策当局更可能去动长端资产价格和债券收益率，这正是 <code>Teaching Notes-3</code> 提到的 QE 逻辑。</p>
+        </div>
+
+        <div class="step">
+          <strong>考试式结论</strong>
+          <p>当 conventional tool 主要影响的短端利率已触及下限，货币政策就必须从“数量/储备注入”切到“期限结构与预期管理”。这就是 QE 和 forward guidance 的政策位置。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组</h2>
+          <p class="section-note">先自己答，再展开。模块 8 的判断题很容易被“印钱直觉”带偏。</p>
+        </div>
+        <span class="badge">3 判断 + 1 填空 + 1 小算题 + 1 迁移题</span>
+      </div>
+
+      <details>
+        <summary>判断题 1：央行只要增加基础货币，广义货币就会按固定倍数同步增加。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>money multiplier 受银行、存款人和准备金偏好的影响，不是永远固定。危机时 multiplier 可能明显下降。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 2：当政策利率接近零时，继续做 open market purchase 仍然一定能显著降低联邦基金利率。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>若 reserve demand 已处在 flat section，新增准备金未必再把短端利率明显压下去。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 3：银行间市场在中国货币政策传导中很关键，因为大量机构之间的流动性再分配和债券交易都发生在这里。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>这也是为什么中国债券市场里 CIBM 的体量与政策意义都远高于零售主导的交易所市场。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>推导填空：若基础货币定义为现金加准备金，则 <code>MB = ?</code></summary>
+        <div class="answer">
+          <pre><code>MB = C + R</code></pre>
+          <p>这是整章最基础也最常用的定义式。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>小算题：若流通现金 <code>C=300</code>，银行总准备金 <code>R=700</code>，则基础货币是多少？</summary>
+        <div class="answer">
+          <pre><code>MB = C + R = 300 + 700 = 1000</code></pre>
+          <p>这类题不难，但经常被粗心丢分。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>迁移题：为什么 inflation targeting 即使做得很好，也不能自动保证金融稳定？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>因为 price stability 和 output stability 并不等于 credit market、asset prices 和 leverage 也稳定。</p>
+          <p>全球金融危机后的重要教训之一正是：低通胀环境下照样可能积累巨大的金融脆弱性，所以宏观审慎政策不能缺位。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">模块 8 的高频失分点，是把政策工具写成口号，而不是 transmission mechanism。</p>
+        </div>
+        <span class="badge">诊断模板</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果判断题错得多</strong>
+          <p>大概率卡在 <code>概念边界</code>，尤其是 MB vs money supply、QE vs ordinary open market operations、price stability vs financial stability。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会背工具但不会讲传导</strong>
+          <p>大概率卡在 <code>机制链条</code>。任何政策题都要写成：工具 → reserve / expectations / yield curve → bank behavior → credit conditions。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果总把 QE 说成“印钱”</strong>
+          <p>大概率卡在 <code>期限结构直觉</code>。QE 的关键是直接动 long-term asset prices 和 term premia，而不只是扩大央行资产负债表。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果中国债券市场题答得散</strong>
+          <p>大概率卡在 <code>市场结构映射</code>。先区分 interbank vs exchange，再补监管、参与者和政策传导含义。</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        若你写政策题时只能说“降息刺激经济”，这一点应记为 <span class="warn">待回炉</span>。更好的写法是把短端、长端、银行准备金、风险利差和预期管理分开写清。
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">模块 8 完成后，课程主干已经走完。接下来就是把 1-8 模块压缩成两轮冲刺：客观题和计算题。</p>
+        </div>
+        <span class="badge">Bridge to Module 9/10</span>
+      </div>
+      <div class="card">
+        <p>模块 9 会抽取前 8 个模块里最容易出成判断题、机制题、比较题的内容，按考试中约 70% 的客观题结构做互动闯关；模块 10 则只保留三类高频计算：估值题、融资激励题、信息/风险溢价推导题。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

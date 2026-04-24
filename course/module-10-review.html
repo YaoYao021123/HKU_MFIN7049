@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 10 冲刺</title>
+  <style>
+    :root {
+      --bg: #e9f0ea;
+      --panel: rgba(248, 252, 249, 0.95);
+      --panel-strong: #fcfefd;
+      --ink: #18302d;
+      --muted: #60726f;
+      --accent: #2a7a5c;
+      --accent-soft: #d8efe5;
+      --line: rgba(24, 48, 45, 0.14);
+      --good: #1d6b50;
+      --warn: #8c5a12;
+      --shadow: 0 18px 42px rgba(25, 43, 35, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(42, 122, 92, 0.14), transparent 34%),
+        radial-gradient(circle at top right, rgba(42, 90, 154, 0.08), transparent 28%),
+        linear-gradient(180deg, #f8fcf9 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(42, 122, 92, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+    h3 { font-size: 20px; }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+    .hero-grid, .grid-2, .grid-3 {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+    .meta-card, .card, .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .meta-card strong, .card strong, .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(42, 122, 92, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+    details + details { margin-top: 12px; }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    .calc-tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-family: var(--mono);
+    }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(42, 122, 92, 0.28);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 10 · Calculation Sprint</div>
+          <h1>综合计算题冲刺</h1>
+          <p class="lede">
+            这一页只保留考试里最值得练的三类计算题：<code>估值</code>、<code>融资激励</code>、<code>风险溢价 / 信息推导</code>。目标不是再讲一遍理论，而是把解题顺序、变量映射和最容易错的转折点压成考场模板。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 30% calculation</li>
+            <li>3 families only</li>
+            <li>Mode: 模板化冲刺</li>
+            <li>Final module</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>覆盖题型</strong>
+          <ul class="mini-list">
+            <li><code>Valuation</code>：HW1</li>
+            <li><code>Financing incentives</code>：HW2 Q1/Q3</li>
+            <li><code>Risk pricing / signal</code>：HW2 Q2</li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：10</span>
+            <span class="badge">当前状态：完成主线</span>
+            <span class="badge">Next: git push</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">计算题冲刺的关键不是多做，而是每种题只保留一套稳定模板，防止考场切题时变量乱套。</p>
+        </div>
+        <span class="badge">5 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>估值题</strong>
+          <p>所有估值题都在问一件事：未来 cash flow 今天公平值多少。三种方法 <code>DCF / tracking / CE</code> 是同一件事的三种写法。</p>
+        </div>
+        <div class="card">
+          <strong>融资激励题</strong>
+          <p>这类题最容易错在目标函数。先看问的是 <code>firm</code>、<code>equity</code> 还是 <code>entrepreneur</code>，再比较 payoff。</p>
+        </div>
+        <div class="card">
+          <strong>风险溢价题</strong>
+          <p>这类题不是纯代公式，而是先做 posterior update，再分开算 <code>E(R~)</code>、<code>Rf</code> 和 premium。</p>
+        </div>
+        <div class="card">
+          <strong>最值钱的动作</strong>
+          <p>每题开始先写“已知什么、要求什么、先算哪一层”。这 10 秒通常能帮你省掉后面 5 分钟返工。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>模板总表</h2>
+          <p class="section-note">考场上先套模板，再代数字。</p>
+        </div>
+        <span class="badge">Three Templates</span>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <strong>模板 A：估值</strong>
+          <pre><code>1. 先求 E(C~)
+2. 再求 β_C or β_p
+3. 得到 required return / CE
+4. 算 PV
+5. 再分 IRR, NPV, above/below SML</code></pre>
+        </div>
+        <div class="card">
+          <strong>模板 B：融资激励</strong>
+          <pre><code>1. 先算 benchmark / first best
+2. 再由投资者 break-even 求 α or K
+3. 比较 owner / equity / entrepreneur payoff
+4. 检查 IC or mimicry
+5. 最后写 inefficiency + wealth transfer</code></pre>
+        </div>
+        <div class="card">
+          <strong>模板 C：风险溢价</strong>
+          <pre><code>1. 先做 Bayesian update
+2. 得 posterior mean m
+3. 得 posterior variance v
+4. 算 E(R~|signal)
+5. 算 Rf
+6. 最后求 premium and intuition</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>计算族 1：估值题</h2>
+          <p class="section-note">以 HW1 风格为核心，必须会在三种方法之间来回切换。</p>
+        </div>
+        <span class="badge">Valuation</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>模板公式</strong>
+          <pre><code>DCF:
+PV = E(C~) / [1 + k]
+k = rf + β_p(E(rm~) - rf)
+
+Tracking:
+b = Cov(C~, rm~) / Var(rm~)
+a = [E(C~) - b(1 + E(rm~))] / (1 + rf)
+PV = a + b
+
+CE:
+β_C = Cov(C~, rm~) / Var(rm~)
+CE = E(C~) - β_C(E(rm~) - rf)
+PV = CE / (1 + rf)</code></pre>
+        </div>
+        <div class="step">
+          <strong>高频提醒</strong>
+          <p>最容易错的是把 <code>β_C</code> 直接代进 CAPM。CAPM 用的是 <code>β_p</code>，两者关系是 <code>β_p = β_C / PV</code>。</p>
+        </div>
+        <div class="step">
+          <strong>一题压缩版</strong>
+          <p>若 <code>E(C~)=120</code>、<code>rf=5%</code>、<code>E(rm~)=15%</code>、<code>β_C=20</code>，且已知公平价格 <code>PV=100</code>。</p>
+          <pre><code>β_p = β_C / PV = 20 / 100 = 0.2
+k = 5% + 0.2(15%-5%) = 7%
+
+DCF value using fair k:
+PV = 120 / 1.07 ≈ 112.15</code></pre>
+          <p>如果题目同时给项目实际投资成本 <code>I=100</code>，则：
+          <code>IRR = 120/100 - 1 = 20%</code>，而 <code>required return = 7%</code>。这就是最经典的 <code>IRR vs required return</code> 分离。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>计算族 2：融资激励题</h2>
+          <p class="section-note">这类题不是难在算术，而是难在别把 social optimum、firm value 和 equity payoff 写混。</p>
+        </div>
+        <span class="badge">Financing Incentives</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>模板公式</strong>
+          <pre><code>Debt payoff = min(K, C~)
+Equity payoff = max(C~ - K, 0)
+
+Equity financing under MH:
+hard payoff = (1-α)E(C~|H) - c
+shirk payoff = (1-α)E(C~|L)
+
+Debt financing under MH:
+hard payoff = E[max(C~-K,0)|H] - c
+shirk payoff = E[max(C~-K,0)|L]</code></pre>
+        </div>
+        <div class="step">
+          <strong>一题压缩版：HW2 Q3 阈值</strong>
+          <p>在讲义模型里，
+          <code>E(C~|H)=158</code>，<code>E(C~|L)=74</code>，融资额 <code>70</code>。</p>
+          <pre><code>Equity:
+α = 70/158 = 35/79
+c* = (1-α)(158-74)
+   = 3696/79 ≈ 46.78
+
+Debt:
+0.75K + 0.25·32 = 70
+K = 248/3
+
+c* = 0.5(200-K)
+   = 176/3 ≈ 58.67</code></pre>
+          <p>结论：在这个 hidden-action 模型里，debt 支持高努力的成本区间更宽。</p>
+        </div>
+        <div class="step">
+          <strong>一题压缩版：risk shifting</strong>
+          <p>给定债务面值 <code>K</code> 后，比较项目时不要再看 <code>NPV</code>，而应直接比较：
+          <code>E[max(C_A-K,0)]</code> 和 <code>E[max(C_B-K,0)]</code>。这就是股东为什么可能转向更 risky 但总 NPV 更低的项目。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>计算族 3：风险溢价 / 信息题</h2>
+          <p class="section-note">这类题关键不是 lognormal 本身，而是 posterior variance 变了什么。</p>
+        </div>
+        <span class="badge">Risk Pricing</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>模板公式</strong>
+          <pre><code>Signal:
+θ~ = r~ + e~,  e~ ~ N(0, σ²_θ)
+
+Posterior mean:
+m = μ + [σ² / (σ² + σ²_θ)](θ - μ)
+
+Posterior variance:
+v = σ²σ²_θ / (σ² + σ²_θ)
+
+E(R~|θ) = exp(m + 0.5v)
+ln Rf(θ) = m + 0.5(2η-1)v
+
+premium:
+ln E(R~|θ) - ln Rf(θ) = (1-η)v</code></pre>
+        </div>
+        <div class="step">
+          <strong>一题压缩版：HW2 Q2 同构</strong>
+          <p>若 <code>μ=0.02</code>、<code>σ²=0.04</code>、<code>σ²_θ=0.04</code>、<code>η=0.7</code>、<code>θ=0.10</code>。</p>
+          <pre><code>β = 0.04 / 0.08 = 0.5
+m = 0.02 + 0.5(0.10 - 0.02) = 0.06
+v = 0.04×0.04 / 0.08 = 0.02
+
+E(R~|θ) = exp(0.06 + 0.01) = exp(0.07)
+ln Rf(θ) = 0.06 + 0.5(0.4)0.02 = 0.064
+premium = 0.07 - 0.064 = 0.006</code></pre>
+          <p>无信号时 premium 为 <code>(1-η)σ² = 0.012</code>，所以 signal 让 premium 减半。原因是 posterior variance 从 <code>0.04</code> 降到了 <code>0.02</code>。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>最后一轮互动题</h2>
+          <p class="section-note">先自己写步骤，再展开答案核对，不要直接看结果。</p>
+        </div>
+        <span class="badge">3 calculations</span>
+      </div>
+
+      <details>
+        <summary>Q1：若 <code>C=150</code>、<code>rf=4%</code>、<code>β_p=0.5</code>、<code>E(rm~)=12%</code>，求 required return 和 DCF 公平价格。</summary>
+        <div class="answer">
+          <pre><code>k = 4% + 0.5(12%-4%) = 8%
+PV = 150 / 1.08 ≈ 138.89</code></pre>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q2：若项目在 high effort 与 shirk 下的 expected cash flow 分别为 <code>140</code> 和 <code>100</code>，外部股权比例 <code>α=0.4</code>，则能诱导高努力的最大 effort cost 是多少？</summary>
+        <div class="answer">
+          <pre><code>c* = (1-α)(140-100)
+   = 0.6 × 40
+   = 24</code></pre>
+        </div>
+      </details>
+
+      <details>
+        <summary>Q3：若 <code>μ=0</code>、<code>σ²=0.09</code>、<code>σ²_θ=0.09</code>、<code>η=0.6</code>，且 signal realization 恰好等于均值，所以 <code>m=0</code>。求 posterior variance 和 premium。</summary>
+        <div class="answer">
+          <pre><code>v = 0.09×0.09 / 0.18 = 0.045
+premium = (1-η)v = 0.4 × 0.045 = 0.018</code></pre>
+          <p>这里故意让 posterior mean 不动，训练你看到 premium 仍会因为 variance 下降而变化。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">模块 10 的错法很少，但一旦错，通常都不是算错，而是先前的结构没立住。</p>
+        </div>
+        <span class="badge">Calculation diagnosis</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果你在估值题里乱掉</strong>
+          <p>大概率是 <code>β_C / β_p / PV / I</code> 的映射没立住。先区分公平价格和实际成本，再分 IRR 与 required return。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果你在融资题里乱掉</strong>
+          <p>大概率是 <code>目标函数</code> 没立住。任何题都先写问的是 firm、equity、debt 还是 entrepreneur。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果你在风险题里乱掉</strong>
+          <p>大概率是 <code>posterior mean / posterior variance</code> 没分开。先更新信息，再算回报与溢价。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果你总差一步</strong>
+          <p>大概率是考场步骤太快。强制自己按模板写第一行，通常比分秒硬算更稳。</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        这页做完后，整套复习主线就闭环了：模块 1-8 打底，模块 9 压客观题，模块 10 压计算题。
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>收尾</h2>
+          <p class="section-note">整套 HTML 复习站到这里就完成了。</p>
+        </div>
+        <span class="badge">Done</span>
+      </div>
+      <div class="card">
+        <p>现在你可以按两种方式使用这套内容：一是从模块 1 顺着复习到模块 10；二是临考前只刷模块 9 和模块 10，再回跳到自己薄弱的专题页。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

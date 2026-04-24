@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 5 复习</title>
+  <style>
+    :root {
+      --bg: #e8eff0;
+      --panel: rgba(247, 252, 252, 0.94);
+      --panel-strong: #fbfefe;
+      --ink: #183033;
+      --muted: #5f7072;
+      --accent: #1a6d73;
+      --accent-soft: #d8eef0;
+      --line: rgba(24, 48, 51, 0.14);
+      --good: #1d6b50;
+      --warn: #8c5a12;
+      --shadow: 0 18px 42px rgba(24, 40, 43, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(26, 109, 115, 0.14), transparent 34%),
+        radial-gradient(circle at top right, rgba(29, 107, 80, 0.08), transparent 28%),
+        linear-gradient(180deg, #f7fbfb 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26, 109, 115, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+    h3 { font-size: 20px; }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+    .hero-grid, .grid-2, .grid-3, .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .concept-list { grid-template-columns: 1fr; }
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+    .meta-card, .card, .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .concept-block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+    }
+    .concept-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .concept-meta div {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+    .concept-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+    .meta-card strong, .card strong, .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(26, 109, 115, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+    details + details { margin-top: 12px; }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26, 109, 115, 0.28);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .concept-meta { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 5 · HTML Review</div>
+          <h1>道德风险、契约设计与融资效率</h1>
+          <p class="lede">
+            这一模块专门处理 <code>hidden action</code>。核心不是“努力很重要”这种空话，而是：当 effort 不可观察时，融资合同必须先让外部投资者 break even，再让企业家有 incentive 选高努力。所以模块 5 的关键词是 <code>incentive compatibility</code>、<code>participation</code>、<code>equity vs debt under moral hazard</code>，以及监管为什么会被拉进来当外部约束。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% 判断/解释</li>
+            <li>30% 计算/推导</li>
+            <li>Anchor: HW2 Q3</li>
+            <li>Mode: 混合互动</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>对应材料</strong>
+          <ul class="mini-list">
+            <li><code>Teaching Notes - 8.pdf</code></li>
+            <li><code>Slides - 10.pdf</code></li>
+            <li><code>HW2/Assignment 2.pdf</code> Q3</li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：5</span>
+            <span class="badge">当前状态：进行中</span>
+            <span class="badge">下轮：模块 6</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">模块 5 和模块 4 的差别，在于这次不是 hidden type，而是已经融到钱以后借款人怎么行动。</p>
+        </div>
+        <span class="badge">6 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>第一步：先看 first best</strong>
+          <p>若 effort 可观察，可直接签合同要求高努力，outside investors 只要按高努力下的 expected cash flow 定价即可，效率问题不大。</p>
+        </div>
+        <div class="card">
+          <strong>第二步：moral hazard 从哪里来</strong>
+          <p>当 effort 不可观察时，企业家拿到钱后会比较“高努力带来的额外收益”和“努力成本”。如果额外收益不够大，就会 shirk。</p>
+        </div>
+        <div class="card">
+          <strong>第三步：为什么 equity 经常更弱</strong>
+          <p>股权把太多 upside 分给外部投资者，企业家留下的边际回报下降，于是 effort incentive 被稀释，导致“项目能融资但做不好”或“根本融不到资”。</p>
+        </div>
+        <div class="card">
+          <strong>第四步：为什么 debt 有时更强</strong>
+          <p>债务让外部投资者拿固定索取，剩余收益更多留给企业家，因此在某些区间里更能让企业家 internalize 高努力的边际收益。</p>
+        </div>
+        <div class="card">
+          <strong>但 debt 不是万能药</strong>
+          <p>它能缓解某类 hidden action，不代表总是最优。模块 4 已经看到，debt 也会带来 risk-shifting 和 underinvestment，所以不同 friction 下最优合同会变。</p>
+        </div>
+        <div class="card">
+          <strong>一句话抓住这讲</strong>
+          <p><span class="good">契约设计的核心不是把钱分完，而是先让资金进来，再让拿到钱的人愿意做对的事。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>核心概念</h2>
+          <p class="section-note">这一讲最容易混的是“能融资”和“能高效融资”不是一回事。每个概念都要带着 incentive 看。</p>
+        </div>
+        <span class="badge">详细概念展开 8 组</span>
+      </div>
+      <div class="concept-list">
+        <div class="concept-block">
+          <h3>1. Hidden Action / Moral Hazard</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>交易发生后，融资方的行为或 effort 外部投资者无法观察或验证，这就是 <code>hidden action</code>，对应 moral hazard。</div>
+            <div><b>直觉</b>问题不在于项目本身坏，而在于“拿到钱之后可能不好好做”。</div>
+            <div><b>考试问法</b>常见表述是“entrepreneur exerts effort”或“manager pursues private benefit”，问合同是否能 induce efficient action。</div>
+            <div><b>易错点</b>把 moral hazard 说成“信息不透明”就结束。高分答案要写清：不可观察的是 action，不是 type。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>2. Participation Constraint vs Incentive Compatibility</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>participation</code> 要求外部投资者愿意进来，或 agent 愿意接受合同；<code>IC</code> 要求给定合同后，agent 真会选目标行动。</div>
+            <div><b>直觉</b>一个项目能融资，说明参与约束过了；一个项目能高努力融资，说明激励相容也过了。</div>
+            <div><b>考试问法</b>会让你分别验证“投资者 break even”与“entrepreneur prefers high effort”。</div>
+            <div><b>易错点</b>只检查一边。很多题外部资金能进来，但 entrepreneur 最终会 shirk，所以 first best 仍实现不了。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>3. First Best vs Financing Equilibrium</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>first best</code> 指在 action 可观察时的高效分配；融资均衡则是在不可观察下，通过 belief 和合同诱导出来的结果。</div>
+            <div><b>直觉</b>first best 往往告诉你“社会上应该做什么”，均衡则告诉你“现实里合同能不能把人推到那一步”。</div>
+            <div><b>考试问法</b>先让你算 high effort 下的 NPV，再问在 equity / debt 融资下是否还能做到高努力。</div>
+            <div><b>易错点</b>看到 first best 正 NPV 就直接写“可融资”。这一步最多证明项目值得做，不证明均衡能实现。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>4. Equity Financing Under Moral Hazard</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>外部股权融资下，企业家只保留 <code>1-α</code> 的剩余索取权，因此高努力带来的边际收益只剩下一部分。</div>
+            <div><b>直觉</b>努力成本是 entrepreneur 自己承担，但成功的好处要和外部股东分，所以 effort incentive 被稀释。</div>
+            <div><b>考试问法</b>常见是先由 investors belief 求出 <code>α</code>，再比较 entrepreneur 在 high / low effort 下的 payoff。</div>
+            <div><b>易错点</b>只看到 equity 可以把钱筹满，就误以为效率实现了。关键是融资后 entrepreneur 是否真会 work hard。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>5. Debt Financing Under Moral Hazard</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>外部债务融资下，投资者拿 face value <code>K</code>，企业家拿剩余 payoff，激励由 <code>K</code> 对剩余收益的切割决定。</div>
+            <div><b>直觉</b>只要成功状态的剩余收益保留得足够多，企业家就更愿意为了提高成功概率去付出 effort。</div>
+            <div><b>考试问法</b>常见是由 investors belief 求 <code>K</code>，再验证 high effort 是否为 entrepreneur 的最优选择。</div>
+            <div><b>易错点</b>把“debt better than equity”写成绝对结论。正确说法是：在这类 hidden-action 模型里，debt 常更能保留 entrepreneurial upside。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>6. Effort Cost Threshold</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>给定合同参数，存在一个 effort cost 上界 <code>c*</code>，当 <code>c ≤ c*</code> 时高努力才可持续。</div>
+            <div><b>直觉</b>高努力不是“道德选择”，而是成本收益比较。只要 effort 的 private gain 盖不住 <code>c</code>，高努力就不会出现。</div>
+            <div><b>考试问法</b><code>HW2 Q3</code> 直接问你求出 equity 和 debt 各自能实现效率的 <code>c</code> 区间。</div>
+            <div><b>易错点</b>先代数后直觉。正确顺序应是：先写“hard payoff ≥ shirk payoff”，再移项得阈值。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>7. Continuous-Effort Moral Hazard</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>当 effort 是连续变量时，合同不只是诱导二元选择，而是在 risk sharing 与 incentive provision 之间做权衡。</div>
+            <div><b>直觉</b>给 entrepreneur 更多 residual claim 会增强激励，但可能让外部投资者拿不够；给外部人太多，又会让 effort 降下来。</div>
+            <div><b>考试问法</b>常见于 <code>e ∈ [0,1]</code>、<code>c(e)=45e²</code> 这类题，要求求最优 <code>e</code>、判断 equity 是否能融资、debt 是否可行。</div>
+            <div><b>易错点</b>把 continuous effort 题硬套成 binary model。这里要先对 entrepreneur 的目标函数求导。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>8. Regulation as Incentive Backstop</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>监管、资本要求、检查和披露要求，本质上也是在对 hidden action 加外部约束。</div>
+            <div><b>直觉</b>当单个合同不能完全约束风险行为时，监管充当的是 system-wide covenant。</div>
+            <div><b>考试问法</b>这页一般不会单独重算监管题，但会问“为什么 deposit insurance / safety net 会加剧 moral hazard，需要 capital requirements 和 supervision 配套”。</div>
+            <div><b>易错点</b>把监管只写成制度背景。课程里它和 moral hazard 是一条线上的经济学回应。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>必会公式 / 推导</h2>
+          <p class="section-note">模块 5 的公式重点在“先定价，再验激励”。</p>
+        </div>
+        <span class="badge">核心公式链</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>基本 binary-effort 框架</strong>
+          <pre><code>High effort expected cash flow:
+E(C~ | H)
+
+Low effort expected cash flow:
+E(C~ | L)
+
+First-best NPV:
+E(C~ | H) - investment - effort cost</code></pre>
+          <p>先看社会上值不值得做，再进入融资合同。</p>
+        </div>
+        <div class="card">
+          <strong>Equity 下的定价与激励</strong>
+          <pre><code>Investor break-even under belief H:
+α · E(C~ | H) = F
+
+Entrepreneur payoff if hard:
+(1-α)E(C~ | H) - c
+
+Entrepreneur payoff if shirk:
+(1-α)E(C~ | L)</code></pre>
+          <p>高努力可持续当且仅当
+          <code>(1-α)[E(C~|H)-E(C~|L)] ≥ c</code>。</p>
+        </div>
+        <div class="card">
+          <strong>Debt 下的定价与激励</strong>
+          <pre><code>Investor break-even under belief H:
+E[min(K, C~) | H] = F
+
+Entrepreneur payoff if hard:
+E[max(C~ - K, 0) | H] - c
+
+Entrepreneur payoff if shirk:
+E[max(C~ - K, 0) | L]</code></pre>
+          <p>关键不是背公式，而是看 debt 让 entrepreneur 留下多少成功态 upside。</p>
+        </div>
+        <div class="card">
+          <strong>HW2 Q3 的阈值结果</strong>
+          <pre><code>In the note's binary example:
+E(C~|H) = 158
+E(C~|L) = 74
+
+Equity with belief H:
+α = 70 / 158 = 35 / 79
+c* = (1-α)(158-74)
+   = (44/79) · 84
+   = 3696 / 79 ≈ 46.78
+
+Debt with belief H:
+0.75K + 0.25·32 = 70
+K = 248 / 3
+
+c* = 0.75(200-K) - 0.25(200-K)
+   = 176 / 3 ≈ 58.67</code></pre>
+          <p>所以在这个模型里，debt 可支持高努力的 <code>c</code> 区间更大。</p>
+        </div>
+        <div class="card">
+          <strong>Continuous effort 题</strong>
+          <pre><code>With equity share α:
+Entrepreneur objective
+= [30(1-e)+120e](1-α) - 45e²
+
+FOC:
+e* = 1 - α
+
+With debt face value K:
+Entrepreneur objective
+= (120-K)e - 45e²
+
+FOC:
+e* = (120-K)/90</code></pre>
+          <p>这类题的高频点是：effort 是 contract parameter 的 decreasing function。</p>
+        </div>
+        <div class="card">
+          <strong>Principal-agent 线性合同</strong>
+          <pre><code>Contract:
+w = t + s q
+
+Agent chooses:
+a* = s / c
+
+Principal sets s to trade off:
+incentives vs insurance
+
+Result in the note:
+s = 1 / (1 + η c σ²)</code></pre>
+          <p>噪音越大、agent 越 risk averse，最优的 performance pay 就越弱。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1 道完整例题</h2>
+          <p class="section-note">下面直接做 <code>HW2 Q3</code> 同构题，求 effort cost <code>c</code> 的可行区间。考试里这题的关键是别把“break-even 条件”和“激励相容条件”混掉。</p>
+        </div>
+        <span class="badge">作业同构题</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>题目设定</strong>
+          <p>项目需投资 <code>70</code>，成功 payoff 为 <code>200</code>，失败 payoff 为 <code>32</code>。若企业家高努力，成功概率 <code>0.75</code>；若 shirk，成功概率 <code>0.25</code>。努力成本变为参数 <code>c &gt; 0</code>。问：</p>
+          <p>1. equity 融资下，高努力能在什么 <code>c</code> 区间实现？</p>
+          <p>2. debt 融资下，高努力能在什么 <code>c</code> 区间实现？</p>
+        </div>
+
+        <div class="step">
+          <strong>第 1 步：先算高低努力下的 expected cash flow</strong>
+          <pre><code>E(C~ | H) = 0.75·200 + 0.25·32 = 158
+E(C~ | L) = 0.25·200 + 0.75·32 = 74</code></pre>
+          <p>高努力比 shirk 多带来的 expected cash flow 是 <code>84</code>。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 2 步：equity 融资</strong>
+          <p>若 investors 相信 entrepreneur 会高努力，则外部股权比例 <code>α</code> 满足：</p>
+          <pre><code>158α = 70
+α = 70/158 = 35/79</code></pre>
+          <p>此时 entrepreneur 比较：</p>
+          <pre><code>Hard payoff
+= (1-α)158 - c
+
+Shirk payoff
+= (1-α)74</code></pre>
+          <p>高努力需要：</p>
+          <pre><code>(1-α)158 - c ≥ (1-α)74
+
+c ≤ (1-α)(158-74)
+  = (44/79)·84
+  = 3696/79
+  ≈ 46.78</code></pre>
+          <p>所以 <span class="good">equity 能实现高努力的区间是 <code>0 &lt; c ≤ 46.78</code></span>。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 3 步：debt 融资</strong>
+          <p>若 investors 相信 entrepreneur 会高努力，则 face value <code>K</code> 满足：</p>
+          <pre><code>0.75K + 0.25·32 = 70
+0.75K = 62
+K = 248/3 ≈ 82.67</code></pre>
+          <p>此时 entrepreneur 的 payoff：</p>
+          <pre><code>Hard payoff
+= 0.75(200-K) - c
+
+Shirk payoff
+= 0.25(200-K)</code></pre>
+          <p>高努力需要：</p>
+          <pre><code>0.75(200-K) - c ≥ 0.25(200-K)
+
+c ≤ 0.5(200-K)
+  = 0.5(200 - 248/3)
+  = 176/3
+  ≈ 58.67</code></pre>
+          <p>所以 <span class="good">debt 能实现高努力的区间是 <code>0 &lt; c ≤ 58.67</code></span>。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 4 步：怎么评论</strong>
+          <p>两者都不是“永远能解决 moral hazard”。真正的比较是：哪种合同给 entrepreneur 保留了更多 high-effort 的边际收益。</p>
+          <p>在本题里，debt 对成功态 upside 的切割较少，因此支持高努力的 <code>c</code> 区间更宽。也就是说，当 effort cost 中等时，equity 已经诱导不动高努力，但 debt 还可以。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组</h2>
+          <p class="section-note">这组题专门检查你是不是已经能区分“融资可行”和“高努力可行”。</p>
+        </div>
+        <span class="badge">3 判断 + 1 填空 + 1 小算题 + 1 迁移题</span>
+      </div>
+
+      <details>
+        <summary>判断题 1：只要项目在 high effort 下是 positive NPV，outside financing 就一定能实现 first best。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>这最多说明社会上值得做，不说明融资后 entrepreneur 真会 work hard。你还必须检查 incentive compatibility。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 2：在本讲的典型模型里，equity 的问题不是融资额不够，而是 entrepreneur 留下的 residual claim 太少，导致 effort incentive 被稀释。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>这是“equity under moral hazard”最核心的一句解释。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 3：若引入政府安全网但没有配套监管，moral hazard 可能反而更严重。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>安全网削弱了市场 discipline，因此要靠 capital requirements、supervision、disclosure 等机制补回来。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>推导填空：在 equity 融资下，高努力的激励相容条件应写成什么形式？</summary>
+        <div class="answer">
+          <pre><code>(1-α)E(C~ | H) - c ≥ (1-α)E(C~ | L)</code></pre>
+          <p>化简后即
+          <code>c ≤ (1-α)[E(C~|H)-E(C~|L)]</code>。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>小算题：若某模型中 <code>E(C~|H)=120</code>、<code>E(C~|L)=80</code>，且 equity share <code>α=0.5</code>，则高努力能被诱导的最大 effort cost 是多少？</summary>
+        <div class="answer">
+          <pre><code>c* = (1-α)[E(C~|H)-E(C~|L)]
+   = 0.5 × 40
+   = 20</code></pre>
+          <p>超过这个数，entrepreneur 的 private gain 不足以覆盖 effort cost。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>迁移题：如果 success payoff 提高，但失败 payoff 不变，模块 5 里的哪类合同更可能因此改善对高努力的激励？为什么？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>通常 debt 和 equity 都会改善，但 debt 里常更直接。</p>
+          <p>因为 success-state upside 变大，会提高 entrepreneur 在成功时留下的剩余 payoff。若合同让 entrepreneur 主要吃成功态 upside，high effort 的 private benefit 就上升，IC 更容易满足。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">模块 5 的错题一般集中在“约束识别”和“比较谁拿边际收益”。</p>
+        </div>
+        <span class="badge">诊断模板</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果判断题错得多</strong>
+          <p>大概率卡在 <code>概念边界</code>，尤其是把 adverse selection 的 type 问题和 moral hazard 的 action 问题混掉。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会定价不会判激励</strong>
+          <p>大概率卡在 <code>IC 约束</code>。记住任何 moral hazard 题都要把 hard payoff 和 shirk payoff 明确写出来再比。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果算出了 α 或 K，但不会评论为什么 debt 更强</strong>
+          <p>大概率卡在 <code>经济直觉</code>。你要能说清：debt 让 entrepreneur 保留更多成功态剩余收益，因此对 effort 的 private marginal benefit 更高。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果连续努力题总是乱</strong>
+          <p>大概率卡在 <code>目标函数和一阶条件</code>。先写 entrepreneur 的 objective，再求导得到 <code>e*</code>，不要直接背答案。</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        若你总把“可以融资”误写成“高努力实现”，这一点应记为 <span class="warn">待回炉</span>，因为模块 6 的银行监管也在处理同一类行为偏离。
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">模块 5 从单个合同如何约束行为出发，模块 6 会扩展到银行体系和监管为什么要系统性介入。</p>
+        </div>
+        <span class="badge">Bridge to Module 6</span>
+      </div>
+      <div class="card">
+        <p>模块 6 会把这些激励问题放到银行和金融中介里看：为什么 deposit contract 特别、为什么 bank run 会发生、为什么资本要求和监管检查本质上是在给金融机构加外部激励约束。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

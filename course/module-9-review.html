@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 9 冲刺</title>
+  <style>
+    :root {
+      --bg: #f3eee6;
+      --panel: rgba(253, 250, 245, 0.95);
+      --panel-strong: #fffdfa;
+      --ink: #1e2d31;
+      --muted: #617074;
+      --accent: #7d4d2a;
+      --accent-soft: #efdfd2;
+      --line: rgba(30, 45, 49, 0.14);
+      --good: #1d6b50;
+      --warn: #8c5a12;
+      --shadow: 0 18px 42px rgba(40, 30, 20, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(125, 77, 42, 0.14), transparent 34%),
+        radial-gradient(circle at top right, rgba(29, 107, 80, 0.08), transparent 28%),
+        linear-gradient(180deg, #fcf9f4 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(125, 77, 42, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+    h3 { font-size: 20px; }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+    .hero-grid, .grid-2, .grid-3, .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .concept-list { grid-template-columns: 1fr; }
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+    .meta-card, .card, .status-card, .question-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .meta-card strong, .card strong, .status-card strong, .question-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+    details + details { margin-top: 12px; }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    .q-tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-family: var(--mono);
+    }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(125, 77, 42, 0.28);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 9 · Objective Sprint</div>
+          <h1>综合选择题冲刺</h1>
+          <p class="lede">
+            这一页把前 8 个模块压成一轮客观题冲刺。重点不是继续铺知识，而是训练你在最短时间里识别题型、抓 friction、定位公式和写出最简但正确的机制答案。整体按照考试结构偏向 <code>判断 / 选择 / 比较 / 机制解释</code>。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% objective</li>
+            <li>Cross-module sprint</li>
+            <li>Mode: 自测 + 纠错</li>
+            <li>Next: Module 10</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>覆盖模块</strong>
+          <ul class="mini-list">
+            <li><code>Module 1</code> 金融体系基础</li>
+            <li><code>Module 2</code> 利率与估值</li>
+            <li><code>Module 3</code> 风险定价与价格发现</li>
+            <li><code>Module 4</code> 融资结构与逆向选择</li>
+            <li><code>Module 5</code> 道德风险与契约</li>
+            <li><code>Module 6-8</code> 银行、危机、央行政策</li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：9</span>
+            <span class="badge">当前状态：进行中</span>
+            <span class="badge">下轮：模块 10</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">这一轮冲刺要解决三件事：识别题型、快速排错、把“概念记忆”转成“考场判断”。</p>
+        </div>
+        <span class="badge">6 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>第一步：先看题目是在问什么摩擦</strong>
+          <p>绝大多数选择题本质上都在问一个 friction：估值、风险、信息不对称、挤兑、危机放大器或政策传导。</p>
+        </div>
+        <div class="card">
+          <strong>第二步：再看目标函数是谁</strong>
+          <p>firm value、equity value、debt value、depositor payoff、central bank objective 一旦看错，后面全错。</p>
+        </div>
+        <div class="card">
+          <strong>第三步：客观题也要有机制句</strong>
+          <p>考试里很多选项差别只在一句经济直觉。只会背定义不够，要能用一句话写出为什么。</p>
+        </div>
+        <div class="card">
+          <strong>第四步：高频易混边界</strong>
+          <p><code>IRR vs required return</code>、<code>cash-flow beta vs return beta</code>、<code>adverse selection vs moral hazard</code>、<code>WE vs REE</code>、<code>quality vs liquidity flight</code>。</p>
+        </div>
+        <div class="card">
+          <strong>第五步：冲刺页不是重学一遍</strong>
+          <p>这里刻意压缩成高频判断和比较题，目的就是把前面分散的知识点压成考试反应速度。</p>
+        </div>
+        <div class="card">
+          <strong>一句话抓住这轮</strong>
+          <p><span class="good">考场里最值钱的不是会背多少，而是能在 20 秒内看出题目到底在问谁、问哪条机制、错项错在哪里。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>考前总表</h2>
+          <p class="section-note">先用这张表压缩前 8 个模块的高频考点，再开始做题。</p>
+        </div>
+        <span class="badge">Quick Map</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>估值线</strong>
+          <p><code>PV / YTM / DCF / CE / tracking portfolio / IRR / required return / beta</code></p>
+        </div>
+        <div class="card">
+          <strong>风险与信息线</strong>
+          <p><code>risk aversion / certainty equivalent / risk premium / REE / noisy REE / price discovery</code></p>
+        </div>
+        <div class="card">
+          <strong>融资摩擦线</strong>
+          <p><code>pooling / separating / equity vs debt / asset substitution / debt overhang / IC</code></p>
+        </div>
+        <div class="card">
+          <strong>银行与危机线</strong>
+          <p><code>redeemability / bank run / deposit insurance / liquidity spiral / twin crisis / ambiguity</code></p>
+        </div>
+        <div class="card">
+          <strong>政策线</strong>
+          <p><code>MB = C + R / open market operations / QE / inflation targeting / Taylor rule</code></p>
+        </div>
+        <div class="card">
+          <strong>最常见错位</strong>
+          <p>把社会最优当成股东最优、把高努力 NPV 当成融资可行、把政策工具当口号、把市场价格当纯基本面反映。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组 A</h2>
+          <p class="section-note">A 组偏概念判断与边界辨析。先答，再展开答案。</p>
+        </div>
+        <span class="badge">Modules 1-3</span>
+      </div>
+
+      <details>
+        <summary>1. 若一个资产能 store value，它就一定是 money。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>money 还需要 <code>medium of exchange</code> 和 <code>unit of account</code> 功能。store value 只是其中一项。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>2. current yield 与 YTM 的主要区别在于，后者会考虑 capital gain/loss 与到期偿付。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>这也是为什么 <code>C/P</code> 不能直接代替 YTM。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>3. 在风险厌恶下，risk premium 之所以为正，是因为 certainty equivalent 小于 expected payoff。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>这是模块 3 最核心的一条逻辑链。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>4. 在 WE 和 REE 的比较里，关键差异是 REE 中 uninformed agent 会利用价格做信息更新。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>WE 里价格只进 budget constraint；REE 里价格还进 belief formation。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>5. 如果 signal 更精准，风险溢价上升，因为投资者会更在意风险。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>更精准的 signal 降低 posterior variance，因此在课程模型里通常会压低 risk premium。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组 B</h2>
+          <p class="section-note">B 组偏融资合同、激励与银行题。</p>
+        </div>
+        <span class="badge">Modules 4-6</span>
+      </div>
+
+      <details>
+        <summary>6. 在 adverse selection 环境下，equity 往往比 debt 更 information-sensitive。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>因此 equity 更容易出现 good type 被低估、bad type 被高估的问题。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>7. 一个项目只要是 positive NPV，股东就一定愿意投资它。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>若增量价值主要流向 old debt，股东可能因为 <code>ΔEquity</code> 不够而拒绝，这就是 debt overhang。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>8. moral hazard 题里，只要投资者 break even，就说明 first best 实现了。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>还必须检查 entrepreneur 是否真的会选 high effort，也就是 incentive compatibility。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>9. 在 Diamond-Dybvig 模型里，银行之所以脆弱，恰恰是因为它先提供了流动性保险。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>高效与脆弱来自同一合同结构，不是互相矛盾的两件事。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>10. deposit insurance 只会增加系统稳定性，不会引入新的激励问题。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>它减少 run incentive，但也会削弱市场纪律并加重 moral hazard，因此要配 capital requirements 和 supervision。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组 C</h2>
+          <p class="section-note">C 组偏危机机制与货币政策。</p>
+        </div>
+        <span class="badge">Modules 7-8</span>
+      </div>
+
+      <details>
+        <summary>11. 在 liquidity spiral 中，初始价格下跌之所以会被放大，是因为 mark-to-market、haircut 和风险约束会触发被动卖出。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>危机的非线性来自约束和价格的相互强化。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>12. twin crisis 的核心只是汇率贬值本身，不涉及企业和银行资产负债表。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>真正关键的是 <code>currency mismatch</code>：外币负债在本币贬值后暴涨，净值恶化进一步引爆金融危机。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>13. 当政策利率接近零时，QE 的逻辑是把政策从短端转向长端利率与风险利差。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>QE 不只是“印钱”，而是直接影响期限结构和部分信用条件。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>14. inflation targeting 做得好，就自动意味着金融稳定。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>全球金融危机后的重要教训就是：price stability 和 output stability 不等于 leverage、asset prices 和信用体系也稳定。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>15. 在 beauty contest 环境下，理性投资者可能会过度依赖公共信号，而不是私人信息。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>因为他们在预测“别人会怎么看”，而不是只预测 fundamentals。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>混合小测</h2>
+          <p class="section-note">下面这组更接近正式考试里的“简短机制题”。每题先自己写一句话答案，再展开参考答案。</p>
+        </div>
+        <span class="badge">One-line mechanisms</span>
+      </div>
+      <div class="grid-2">
+        <div class="question-card">
+          <span class="q-tag">Q16 · 模块 2</span>
+          <strong>为什么 <code>IRR</code> 不能直接当 required return？</strong>
+          <details>
+            <summary>展开答案</summary>
+            <div class="answer">
+              <p><code>IRR</code> 用的是项目实际投资成本，required return 用的是按系统性风险要求的公平价格，两者分别回答“你现在买能赚多少”和“市场要求应该赚多少”。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="question-card">
+          <span class="q-tag">Q17 · 模块 4</span>
+          <strong>为什么 pooling equilibrium 常伴随 wealth transfer？</strong>
+          <details>
+            <summary>展开答案</summary>
+            <div class="answer">
+              <p>因为市场按平均质量定价，good type 被低估、bad type 被高估，结果坏类型获得隐性补贴，好类型承担隐性税负。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="question-card">
+          <span class="q-tag">Q18 · 模块 5</span>
+          <strong>为什么 debt 在某些 hidden-action 环境下比 equity 更能诱导高努力？</strong>
+          <details>
+            <summary>展开答案</summary>
+            <div class="answer">
+              <p>因为 debt 让外部人拿固定索取，成功状态的更多剩余收益留在 entrepreneur 手里，从而提高 high effort 的 private marginal benefit。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="question-card">
+          <span class="q-tag">Q19 · 模块 6</span>
+          <strong>为什么说存款保险的关键是“可信承诺”，而不一定是 ex post 真赔钱？</strong>
+          <details>
+            <summary>展开答案</summary>
+            <div class="answer">
+              <p>因为只要 late depositor 相信自己不跑也不会吃亏，坏均衡就会失去吸引力，run 本身就不发生，于是实际赔付可能根本不会触发。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="question-card">
+          <span class="q-tag">Q20 · 模块 7</span>
+          <strong>为什么“市场错了”不代表套利者一定能赚钱？</strong>
+          <details>
+            <summary>展开答案</summary>
+            <div class="answer">
+              <p>因为 mispricing 可能先恶化，套利者会先遭遇 mark-to-market losses、margin calls 和客户赎回，被迫在价格回归前平仓。</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="question-card">
+          <span class="q-tag">Q21 · 模块 8</span>
+          <strong>为什么 QE 要重点盯 long-term yields，而不是只盯短端政策利率？</strong>
+          <details>
+            <summary>展开答案</summary>
+            <div class="answer">
+              <p>因为在零利率附近，短端进一步下行空间有限，政策要通过压低期限溢价和部分信用利差去影响长期融资条件。</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">做完这页后，不要只看对错，要看你错在哪一类边界。</p>
+        </div>
+        <span class="badge">Objective diagnosis</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果你错在模块 1-3</strong>
+          <p>大概率是 <code>概念边界和变量映射</code> 问题，比如 money 功能、YTM、beta、REE、signal precision。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果你错在模块 4-5</strong>
+          <p>大概率是 <code>目标函数识别</code> 问题。你可能把 firm value、equity value、debt value 或 IC 条件混掉了。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果你错在模块 6-7</strong>
+          <p>大概率是 <code>机制链条不完整</code>。你知道名词，但没有把 run、spiral、ambiguity、currency mismatch 接成一条反馈回路。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果你错在模块 8</strong>
+          <p>大概率是 <code>政策传导写空</code>。你知道降息、QE、inflation targeting 这些词，但没有写清 reserve market、yield curve 和 expectations。</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        这轮自测结束后，最该回炉的是“同类错误连续出现 2 次以上”的题型。模块 10 会只保留计算和推导，不再替你补概念边界。
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">模块 9 结束后，你应当已经能快速做客观题。下一步就是把高频计算题收成最后一页。</p>
+        </div>
+        <span class="badge">Bridge to Module 10</span>
+      </div>
+      <div class="card">
+        <p>模块 10 会只做三类计算：<code>估值题</code>、<code>融资激励题</code>、<code>风险溢价 / 信息推导题</code>。这会是整套复习的最后一页，也是最接近真正考场手感的一页。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

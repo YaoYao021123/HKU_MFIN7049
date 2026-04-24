@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 7 复习</title>
+  <style>
+    :root {
+      --bg: #f1e9e2;
+      --panel: rgba(252, 248, 244, 0.94);
+      --panel-strong: #fffdfa;
+      --ink: #1f2d31;
+      --muted: #627075;
+      --accent: #9a4a27;
+      --accent-soft: #f2dfd4;
+      --line: rgba(31, 45, 49, 0.14);
+      --good: #1d6b50;
+      --warn: #8c5a12;
+      --shadow: 0 18px 42px rgba(40, 30, 20, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(154, 74, 39, 0.15), transparent 34%),
+        radial-gradient(circle at top right, rgba(29, 107, 80, 0.08), transparent 28%),
+        linear-gradient(180deg, #fbf7f2 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(154, 74, 39, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+    h3 { font-size: 20px; }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+    .hero-grid, .grid-2, .grid-3, .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .concept-list { grid-template-columns: 1fr; }
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+    .meta-card, .card, .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .concept-block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+    }
+    .concept-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .concept-meta div {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+    .concept-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+    .meta-card strong, .card strong, .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(154, 74, 39, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+    details + details { margin-top: 12px; }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(154, 74, 39, 0.28);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .concept-meta { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 7 · HTML Review</div>
+          <h1>危机机制与市场异常</h1>
+          <p class="lede">
+            这一模块不是在背“危机历史”，而是在拆危机的放大器。核心问题是：为什么小冲击不会线性传导，而会被信用、杠杆、保证金、模糊不确定性和信念协调问题不断放大，最终演变成 crash、run、currency crisis 或 prolonged mispricing。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% 判断/解释</li>
+            <li>30% 计算/推导</li>
+            <li>Anchor: Slides 12/13 + Notes 3/10/11</li>
+            <li>Mode: 混合互动</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>对应材料</strong>
+          <ul class="mini-list">
+            <li><code>Slides - 12.pdf</code></li>
+            <li><code>Slides - 13.pdf</code></li>
+            <li><code>Teaching Notes-3.pdf</code></li>
+            <li><code>Teaching Notes - 10.pdf</code></li>
+            <li><code>Teaching Notes - 11.pdf</code></li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：7</span>
+            <span class="badge">当前状态：进行中</span>
+            <span class="badge">下轮：模块 8</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">模块 7 的统一视角是“放大机制”。触发器可以很小，但反馈回路一旦打开，价格和融资就会一起失稳。</p>
+        </div>
+        <span class="badge">6 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>第一条线：信用周期</strong>
+          <p>繁荣时期 sentiment 过度乐观，信贷标准松、杠杆高；随后哪怕只是小违约或小利率冲击，也可能触发 risk reassessment，贷款骤停，经济进入急刹车。</p>
+        </div>
+        <div class="card">
+          <strong>第二条线：资产负债表放大器</strong>
+          <p>价格跌一点，净值就缩一点；净值缩一点，融资约束和保证金要求就紧一点；这又逼出 fire sale，进一步压价格。这就是 liquidity / leverage spiral。</p>
+        </div>
+        <div class="card">
+          <strong>第三条线：不确定性与恐慌</strong>
+          <p>危机中最可怕的往往不是已知风险，而是复杂性和未知关联性让人“按最坏情景”决策，形成 flight-to-quality、flight-to-liquidity 和 panic run。</p>
+        </div>
+        <div class="card">
+          <strong>第四条线：新兴市场的 twin crisis</strong>
+          <p>在 fixed exchange rate、外币负债和银行体系脆弱共存时，银行危机和货币危机会相互放大，形成 banking crisis + currency crisis 的双危机。</p>
+        </div>
+        <div class="card">
+          <strong>第五条线：市场异常并不总能被套利抹平</strong>
+          <p>在 beauty contest、limits to arbitrage 和 predatory trading 环境下，专业机构并不总能逆势纠偏，因为资金约束、客户赎回和短期业绩压力会先把它们逼平仓。</p>
+        </div>
+        <div class="card">
+          <strong>一句话抓住这讲</strong>
+          <p><span class="good">危机不是单点故障，而是信贷、资产价格、融资约束和预期相互强化后的非线性连锁反应。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>核心概念</h2>
+          <p class="section-note">模块 7 的难点不在概念多，而在这些概念其实都在讲“为什么市场不会温和调整，而会跳着崩”。</p>
+        </div>
+        <span class="badge">详细概念展开 8 组</span>
+      </div>
+      <div class="concept-list">
+        <div class="concept-block">
+          <h3>1. Credit Boom and Bust</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>信用繁荣期里贷款扩张、风险容忍上升、资产价格被推高；随后当 sentiment 反转或违约暴露时，信用突然收缩。</div>
+            <div><b>直觉</b>不是单纯“借得多所以出事”，而是宽松时把风险标准越放越低，收缩时又一起抽贷，形成顺周期性。</div>
+            <div><b>考试问法</b>常问为什么 financial liberalization / innovation 容易先带来 boom，再埋下 bust 的种子。</div>
+            <div><b>易错点</b>把 boom-bust 写成普通景气循环。课程强调的是信息摩擦和 balance-sheet feedback 让危机更急更深。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>2. Procyclical Lending</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>银行在好时候更愿意放贷，在最需要信贷的坏时候反而收缩信贷。</div>
+            <div><b>直觉</b>房价跌、净值差、资本吃紧，银行就缩表；缩表又打击经济和抵押品价格，反过来进一步恶化资产负债表。</div>
+            <div><b>考试问法</b>常用中文表达“晴天送伞、雨天收伞”，要求你把它写成 balance-sheet spiral。</div>
+            <div><b>易错点</b>只写“银行保守”。更准确的说法是：监管约束、资本约束和风险控制一起使得 lending supply 在坏时更不弹性。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>3. Liquidity Spiral: Loss Spiral and Margin Spiral</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>loss spiral</code> 是价格下跌侵蚀净值、迫使卖出；<code>margin spiral</code> 是价格波动提高保证金和融资 haircut，进一步压缩仓位。</div>
+            <div><b>直觉</b>价格跌不是终点，而是被 mark-to-market、solvency constraints 和 risk limits 自动转化成更多被动卖盘。</div>
+            <div><b>考试问法</b>常让你解释为什么“一个小 shock 会被 fire sales 放大”，以及为什么 mark-to-market 在危机里可能助推 contagion。</div>
+            <div><b>易错点</b>只提火售不提约束来源。高分答案要点出：会计记账、外部监管和内部风控都可能触发 spiral。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>4. Ambiguity Aversion / Knightian Uncertainty</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>当参与者面对的是“模型本身都不确定”的情形，而不只是已知分布风险时，会按 worst-case 重新决策。</div>
+            <div><b>直觉</b>危机里真正让市场冻结的常常不是“知道会亏多少”，而是不知道谁曝了什么、相关性怎么跳、历史经验还能不能用。</div>
+            <div><b>考试问法</b>常问为什么复杂证券化、交叉敞口或新型金融工具会在压力时触发 flight-to-quality/liquidity。</div>
+            <div><b>易错点</b>把 ambiguity 当成 risk 的同义词。这里强调的是不可量化、模型失灵和 stress testing 心态。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>5. Flight to Quality vs Flight to Liquidity</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>flight to quality</code> 是从高风险资产转向安全资产；<code>flight to liquidity</code> 是从难卖资产转向最容易变现的资产。</div>
+            <div><b>直觉</b>两者常同时发生，但不完全相同。一个强调 default / valuation risk，一个强调变现速度和冲击成本。</div>
+            <div><b>考试问法</b>会要求区分投资者是因为“怕亏”还是“怕卖不掉”而转去国债、现金或货币市场工具。</div>
+            <div><b>易错点</b>统称成“避险”就结束。考试常通过这两个术语区分你有没有真正理解 panic 的资产配置逻辑。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>6. Twin Crises and Currency Mismatch</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>twin crises</code> 指银行危机与货币危机同时爆发；<code>currency mismatch</code> 指负债是外币，而收入和资产主要是本币。</div>
+            <div><b>直觉</b>一旦本币贬值，外币债务的本币负担暴涨，企业和银行净值被同时打穿，危机从汇率市场传回金融系统。</div>
+            <div><b>考试问法</b>常用韩国 1997 或阿根廷 2001，要求写出从银行脆弱到 currency crisis，再到 full-fledged financial crisis 的链条。</div>
+            <div><b>易错点</b>只写“资本外逃导致贬值”。课程更强调 balance-sheet effect：汇率变动如何直接恶化 net worth。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>7. Beauty Contest and Overweighting Public Information</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>在 Keynesian beauty contest 里，参与者不是选自己最认同的价值，而是选“大家会觉得大家觉得什么”。</div>
+            <div><b>直觉</b>当回报取决于别人怎么想时，公共信号会被过度重视，私人信息被压低权重，价格更容易同步摆动。</div>
+            <div><b>考试问法</b>常问为什么理性投资者也会追逐 public signal、短期情绪或 consensus view。</div>
+            <div><b>易错点</b>把它归为非理性行为。这里恰恰是在理性框架下，coordination motive 让 public info 被 overweight。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>8. Limits to Arbitrage</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>即便 mispricing 明显存在，套利者也可能因为资金来源、保证金、客户赎回或短期考核而无法坚持到价格回归。</div>
+            <div><b>直觉</b>“你是对的，但你先死了”就是这条机制。价格偏离不必立即被纠正，甚至会先朝相反方向走得更远。</div>
+            <div><b>考试问法</b>常用 LTCM、predatory trading 或 panic selling 举例，问为什么 professional money managers 不能简单把 mispricing 买回来。</div>
+            <div><b>易错点</b>只背“套利有限”。高分答案要写清 funding constraint、redemption pressure 和 mark-to-market losses 如何逼迫提前平仓。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>必会公式 / 推导</h2>
+          <p class="section-note">模块 7 多数题偏机制解释，但有几条公式和关系式能帮你把逻辑说得更硬。</p>
+        </div>
+        <span class="badge">核心公式链</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>危机三阶段</strong>
+          <pre><code>Advanced economies:
+Stage 1: credit boom / asset boom / uncertainty shock
+Stage 2: banking crisis
+Stage 3: debt deflation
+
+Emerging economies:
+Stage 1: credit boom or fiscal imbalance
+Stage 2: currency crisis
+Stage 3: full-fledged financial crisis</code></pre>
+          <p>这是课上最常见的“叙事框架题”，要能按阶段展开。</p>
+        </div>
+        <div class="card">
+          <strong>Liquidity spiral 的口袋版链条</strong>
+          <pre><code>Negative shock
+→ asset price ↓
+→ net worth / capital ↓
+→ margin / haircut / VaR constraint tightens
+→ forced selling
+→ asset price further ↓</code></pre>
+          <p>记住：spiral 不是一次卖出，而是约束和价格的反复强化。</p>
+        </div>
+        <div class="card">
+          <strong>Repo 与 haircut</strong>
+          <pre><code>If asset value = 100
+and repo borrowing = 80
+
+Haircut = (100 - 80) / 100 = 20%
+
+Repo rate = (Y - X) / X</code></pre>
+          <p>haircut 上升就等于去杠杆压力上升，常是 margin spiral 的触发器。</p>
+        </div>
+        <div class="card">
+          <strong>Beauty contest 的直觉式</strong>
+          <pre><code>Social planner:
+ai = E_i(θ)
+
+Individual agents:
+ai puts too much weight on public signal y
+and too little on private signal x_i</code></pre>
+          <p>考试不一定让你精确推导，但要会写“public information is overweighted”。</p>
+        </div>
+        <div class="card">
+          <strong>Twin crisis 的链条</strong>
+          <pre><code>weak banks / fiscal stress
+→ inability to defend exchange rate
+→ devaluation
+→ foreign-currency debt burden in local currency ↑
+→ firm and bank net worth ↓
+→ adverse selection and moral hazard ↑</code></pre>
+          <p>这里的高频词是 <code>currency mismatch</code> 和 <code>balance-sheet effect</code>。</p>
+        </div>
+        <div class="card">
+          <strong>Limits to arbitrage 的操作链</strong>
+          <pre><code>mispricing persists
+→ arbitrageur marks losses before convergence
+→ clients redeem / lenders call margin
+→ arbitrage position unwound
+→ mispricing worsens</code></pre>
+          <p>这解释了为什么“市场错了”不等于你能靠纠错赚到钱。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1 道完整例题</h2>
+          <p class="section-note">下面用“twin crisis + liquidity spiral”的混合题，把模块 7 的多个机制压成一条清楚的答题链。</p>
+        </div>
+        <span class="badge">综合机制题</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>题目设定</strong>
+          <p>某新兴市场经济体经历了数年金融自由化和外资流入。银行大量以美元短债融资，再把资金贷给本币收入企业。随后美国利率上升，本国股市下跌，汇率承压，银行开始失去批发融资。说明为什么这可能演变成 <code>twin crisis</code>，并指出其中至少两个放大机制。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 1 步：先写初始脆弱性</strong>
+          <p>金融自由化和外资流入带来 credit boom。银行与企业杠杆上升，同时存在 <code>currency mismatch</code>：负债是美元，本币收入无法自然对冲。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 2 步：触发器出现</strong>
+          <p>外部利率上升使外部融资环境变差，资本开始撤离；股市和抵押品价格下跌又削弱企业与银行净值，adverse selection 和 moral hazard 加重。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 3 步：货币危机与银行危机互相咬合</strong>
+          <p>政府若为了保汇率而大幅加息，会压垮本已脆弱的银行与企业；若不加息，投机者预期贬值，currency crisis 更快发生。这时一旦本币贬值，外币债务的本币价值上升，银行和企业净值被进一步打击。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 4 步：放大机制 1，liquidity / margin spiral</strong>
+          <p>资产价格下跌导致 collateral value 下降，haircut 上升，融资约束收紧，被迫去杠杆和 fire sale 又继续压低价格。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 5 步：放大机制 2，ambiguity and panic</strong>
+          <p>市场参与者不知道谁的美元敞口最大、谁会先断供，于是按 worst-case 收缩头寸，形成 flight-to-quality 和 panic funding withdrawal。</p>
+        </div>
+
+        <div class="step">
+          <strong>标准结论</strong>
+          <p>这不是“汇率跌一点、银行亏一点”的线性故事，而是：<code>外部冲击 → 资产负债表恶化 → 汇率危机与银行危机相互强化 → fire sale / panic / credit contraction</code> 的非线性连锁反应。这就是 twin crisis 的核心。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组</h2>
+          <p class="section-note">先自己答，再展开。模块 7 的题往往不是算错，而是没有写出“放大器”。</p>
+        </div>
+        <span class="badge">3 判断 + 1 填空 + 1 小算题 + 1 迁移题</span>
+      </div>
+
+      <details>
+        <summary>判断题 1：只要基本面是好的，就不会发生 self-fulfilling panic 或 market run。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>在 coordination failure、funding fragility 或 ambiguity 很强时，panic 可以在基本面尚未完全恶化时先触发。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 2：flight to quality 和 flight to liquidity 是同一个概念，只是表达不同。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>两者常一起出现，但一个偏向信用/违约安全，一个偏向变现能力和交易冲击成本。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 3：如果市场存在明显低估，理性的套利者总能迅速买入并消除偏离。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>limits to arbitrage 表明 mispricing 可能先加深，资金约束和客户赎回会迫使套利者先出局。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>推导填空：若一项资产市值为 <code>100</code>，repo 可融到 <code>75</code>，则 haircut 为多少？</summary>
+        <div class="answer">
+          <pre><code>Haircut = (100 - 75) / 100 = 25%</code></pre>
+          <p>haircut 上升意味着同样仓位需要更多自有资金，去杠杆压力会更强。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>小算题：某银行外币负债为 100 美元，原汇率为 1，本币贬值后汇率升到 1.5。若其本币计负债额原本为多少、现在变成多少？</summary>
+        <div class="answer">
+          <pre><code>Original local-currency burden = 100 × 1 = 100
+After devaluation = 100 × 1.5 = 150</code></pre>
+          <p>这就是 currency mismatch 的核心：汇率变化直接打击本币资产负债表。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>迁移题：为什么在 beauty contest 环境下，即使每个人都理性，市场也可能过度跟随公共信号？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>因为回报不只取决于 fundamentals，还取决于别人怎么解读并交易。</p>
+          <p>当你必须预测“平均意见的平均意见”时，公共信号对协调别人行为最有用，所以会被过度加权。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">模块 7 的高频失分点，是你看到了冲击，却没写出中间那几步放大机制。</p>
+        </div>
+        <span class="badge">诊断模板</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果判断题错得多</strong>
+          <p>大概率卡在 <code>概念边界</code>，尤其是 risk vs ambiguity、flight to quality vs flight to liquidity、mispricing vs arbitrageable mispricing。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果你会讲危机历史但答不出机制</strong>
+          <p>大概率卡在 <code>链条表达</code>。任何危机题都应写成：触发器 → 资产负债表恶化 → 约束收紧 → 被迫反应 → 再次恶化。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果总把 twin crisis 说成单纯汇率问题</strong>
+          <p>大概率卡在 <code>balance-sheet effect</code>。必须写出外币负债在本币贬值后如何放大企业和银行脆弱性。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果总觉得“市场错了就该被套利修正”</strong>
+          <p>大概率卡在 <code>funding constraint intuition</code>。要记住 LTCM 式故事：你可能在长期是对的，但短期资金约束会先杀死你。</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        若你写危机题时只能列事件，不能画出反馈回路，这一块应记为 <span class="warn">待回炉</span>。模块 8 会回到央行与政策框架，恰好就是在问：面对这些放大器，政策该怎么压制它们。
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">模块 7 讲危机如何放大，模块 8 则转向：央行和货币政策如何在正常时期与危机时期改变利率、储备和长期资产价格。</p>
+        </div>
+        <span class="badge">Bridge to Module 8</span>
+      </div>
+      <div class="card">
+        <p>模块 8 会接着讨论中央银行、货币供给过程、policy tools、QE 以及中国债券与银行间市场。换句话说，模块 7 解释“为什么会炸”，模块 8 解释“政策当局如何稳住系统”。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

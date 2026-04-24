@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 3 复习</title>
+  <style>
+    :root {
+      --bg: #e9efe8;
+      --panel: rgba(249, 252, 247, 0.94);
+      --panel-strong: #fcfdf9;
+      --ink: #173033;
+      --muted: #5d6f72;
+      --accent: #1e6a5e;
+      --accent-soft: #dceee9;
+      --line: rgba(23, 48, 51, 0.14);
+      --good: #1c7252;
+      --warn: #8c5d1c;
+      --shadow: 0 18px 42px rgba(26, 43, 40, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(30, 106, 94, 0.16), transparent 34%),
+        radial-gradient(circle at top right, rgba(140, 93, 28, 0.10), transparent 28%),
+        linear-gradient(180deg, #f7fbf7 0%, var(--bg) 100%);
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(30, 106, 94, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+
+    h3 { font-size: 20px; }
+
+    p { margin: 0 0 12px; }
+
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-grid, .grid-2, .grid-3, .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .concept-list { grid-template-columns: 1fr; }
+
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+
+    .meta-card, .card, .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+
+    .concept-block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+    }
+
+    .concept-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .concept-meta div {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+
+    .concept-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .meta-card strong, .card strong, .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(30, 106, 94, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+
+    details + details { margin-top: 12px; }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(30, 106, 94, 0.28);
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .concept-meta { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 3 · HTML Review</div>
+          <h1>风险定价、预期与价格发现</h1>
+          <p class="lede">
+            这一模块回答两个更深的问题：第一，benchmark risky asset 自己为什么会有风险溢价；第二，二级市场价格为什么不只是“成交结果”，而是一个会吸收和传递信息的机制。你会从风险厌恶与 certainty equivalent 进入 <code>Grossman-Miller</code> 和 <code>Benhabib-Liu-Wang</code>，再推进到 <code>WE / REE / noisy REE</code>。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% 判断/解释</li>
+            <li>30% 计算/推导</li>
+            <li>Anchor: HW2 Q2</li>
+            <li>Mode: 混合互动</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>对应材料</strong>
+          <ul class="mini-list">
+            <li><code>Slides - 7.pdf</code></li>
+            <li><code>Teaching Notes - 5.pdf</code></li>
+            <li><code>Teaching Notes - 6.pdf</code></li>
+            <li><code>HW2/Assignment 2.pdf</code> Q2</li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：3</span>
+            <span class="badge">当前状态：进行中</span>
+            <span class="badge">下轮：模块 4</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">这一讲把前两讲的“给定折现率做估值”推进成“折现率和价格本身从哪里来”。</p>
+        </div>
+        <span class="badge">6 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>第一条线：风险为什么要补偿</strong>
+          <p>如果投资者 risk-averse，同样期望收益的 risky payoff 不如 certainty payoff 值钱，所以价格必须打折，对应未来 expected return 要更高。这个逻辑先在 <code>certainty equivalent</code> 里出现，再在 <code>Grossman-Miller</code> 和 <code>BLW</code> 里被模型化。</p>
+        </div>
+        <div class="card">
+          <strong>第二条线：价格不仅清算，还聚合信息</strong>
+          <p>二级市场的社会角色不是“让人买卖股票”这么简单，而是把分散在不同投资者手里的信息变成一个 price signal。价格如果能吸收信息，就会反过来影响 uninformed agents 的需求。</p>
+        </div>
+        <div class="card">
+          <strong>为什么这一讲承前启后</strong>
+          <p>模块 2 里你已经会用 fair return 折现；模块 3 进一步解释 fair return 的来源，也解释为什么 secondary market 对实体融资和资源配置真的重要。</p>
+        </div>
+        <div class="card">
+          <strong>考试最爱考什么</strong>
+          <p>高频并不是“背定义”，而是比较：<code>adaptive vs rational expectations</code>、<code>WE vs REE</code>、<code>fully revealing vs noisy price</code>，以及信号进入 posterior variance 后为什么会压低 risk premium。</p>
+        </div>
+        <div class="card">
+          <strong>你最容易卡在哪</strong>
+          <p>一是把 <code>expected return</code>、<code>risk-free rate</code> 和 <code>risk premium</code> 混在一起；二是知道 price contains information，但说不清 price 是如何被 agents 反过来用来更新 belief 的。</p>
+        </div>
+        <div class="card">
+          <strong>一句话抓住这讲</strong>
+          <p><span class="good">风险溢价来自风险厌恶，价格发现来自信息分散，二者一起决定“价格不只是数字，而是风险和信息的压缩表达”。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>核心概念</h2>
+          <p class="section-note">以下 8 组概念按“定义 / 直觉 / 考试问法 / 易错点”展开。模块 3 的重点是把机制说完整，而不是只记结论。</p>
+        </div>
+        <span class="badge">详细概念展开 8 组</span>
+      </div>
+      <div class="concept-list">
+        <div class="concept-block">
+          <h3>1. Risk Aversion vs Risk Neutrality</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>风险厌恶意味着面对同一期望 payoff，投资者更偏好确定收益；在效用层面对应 <code>U'' &lt; 0</code>，即效用函数凹。</div>
+            <div><b>直觉</b>坏状态下的一块钱比好状态下的一块钱更“值钱”，因为 marginal utility 在低消费状态更高。</div>
+            <div><b>考试问法</b>常见问法是“为什么 risky asset 必须提供 premium 才有人持有”或“为什么 certainty equivalent 低于 expected payoff”。</div>
+            <div><b>易错点</b>把 risk aversion 理解成“不买风险资产”。正确理解是：可以买，但要以更低价格买，也就是要求更高 expected return。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>2. Certainty Equivalent vs Risk Premium</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>CE</code> 是让投资者在效用上与随机 payoff 无差异的确定值；<code>RP = E(x~) - CE(x~)</code> 是为了承担风险而要求的补偿。</div>
+            <div><b>直觉</b>你不是把 risky payoff 当成它的均值来看，而是先扣掉“风险折扣”，留下 certainty equivalent 再去折现。</div>
+            <div><b>考试问法</b>常见于“先 remove risk，再用 <code>Rf</code> discount”的解释题，或者问 risk aversion 上升时 CE、price、premium 如何变。</div>
+            <div><b>易错点</b>把 risk premium 当成纯 return 概念。课程里它既可能以 value 形式出现，也可能以 log return 形式出现。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>3. Grossman-Miller Price Decomposition</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>在 <code>Grossman-Miller</code> 模型里，风险资产价格可写成“expected payoff 的折现值减去 risk discount”。风险折扣和供给、风险厌恶、方差都正相关。</div>
+            <div><b>直觉</b>风险资产供给越多，市场必须吸收的 aggregate risk 越大；若投资者越怕风险或 payoff 越波动，价格就必须更低。</div>
+            <div><b>考试问法</b>会让你解释价格为什么受 <code>expected payoff</code>、<code>variance</code>、<code>risk aversion</code>、<code>supply</code> 和 <code>Rf</code> 共同影响。</div>
+            <div><b>易错点</b>只记“price decreases with variance”，但忘记这是一般 equilibrium 结果，不是机械公式；经济含义是持有风险需要补偿。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>4. Expected Return vs Risk-Free Rate vs Risk Premium</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>Expected return</code> 是风险资产的平均回报；<code>Rf</code> 是确定回报；<code>risk premium</code> 是二者差额，或者在讲义里用 log return 表达成 <code>ln E(R~) - ln Rf</code>。</div>
+            <div><b>直觉</b>风险资产的 expected return 高，不是因为它“更好”，而是因为它更难持有。</div>
+            <div><b>考试问法</b>会让你在 <code>BLW</code> 模型中分别求 <code>E(R~)</code>、<code>Rf</code> 和 premium，并解释 signal 出现后哪个环节变了。</div>
+            <div><b>易错点</b>只会算一个数，不会分解。要先问：这是 conditional expectation 变了，还是 conditional variance 变了，还是两者都变了？</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>5. Adaptive Expectations vs Rational Expectations</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>adaptive expectations</code> 主要靠过去数据慢慢修正；<code>rational expectations</code> 用所有可得信息形成 optimal forecast。</div>
+            <div><b>直觉</b>金融市场里信息更新快、激励强，所以“只看过去”通常过慢；人们会立刻把新政策、新数据和新消息映射进预期。</div>
+            <div><b>考试问法</b>常见题型是比较两者在政策 regime 改变或新闻冲击到来时，谁更快调整预期。</div>
+            <div><b>易错点</b>把 rational expectations 误解成“永远预测正确”。正确说法是：给定 available information，它是最优预测，但仍然会有不可预见误差。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>6. Walrasian Equilibrium vs Rational Expectations Equilibrium</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>WE</code> 里 agents 把 price 只当预算约束的一部分；<code>REE</code> 里 agents 还会把 price 当作信息载体，用来反推别人掌握的 private signal。</div>
+            <div><b>直觉</b>如果 informed trader 的 signal 会影响价格，那么 uninformed trader 看到价格后就不应该继续像“什么都不知道”那样下单。</div>
+            <div><b>考试问法</b>常考“为什么 WE 在信息不对称下不够好”和“REE 比 WE 多考虑了什么”。</div>
+            <div><b>易错点</b>以为两者只差一个名词。关键差别不在 market clearing，而在 uninformed 是否从价格学习。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>7. Fully Revealing REE vs Noisy REE</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>无噪音时，价格可能 fully reveal informed signal；引入随机供给或 noise trader 后，价格同时反映 information shock 和 noise shock，于是变成 <code>noisy REE</code>。</div>
+            <div><b>直觉</b>如果价格完全透明，uninformed 就能免费搭车，Grossman-Stiglitz 式的信息采集激励会出问题；noise 让价格不再完全说真话。</div>
+            <div><b>考试问法</b>常见问法是“为什么要引入 noise”以及“noisy REE 如何缓解 free-riding / GS paradox”。</div>
+            <div><b>易错点</b>把 noise 理解成“模型瑕疵”。这里的 noise 是必要机制，它让 informed 和 uninformed 的表现重新拉开。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>8. Price Discovery vs Trend-Chasing</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>price discovery 是价格吸收分散信息的过程；但现实中 uninformed agents 面对不完全可识别的价格信号时，可能出现“买涨卖跌”的追价行为。</div>
+            <div><b>直觉</b>价格上涨既可能是真消息，也可能只是噪音或流动性冲击。若你分不清，价格本身就会影响你的 demand。</div>
+            <div><b>考试问法</b>会问“为什么金融资产需求曲线可能向上倾斜”或“为什么 uninformed 在 noisy price 下会顺着价格走”。</div>
+            <div><b>易错点</b>用普通微观需求曲线直觉硬套金融市场。资产需求不一定向下斜，因为 price 本身带信息。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>必会公式 / 推导</h2>
+          <p class="section-note">只保留这讲最常用的公式链。真正要会的是“每个式子在讲什么”。</p>
+        </div>
+        <span class="badge">核心公式链</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>风险厌恶与 certainty equivalent</strong>
+          <pre><code>Risk aversion:
+U''(x) &lt; 0
+
+Certainty equivalent:
+U(CE(x~)) = E[U(x~)]
+
+Risk premium in value:
+RP = E(x~) - CE(x~)</code></pre>
+          <p>要点：<code>CE &lt; E(x~)</code> 不是算术技巧，而是对风险的折扣。</p>
+        </div>
+        <div class="card">
+          <strong>Grossman-Miller 价格与 expected return</strong>
+          <pre><code>x~ ~ N(μ, σ²)
+
+p = [μ - (y/n) α σ²] / Rf
+
+E(R~) = μ / p
+       = Rf + [y α σ² / (n p)]</code></pre>
+          <p>结构解释：<code>μ</code> 拉高价格，<code>σ²</code>、<code>α</code>、<code>y</code> 压低价格，从而抬高 expected return。</p>
+        </div>
+        <div class="card">
+          <strong>BLW 无信号时</strong>
+          <pre><code>ln R~ = r~ ~ N(μ, σ²)
+utility parameter: η &lt; 1
+
+E(R~) = exp(μ + 0.5σ²)
+
+Rf = E(R~^η) / E(R~^(η-1))
+ln Rf = μ + 0.5(2η - 1)σ²
+
+Risk premium in log return:
+ln E(R~) - ln Rf = (1 - η)σ²</code></pre>
+          <p>结论：风险越大、风险厌恶越强，premium 越高。</p>
+        </div>
+        <div class="card">
+          <strong>BLW 加信号后</strong>
+          <pre><code>Signal:
+θ~ = r~ + e~,  e~ ~ N(0, σ²_θ)
+
+Posterior mean:
+m(θ) = E[r~ | θ]
+     = μ + β(θ - μ)
+β = σ² / (σ² + σ²_θ)
+
+Posterior variance:
+v = Var(r~ | θ)
+  = σ²σ²_θ / (σ² + σ²_θ)
+
+Conditional expected gross return:
+E(R~ | θ) = exp(m(θ) + 0.5v)
+
+Conditional risk-free rate:
+ln Rf(θ) = m(θ) + 0.5(2η - 1)v
+
+Conditional risk premium:
+ln E(R~ | θ) - ln Rf(θ) = (1 - η)v</code></pre>
+          <p>关键信息：signal 通过降低 posterior variance <code>v</code> 来压低 premium。</p>
+        </div>
+        <div class="card">
+          <strong>信息模型中的 posterior 与 demand</strong>
+          <pre><code>Dividend signal:
+s = d + ε
+β_s = σ² / (σ² + σ²_ε)
+
+E(d | s) = d̄ + β_s(s - d̄)
+Var(d | s) = σ²σ²_ε / (σ² + σ²_ε)
+
+Uninformed demand in WE:
+x_U(p) = [d̄ - (1+r)p] / (ασ²)
+
+Informed demand:
+x_I(p) = [E(d|s) - (1+r)p] / [α Var(d|s)]</code></pre>
+          <p>先验、posterior、demand 三步必须能连起来。</p>
+        </div>
+        <div class="card">
+          <strong>REE 的识别点</strong>
+          <pre><code>REE:
+agents condition on private signal + price
+
+WE:
+agents condition on private signal only
+
+Noisy REE:
+price = information component + noise component</code></pre>
+          <p>考试里往往不用你把 noisy REE 全推完，但一定要会解释 price 为什么不再 fully revealing。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1 道完整例题</h2>
+          <p class="section-note">下面这道题是 <code>HW2 Q2</code> 的压缩同构版，核心是“加 signal 后，posterior mean 和 posterior variance 同时变化，但 premium 只吃 variance”。</p>
+        </div>
+        <span class="badge">作业同构题</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>题目设定</strong>
+          <p>设 <code>ln R~ = r~ ~ N(μ, σ²)</code>，其中 <code>μ = 0.02</code>、<code>σ² = 0.04</code>。投资者有参数 <code>η = 0.7</code>。现在投资者额外观察到信号 <code>θ~ = r~ + e~</code>，其中 <code>e~ ~ N(0, 0.04)</code>，并在本次 realizations 中看到 <code>θ = 0.10</code>。求 <code>E(R~ | θ)</code>、<code>Rf(θ)</code> 和 risk premium。</p>
+        </div>
+        <div class="step">
+          <strong>第 1 步：先做 Bayes 更新</strong>
+          <p>先验方差和 signal noise variance 相同，所以</p>
+          <pre><code>β = 0.04 / (0.04 + 0.04) = 0.5
+
+m(θ) = 0.02 + 0.5(0.10 - 0.02)
+     = 0.06
+
+v = 0.04 × 0.04 / (0.04 + 0.04)
+  = 0.02</code></pre>
+          <p>解释：看见一个偏高的 signal 后，posterior mean 上调；同时因为多拿到了一条信息，posterior variance 从 <code>0.04</code> 降到 <code>0.02</code>。</p>
+        </div>
+        <div class="step">
+          <strong>第 2 步：算 conditional expected gross return</strong>
+          <pre><code>E(R~ | θ) = exp(m + 0.5v)
+          = exp(0.06 + 0.01)
+          = exp(0.07)
+          ≈ 1.0725</code></pre>
+          <p>这里 <code>0.5v</code> 来自 lognormal 的均值修正项，不要漏掉。</p>
+        </div>
+        <div class="step">
+          <strong>第 3 步：算 conditional risk-free rate</strong>
+          <pre><code>ln Rf(θ) = m + 0.5(2η - 1)v
+         = 0.06 + 0.5(1.4 - 1) × 0.02
+         = 0.06 + 0.004
+         = 0.064
+
+Rf(θ) = exp(0.064) ≈ 1.0661</code></pre>
+          <p>风险厌恶通过 <code>(1 - η)</code> 进入 premium。<code>η</code> 越低，risk-free rate 就越被往下压。</p>
+        </div>
+        <div class="step">
+          <strong>第 4 步：算 risk premium，并与无信号情形比较</strong>
+          <pre><code>Conditional premium in log return:
+ln E(R~ | θ) - ln Rf(θ)
+= 0.07 - 0.064
+= 0.006
+
+No signal premium:
+(1 - η)σ² = 0.3 × 0.04 = 0.012</code></pre>
+          <p>比较结果：加 signal 后 premium 从 <code>0.012</code> 降到 <code>0.006</code>。原因不是投资者突然不怕风险了，而是信息让风险从“不可分辨”变成“更可分辨”，即 posterior variance 降低。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组</h2>
+          <p class="section-note">先自己答，再展开答案。建议直接在纸上写出关键词，不要只在脑子里过一遍。</p>
+        </div>
+        <span class="badge">3 判断 + 1 填空 + 1 小算题 + 1 迁移题</span>
+      </div>
+
+      <details>
+        <summary>判断题 1：若市场满足 rational expectations，就代表价格永远等于真实基本面，没有预测误差。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p><code>Rational expectations</code> 的意思是“给定全部可得信息，预测是最优的”，不是“永远无误”。仍然会有不可预见的新冲击。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 2：在信息不对称模型中，WE 的关键缺陷是 uninformed agents 没有利用价格去反推 informed agents 的信息。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>这正是 <code>REE</code> 相比 <code>WE</code> 增加的核心：price 不仅进 budget constraint，也进 belief updating。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 3：加入噪音后，价格一定更没有用，所以 noisy REE 只是更差的均衡概念。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>噪音让价格不再 fully revealing，但也正因为如此，信息采集才重新有价值，uninformed 才不能完全免费搭车。noisy REE 更贴近现实，也缓解了信息市场的悖论。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>推导填空：若 <code>θ~ = r~ + e~</code>，且 <code>r~ ~ N(μ, σ²)</code>、<code>e~ ~ N(0, σ²_θ)</code>，则 posterior mean 和 posterior variance 分别为？</summary>
+        <div class="answer">
+          <pre><code>E[r~ | θ] = μ + [σ² / (σ² + σ²_θ)](θ - μ)
+
+Var(r~ | θ) = σ²σ²_θ / (σ² + σ²_θ)</code></pre>
+          <p>先把权重 <code>β = σ² / (σ² + σ²_θ)</code> 单独写出来，后面更不容易错。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>小算题：设无信号情形下 <code>η = 0.6</code>、<code>σ² = 0.09</code>。求 <code>ln E(R~) - ln Rf</code>。</summary>
+        <div class="answer">
+          <pre><code>Risk premium = (1 - η)σ²
+             = 0.4 × 0.09
+             = 0.036</code></pre>
+          <p>这题最常见错误是把 <code>η</code> 直接当 risk premium 系数，而不是先做 <code>1 - η</code>。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>迁移题：如果 signal 变得更精准，也就是 <code>σ²_θ</code> 下降，会先影响 <code>posterior mean</code>、<code>posterior variance</code>、还是两者都影响？risk premium 会怎样变？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>两者都受影响，但考试最重要的是看到 <code>posterior variance</code> 明确下降。</p>
+          <p><code>σ²_θ</code> 下降时，权重 <code>β</code> 上升，posterior mean 对 signal 更敏感；同时 <code>v = σ²σ²_θ/(σ² + σ²_θ)</code> 下降。由于 premium 取决于 <code>(1 - η)v</code>，所以 risk premium 下降。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">做完互动题后，先定位自己是卡在“概念层”还是“推导层”。</p>
+        </div>
+        <span class="badge">诊断模板</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果判断题错得多</strong>
+          <p>大概率卡在 <code>概念边界</code>。重点回看 <code>adaptive vs rational expectations</code>、<code>WE vs REE</code>、<code>fully revealing vs noisy</code>，不要只记名词。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果公式会背但填空写不完整</strong>
+          <p>大概率卡在 <code>变量映射</code>。先把 prior mean、signal noise、posterior variance 三层写清，再代入回报公式。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果计算方向对但最后数字错</strong>
+          <p>大概率卡在 <code>lognormal 修正项</code>，尤其是漏掉 <code>0.5v</code> 或把 <code>0.5(2η-1)v</code> 算错。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会算但不会解释经济含义</strong>
+          <p>大概率卡在 <code>经济直觉</code>。你要能说出：“signal 的作用不是直接让风险偏好变了，而是让 uncertainty 下降，所以 required compensation 下降。”</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        若同一类错误重复两次，这一块就该进入 <span class="warn">待回炉</span>。模块 4 会继续沿着“信息摩擦”往融资结构推进，所以这里的边界必须稳住。
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">信息为什么能进价格，下一步就会变成：信息不对称为什么会改变融资合同的形状。</p>
+        </div>
+        <span class="badge">Bridge to Module 4</span>
+      </div>
+      <div class="card">
+        <p>模块 4 会从这里直接进入 <code>adverse selection</code>、<code>equity vs debt under asymmetric information</code>、<code>asset substitution</code> 和 <code>debt overhang</code>。换句话说，模块 3 讲“市场如何处理信息”，模块 4 讲“融资合同如何被信息摩擦扭曲”。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

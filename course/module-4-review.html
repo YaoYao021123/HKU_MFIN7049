@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 4 复习</title>
+  <style>
+    :root {
+      --bg: #f0ece4;
+      --panel: rgba(253, 249, 244, 0.94);
+      --panel-strong: #fffdfa;
+      --ink: #1e2d2f;
+      --muted: #617072;
+      --accent: #8a4a1f;
+      --accent-soft: #f1dfd1;
+      --line: rgba(30, 45, 47, 0.14);
+      --good: #1d6b50;
+      --warn: #8c5a12;
+      --shadow: 0 18px 42px rgba(36, 28, 17, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(138, 74, 31, 0.14), transparent 34%),
+        radial-gradient(circle at top right, rgba(29, 107, 80, 0.10), transparent 28%),
+        linear-gradient(180deg, #faf6ef 0%, var(--bg) 100%);
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(138, 74, 31, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+
+    h3 { font-size: 20px; }
+
+    p { margin: 0 0 12px; }
+
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-grid, .grid-2, .grid-3, .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .concept-list { grid-template-columns: 1fr; }
+
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+
+    .meta-card, .card, .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+
+    .concept-block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+    }
+
+    .concept-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .concept-meta div {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+
+    .concept-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .meta-card strong, .card strong, .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(138, 74, 31, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+
+    details + details { margin-top: 12px; }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(138, 74, 31, 0.28);
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .concept-meta { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 4 · HTML Review</div>
+          <h1>融资结构与逆向选择</h1>
+          <p class="lede">
+            这一模块开始回答“为什么现实融资结构会长成 debt-heavy，而不是大家都直接发 equity”。核心线索是：信息不对称会先扭曲融资选择，再通过 <code>asset substitution</code> 和 <code>debt overhang</code> 扭曲投资选择。所以模块 4 一半在讲 <code>adverse selection</code>，另一半在讲债务引发的 ex post 偏离。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% 判断/解释</li>
+            <li>30% 计算/推导</li>
+            <li>Anchor: Teaching Notes-2 + Notes 7</li>
+            <li>Mode: 混合互动</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>对应材料</strong>
+          <ul class="mini-list">
+            <li><code>Slides - 8.pdf</code></li>
+            <li><code>Teaching Notes-2.pdf</code></li>
+            <li><code>Teaching Notes - 7.pdf</code></li>
+            <li><code>HW2/Assignment 2.pdf</code> Q1 as bridge</li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：4</span>
+            <span class="badge">当前状态：进行中</span>
+            <span class="badge">下轮：模块 5</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">这一讲的任务不是背“银行更重要、证券市场没那么重要”，而是理解背后的 friction。</p>
+        </div>
+        <span class="badge">6 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>第一步：为什么 external finance 不会自动高效</strong>
+          <p>如果投资者看不清发行人类型，证券价格会按平均质量定价。这样好项目会被低估，坏项目会被高估，融资和投资决策都会失真。</p>
+        </div>
+        <div class="card">
+          <strong>第二步：为什么 equity 更容易出问题</strong>
+          <p>股权 payoff 对 firm quality 更敏感，所以在 adverse selection 下更容易被 mispricing。课程里的核心结论是：<code>equity is more information-sensitive than debt</code>。</p>
+        </div>
+        <div class="card">
+          <strong>第三步：为什么 debt 也不是完美答案</strong>
+          <p>债务虽然能更好地区分 good type 和 bad type，但它会在拿到钱之后改变股东激励，比如诱发 risk-shifting，或者让股东拒绝 positive-NPV project。</p>
+        </div>
+        <div class="card">
+          <strong>因此要同时看 ex ante 和 ex post</strong>
+          <p><code>adverse selection</code> 是交易前 hidden type，问“谁会进市场”；<code>asset substitution</code> 和 <code>debt overhang</code> 是交易后或合同存在后的偏离，问“拿到钱后会怎么做”。</p>
+        </div>
+        <div class="card">
+          <strong>为什么银行和中介重要</strong>
+          <p>不是因为它们“天然更强”，而是因为 screening、monitoring、collateral 和 covenant 能把信息摩擦和激励扭曲压下来。</p>
+        </div>
+        <div class="card">
+          <strong>一句话抓住这讲</strong>
+          <p><span class="good">金融结构不是随便设计的，debt、intermediation、collateral 和 covenants 都是在跟信息不对称和激励偏离做交易。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>核心概念</h2>
+          <p class="section-note">模块 4 最容易混的是“融资前的信息问题”和“融资后的激励问题”。下面按边界展开。</p>
+        </div>
+        <span class="badge">详细概念展开 8 组</span>
+      </div>
+      <div class="concept-list">
+        <div class="concept-block">
+          <h3>1. Adverse Selection vs Moral Hazard</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>adverse selection</code> 发生在交易前，是 hidden type；<code>moral hazard</code> 发生在交易后，是 hidden action。</div>
+            <div><b>直觉</b>前者是“我不知道你是什么类型”，后者是“我给了你钱后，不知道你会怎么做”。</div>
+            <div><b>考试问法</b>常考“某个现象属于哪类 friction”，或让你解释为什么 screening 属于 ex ante、monitoring 属于 ex post。</div>
+            <div><b>易错点</b>看到“借款人有激励做坏事”就一律写 moral hazard。若重点是借款人类型不可见，应先判定 adverse selection。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>2. Pooling vs Separating Equilibrium</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>pooling</code> 是不同类型选择同一行动，市场按平均质量定价；<code>separating</code> 是不同类型采取不同动作，使市场能区分。</div>
+            <div><b>直觉</b>pooling 的核心不是“大家都一样”，而是“外部人看不出差异，只能按平均值付钱”。</div>
+            <div><b>考试问法</b>给 belief 和 pricing rule，问哪些 belief 能 self-fulfill，或问好类型有没有激励 mimic 坏类型。</div>
+            <div><b>易错点</b>只看结果，不检查 belief consistency。均衡必须让给定 belief 下的最优行为反过来支持 belief。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>3. Equity Is More Information-Sensitive Than Debt</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>股权 payoff 更依赖 firm quality 和 upside distribution；债权 payoff 往往被 face value 封顶，所以对类型差异没那么敏感。</div>
+            <div><b>直觉</b>当外部人搞不清 firm 是 good 还是 bad 时，equity 被平均定价更容易让 good type 觉得吃亏，从而退出或改走 debt。</div>
+            <div><b>考试问法</b>常见题是“为什么 equity financing 更容易导致 pooling 和 misallocation”，以及“为什么 debt 更能实现 separating equilibrium”。</div>
+            <div><b>易错点</b>把“debt 更好”理解成绝对命题。它只是说在某些 adverse selection 环境下，debt 对信息更不敏感，不代表它没有后续激励成本。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>4. Wealth Reallocation Under Information Asymmetry</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>在 pooling 定价下，好类型往往被低估、坏类型被高估，导致价值在不同类型之间转移。</div>
+            <div><b>直觉</b>平均价格像一种交叉补贴：bad type 被“补贴”，good type 被“抽税”。</div>
+            <div><b>考试问法</b>会让你比较 no-friction benchmark 与 asymmetric information equilibrium 下，good 和 bad owner 的 NPV 如何变化。</div>
+            <div><b>易错点</b>只看社会总 surplus，而忘了写 distributional effect。课程非常强调 wealth reallocation。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>5. Asset Substitution / Risk-Shifting</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>已有债务时，股东可能偏好更高波动、更偏向 upside 的项目，即使 firm value 更低，因为 downside 更多由债权人承担。</div>
+            <div><b>直觉</b>股东像持有一个 call option。风险上升会把部分价值从债权人转给股东。</div>
+            <div><b>考试问法</b>给两个项目，一个 NPV 更高但更稳，另一个 NPV 更低但波动更大，问拿到贷款后的股东会选哪个。</div>
+            <div><b>易错点</b>只比较 project NPV。题目真正问的往往不是 firm value 最大化，而是 shareholder payoff 最大化。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>6. Debt Overhang / Underinvestment</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>当已有债务在位时，新增 positive-NPV project 的大部分收益可能流向旧债，导致股东拒绝本应接受的项目。</div>
+            <div><b>直觉</b>股东要掏新增成本，但边际收益先去填旧债的坑，于是“从 firm 看值得做，从 equity 看不值得做”。</div>
+            <div><b>考试问法</b>常见题型是比较 project 的 true return、firm-perspective cost 和 equity-perspective cost。</div>
+            <div><b>易错点</b>看到 positive NPV 就直接说“应该投”。要先看题目目标函数是 maximization of firm value 还是 equity value。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>7. Collateral / Net Worth / Covenants</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>抵押品、净值和限制性条款是债务合同中缓解 adverse selection 和后续激励偏离的工具。</div>
+            <div><b>直觉</b>让借款人“有皮肤在游戏里”，并限制其事后转向不利于债权人的行为。</div>
+            <div><b>考试问法</b>会问为什么现实中的 debt contract 很复杂，为什么 collateral 和 covenant 普遍存在。</div>
+            <div><b>易错点</b>把这些工具当成纯法律细节。它们在课程里的地位是经济学机制，不是制度背景补充。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>8. Indirect Finance and Financial Intermediation</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>现实中企业更多通过金融中介间接融资，而不是直接到证券市场融资。</div>
+            <div><b>直觉</b>中介之所以存在，不是中转一下钱，而是集中做 screening、monitoring 和 contract enforcement，降低信息成本。</div>
+            <div><b>考试问法</b>常与 “eight facts” 联动，要求解释为什么 banks 是主要外部融资来源、为什么证券市场并非大多数企业的融资主渠道。</div>
+            <div><b>易错点</b>把它写成经验事实背诵题。更高分的写法是：用 transaction cost + asymmetric information 一起解释。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>必会公式 / 推导</h2>
+          <p class="section-note">模块 4 的公式不多，但每个式子都在区分“firm value、debt value、equity value、owner payoff”。</p>
+        </div>
+        <span class="badge">核心公式链</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>Pooling 定价的基本框架</strong>
+          <pre><code>Outside funding needed = I - internal funds
+
+Pooling equity share α:
+α × E(V | pool) = outside funding
+
+Owner payoff if invest:
+(1 - α)E(V_type) - internal funds</code></pre>
+          <p>先用市场 belief 定价，再回头检查 good / bad type 是否真的会选择进入。</p>
+        </div>
+        <div class="card">
+          <strong>Debt 定价的基本框架</strong>
+          <pre><code>Debt payoff = min(K, C~)
+
+Competitive pricing:
+E[min(K, C~) | belief] = loan amount
+
+Owner payoff under debt:
+E[max(C~ - K, 0)] - internal funds</code></pre>
+          <p>债务的 separating 之所以容易出现，是因为 bad type 在给定 <code>K</code> 下 often cannot profitably mimic.</p>
+        </div>
+        <div class="card">
+          <strong>Asset substitution 的比较对象</strong>
+          <pre><code>Firm value:
+E(C~) - I
+
+Equity value under debt face value K:
+E[max(C~ - K, 0)]
+
+Debt value:
+E[min(K, C~)]</code></pre>
+          <p>题目若问“贷款后股东会选哪个项目”，核心是比较 <code>E[max(C~-K,0)]</code>，不是比较 NPV。</p>
+        </div>
+        <div class="card">
+          <strong>Debt overhang 的识别</strong>
+          <pre><code>Accept project if from firm perspective:
+NPV_project &gt; 0
+
+But equity accepts only if:
+ΔEquity value &gt; equity contribution
+
+If most ΔFirm value goes to old debt:
+shareholders may reject</code></pre>
+          <p>一句话：positive NPV 并不保证 positive NPV to equity.</p>
+        </div>
+        <div class="card">
+          <strong>New debt issuance and wealth transfer</strong>
+          <pre><code>New debt proceeds = market value of new debt
+
+After equal-priority issuance:
+Old debt payoff may change
+Remaining equity value may change
+
+Repurchase setup:
+n × share price = proceeds of new debt</code></pre>
+          <p>额外发债并回购股票，常常让股价跳升，因为价值从旧债或新债定价结构中转移到股东。</p>
+        </div>
+        <div class="card">
+          <strong>答题顺序模板</strong>
+          <pre><code>1. 先算 benchmark/social optimum
+2. 再用 belief or contract pricing 求 α / K
+3. 分别算 good / bad 或 A / B 的 owner payoff
+4. 检查谁进入市场、谁模仿谁
+5. 最后写 social inefficiency + wealth transfer</code></pre>
+          <p>如果你直接跳到“结论是 debt better”，通常会丢掉大量过程分。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1 道完整例题</h2>
+          <p class="section-note">下面用 <code>Teaching Notes-2</code> 和 <code>HW2 Q1</code> 同构的 risk-shifting 题，把“为什么股东会选坏项目”写完整。</p>
+        </div>
+        <span class="badge">作业同构题</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>题目设定</strong>
+          <p>公司有两个项目 <code>A</code> 和 <code>B</code>，各需投资 <code>60</code>。状态等概率。</p>
+          <pre><code>Project A cash flow: 100, 80, 40
+Project B cash flow: 120, 50, 0</code></pre>
+          <p>贴现率为 0，银行按“公司会投 higher-NPV project”放贷，且提供全部融资。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 1 步：先算 social benchmark</strong>
+          <pre><code>NPV(A) = (100 + 80 + 40)/3 - 60 = 13.33
+NPV(B) = (120 + 50 + 0)/3 - 60 = -3.33</code></pre>
+          <p>所以从 firm / society 角度看，应该投 <code>A</code>，而不是 <code>B</code>。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 2 步：银行若相信会投 A，应要求什么 face value</strong>
+          <p>银行要 break even，所以债务 payoff 期望要等于贷款额 60。</p>
+          <pre><code>Under A:
+E[min(F, C_A)] = 60
+
+If F is between 40 and 80:
+(F + F + 40)/3 = 60
+2F + 40 = 180
+F = 70</code></pre>
+          <p>所以银行至少会要求 <code>F = 70</code>。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 3 步：贷款拿到后，股东会选哪个项目</strong>
+          <pre><code>Equity under A:
+[(100-70) + (80-70) + 0]/3 = 13.33
+
+Equity under B:
+[(120-70) + 0 + 0]/3 = 16.67</code></pre>
+          <p>股东会转去投 <code>B</code>。原因不是 <code>B</code> 更好，而是它把 downside 更多留给债权人，upside 更多留给股东。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 4 步：银行若能预见这一点，会不会放贷</strong>
+          <p>若银行知道股东最终会投 <code>B</code>，它必须按 <code>B</code> 来定价债务：</p>
+          <pre><code>Under B:
+E[min(F, C_B)] = 60
+
+If F is between 50 and 120:
+(F + 50 + 0)/3 = 60
+F + 50 = 180
+F = 130</code></pre>
+          <p>得到的 face value 太高，项目对股东不再可行，融资本身可能就做不成。</p>
+        </div>
+
+        <div class="step">
+          <strong>结论怎么写才像考试答案</strong>
+          <p>标准写法应包含三句：</p>
+          <p>1. <code>A</code> 是 higher-NPV project，社会上应投 <code>A</code>。</p>
+          <p>2. 有债务后股东最大化的是 <code>equity value</code>，因此会转向更 risky 的 <code>B</code>。</p>
+          <p>3. 这会降低债务价值、提高股东的 option-like value，形成 <code>asset substitution / risk-shifting</code>，导致 inefficiency。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组</h2>
+          <p class="section-note">先自己答，再展开。模块 4 关键不是背结论，而是看你会不会按“belief → pricing → incentive → equilibrium”走。</p>
+        </div>
+        <span class="badge">3 判断 + 1 填空 + 1 小算题 + 1 迁移题</span>
+      </div>
+
+      <details>
+        <summary>判断题 1：在 adverse selection 下，只要有 pooling equilibrium，就说明资源配置一定是有效的。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>pooling 可能意味着 bad type 也被融资，或者 good type 被低估。即使交易发生了，也可能有 misallocation 和 wealth transfer。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 2：债务比股权更不 information-sensitive，因此在某些 hidden-type 环境下更容易支持 separating equilibrium。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>这是本模块最核心的 comparative statics 之一，也是 Myers-Majluf 逻辑的底层直觉。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 3：若一个项目是 positive NPV，股东一定愿意接受它。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>若新增价值主要流向 old debt，股东可能因为 <code>ΔEquity</code> 不够而拒绝，这就是 debt overhang。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>推导填空：在 equity pooling 融资中，若外部投资者投入金额为 <code>X</code>，pool 下 firm value 的期望为 <code>E(V|pool)</code>，则卖给外部投资者的股权比例 <code>α = ?</code></summary>
+        <div class="answer">
+          <pre><code>α = X / E(V | pool)</code></pre>
+          <p>后面 owner payoff 再写成 <code>(1-α)E(V_type) - internal funds</code>。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>小算题：某项目在两种状态下现金流分别为 <code>100</code> 和 <code>20</code>，各概率 0.5。若已承诺债务 face value <code>K=60</code>，求 equity value。</summary>
+        <div class="answer">
+          <pre><code>Equity payoff = max(100-60, 0) and max(20-60, 0)
+             = 40 and 0
+
+Equity value = 0.5 × 40 + 0.5 × 0 = 20</code></pre>
+          <p>这种题是在训练你把目标函数从 firm value 切换到 equity value。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>迁移题：如果企业能提供更多 collateral 或银行能更强地 monitor，模块 4 里的哪几个问题会被缓解？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>至少会缓解两类问题。</p>
+          <p>一是 ex ante 的 adverse selection，因为更高净值和抵押品能帮助区分类型；二是 ex post 的 risk-shifting，因为 borrower 偏离的成本变高，covenant/monitoring 也更容易约束项目替换。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">做完模块 4 后，先检查自己到底卡在“均衡识别”还是“payoff 计算”。</p>
+        </div>
+        <span class="badge">诊断模板</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果判断题错得多</strong>
+          <p>大概率卡在 <code>概念边界</code>，尤其是把 adverse selection 和 moral hazard 混掉，或把 pooling/ separating 只当口头标签。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会算 face value 但结论写反</strong>
+          <p>大概率卡在 <code>目标函数识别</code>。题目问的是 firm、bank 还是 shareholder，答案会完全不同。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果知道会 wealth transfer，但说不清转给谁</strong>
+          <p>大概率卡在 <code>payoff decomposition</code>。要把 <code>firm / debt / equity / owner</code> 四层拆开写。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会算不会解释</strong>
+          <p>大概率卡在 <code>经济直觉</code>。模块 4 的高分答案都要写出：谁被高估、谁被低估、谁有激励偏离、为什么这会造成社会无效率。</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        若你反复把 <code>positive NPV</code> 直接等同于“股东会接受”，这一点应进入 <span class="warn">待回炉</span>，因为模块 5 还会继续考激励相容。
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">模块 4 处理的是融资前 hidden type 和债务带来的偏离；模块 5 会更系统地进入 hidden action 与契约设计。</p>
+        </div>
+        <span class="badge">Bridge to Module 5</span>
+      </div>
+      <div class="card">
+        <p>模块 5 会把注意力进一步聚焦到 <code>moral hazard</code>、<code>incentive compatibility</code> 和 “为什么某些环境下 debt 比 equity 更能逼出 effort”。也就是说，模块 4 是“信息不对称怎样扭曲融资结构”，模块 5 是“合同怎样重建正确行为”。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

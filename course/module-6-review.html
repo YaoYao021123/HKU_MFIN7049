@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 6 复习</title>
+  <style>
+    :root {
+      --bg: #eef0e7;
+      --panel: rgba(251, 252, 247, 0.94);
+      --panel-strong: #fefefb;
+      --ink: #1d2d2f;
+      --muted: #607071;
+      --accent: #5a6f24;
+      --accent-soft: #e9efd5;
+      --line: rgba(29, 45, 47, 0.14);
+      --good: #1d6b50;
+      --warn: #8c5a12;
+      --shadow: 0 18px 42px rgba(35, 41, 27, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(90, 111, 36, 0.14), transparent 34%),
+        radial-gradient(circle at top right, rgba(29, 107, 80, 0.08), transparent 28%),
+        linear-gradient(180deg, #fbfcf8 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(90, 111, 36, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      max-width: 12ch;
+    }
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+    h3 { font-size: 20px; }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+    .hero-grid, .grid-2, .grid-3, .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .concept-list { grid-template-columns: 1fr; }
+    .pill-list, .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pill-list li, .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+    .meta-card, .card, .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .concept-block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+    }
+    .concept-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .concept-meta div {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+    .concept-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+    .meta-card strong, .card strong, .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 68ch;
+    }
+    code, pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1e2329;
+      color: #f8f5ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(90, 111, 36, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+    details + details { margin-top: 12px; }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(90, 111, 36, 0.28);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .concept-meta { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 6 · HTML Review</div>
+          <h1>银行、金融机构与监管</h1>
+          <p class="lede">
+            这一模块要解决两个问题：第一，银行为什么不是“普通公司+借钱”这么简单，而是一种特殊的短债长投机构；第二，为什么这种结构一方面能提高流动性和风险分担，另一方面又天然脆弱，容易 run，所以监管、存款保险和资本要求会变得核心。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% 判断/解释</li>
+            <li>30% 计算/推导</li>
+            <li>Anchor: Teaching Notes 9</li>
+            <li>Mode: 混合互动</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>对应材料</strong>
+          <ul class="mini-list">
+            <li><code>Slides - 9.pdf</code></li>
+            <li><code>Slides - 10.pdf</code></li>
+            <li><code>Slides - 11.pdf</code></li>
+            <li><code>Teaching Notes - 9.pdf</code></li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：6</span>
+            <span class="badge">当前状态：进行中</span>
+            <span class="badge">下轮：模块 7</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">模块 6 不是单纯的银行学知识点堆砌，而是把“合同设计 + 流动性需求 + 系统性外部性”放在同一张图上。</p>
+        </div>
+        <span class="badge">6 句顶层逻辑</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>第一步：银行为什么特殊</strong>
+          <p>银行用可提前赎回的短期负债去支持长期、流动性差的资产。这个结构让存款人得到流动性保险，但也让银行暴露在挤兑风险下。</p>
+        </div>
+        <div class="card">
+          <strong>第二步：tradability 与 redeemability</strong>
+          <p>一项债权若可交易，可在二级市场转手；若可赎回，可直接向借款人要求提前兑付。银行存款或 banknote 同时具备 redeemability，而普通 loan 则没有。</p>
+        </div>
+        <div class="card">
+          <strong>第三步：银行为什么脆弱</strong>
+          <p>短债长投和顺序服务规则让 late consumer 也有动机提早跑。一旦大家相信别人会跑，run 就可能自我实现。</p>
+        </div>
+        <div class="card">
+          <strong>第四步：监管为什么要来</strong>
+          <p>因为单个存款人没有动力也没有能力持续监督银行，且一旦 run 发生会有系统性外部性，所以需要 deposit insurance、capital requirements、supervision 和 lender of last resort。</p>
+        </div>
+        <div class="card">
+          <strong>第五步：监管也有副作用</strong>
+          <p>安全网减少 panic，但也会削弱 market discipline，带来 moral hazard、too big to fail 和监管套利问题。</p>
+        </div>
+        <div class="card">
+          <strong>一句话抓住这讲</strong>
+          <p><span class="good">银行之所以需要监管，不是因为银行天生“坏”，而是因为它提供的流动性保险本身就建立在一个脆弱但高效的合同结构上。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>核心概念</h2>
+          <p class="section-note">模块 6 的高频分差点在于：你能不能把 institution 直觉、合同条款和危机机制写成同一个故事。</p>
+        </div>
+        <span class="badge">详细概念展开 8 组</span>
+      </div>
+      <div class="concept-list">
+        <div class="concept-block">
+          <h3>1. Tradability vs Redeemability</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>tradability</code> 指债权可在二级市场转让；<code>redeemability</code> 指持有人可直接向发行人要求提前偿付。</div>
+            <div><b>直觉</b>碰到 liquidity shock 时，tradability 允许你“卖给别人”，redeemability 允许你“找发行人拿钱”。</div>
+            <div><b>考试问法</b>常考比较 <code>loan / puttable loan / bond / banknote</code> 四种工具的功能差异。</div>
+            <div><b>易错点</b>把两者混成一回事。可交易不代表可赎回，可赎回也不必然可交易。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>2. Loan vs Bond vs Banknote / Deposit</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>loan</code> 是 non-tradable、non-demandable；<code>bond</code> 是 tradable、non-demandable；<code>banknote/deposit</code> 是 tradable or demandable debt 的代表，核心是 demandability。</div>
+            <div><b>直觉</b>银行负债之所以特别，不在“它叫存款”，而在它给了持有人一个更强的流动性退出权。</div>
+            <div><b>考试问法</b>经常问为什么 banknote / deposit 的价值比普通 loan 更高，或者为什么 redeemability 能缩小流动性折价。</div>
+            <div><b>易错点</b>用普通公司债的视角看 bank deposit。两者 payoff 结构和 run 逻辑完全不同。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>3. Bank Balance Sheet and Liquidity Transformation</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>银行资产端持有 reserves、securities、loans；负债端发行 checkable deposits、nontransaction deposits、borrowings，并有 bank capital。</div>
+            <div><b>直觉</b>银行在做两件事：把不流动的贷款装进资产端，同时对负债端承诺较高的流动性。</div>
+            <div><b>考试问法</b>会要求解释“开立存款账户为什么同时增加资产和负债”，或问银行如何管理 liquidity、credit risk 和 interest-rate risk。</div>
+            <div><b>易错点</b>只背表格，不理解银行的核心是 liquidity transformation 和 maturity transformation。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>4. Diamond-Dybvig Liquidity Insurance</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>银行通过集中储蓄并签订早提 <code>r1</code>、晚提 <code>r2</code> 的存款合同，为 early consumer 提供流动性保险，同时让 late consumer 分享长期资产的高回报。</div>
+            <div><b>直觉</b>单个人如果自己配 liquid 和 illiquid asset，会在不同类型 realization 下都浪费一点；银行通过 pooling type risk 来提高总效用。</div>
+            <div><b>考试问法</b>常见是解释为什么银行安排优于 autarky / simple insurance，以及为什么最优合同满足 <code>r1 &lt; r2</code>。</div>
+            <div><b>易错点</b>把银行只看成“放贷机构”。在这个模型里，银行首先是 liquidity insurance arrangement。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>5. Self-Fulfilling Bank Run</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>若 late depositor 预期足够多其他人会提前挤兑，他自己也会选择提前提取，结果坏均衡自我实现。</div>
+            <div><b>直觉</b>问题不在于每个 depositor 都 irrational，而在于顺序服务与资产清算损失让“先跑先安全”成为理性选择。</div>
+            <div><b>考试问法</b>常让你解释为什么会有 good equilibrium 和 bad equilibrium，以及为什么挤兑是 coordination failure。</div>
+            <div><b>易错点</b>把 bank run 写成“因为银行真的破产”。在模型里，即使基本面没变坏，belief 也可能触发 run。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>6. Deposit Insurance vs Suspension of Convertibility</h3>
+          <div class="concept-meta">
+            <div><b>定义</b><code>deposit insurance</code> 保证非挤兑者至少得到早提收益或既定支付；<code>suspension</code> 则在达到一定提款量后直接停止兑付。</div>
+            <div><b>直觉</b>保险是用“可信承诺”消除 run incentive；暂停兑付是用“硬约束”切断挤兑链条。</div>
+            <div><b>考试问法</b>常问为什么 deposit insurance 能消除坏均衡，以及 suspension 为什么不一定总最优。</div>
+            <div><b>易错点</b>以为存款保险一定要真实赔钱。模型强调的是 credible promise 本身就可能让 run 不发生，因此 ex post 不一定真的支出。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>7. Safety Net and Moral Hazard</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>政府安全网包括 deposit insurance、央行最后贷款人、对大机构隐性担保等，但它会削弱存款人和债权人的市场约束。</div>
+            <div><b>直觉</b>如果 downside 被公共部门兜住，金融机构就可能更愿意冒险，风险偏好者也更愿意进入这个行业。</div>
+            <div><b>考试问法</b>常见是“为什么安全网既必要又危险”，以及 <code>too big to fail</code> 如何放大 moral hazard。</div>
+            <div><b>易错点</b>只写好处不写代价，或者只写 moral hazard 不写为何 panic prevention 仍然有价值。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>8. Capital Requirements, Supervision, and Disclosure</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>资本充足率、资产限制、检查和信息披露是监管用来限制金融机构 risk-taking 的主要工具。</div>
+            <div><b>直觉</b>安全网把市场纪律削弱后，监管就得用 capital、monitoring 和 disclosure 把激励再拽回来。</div>
+            <div><b>考试问法</b>常问 capital requirements 为什么存在、Basel I/II/III 各在管什么，以及 chartering / examination 分别在防哪类信息问题。</div>
+            <div><b>易错点</b>把监管工具列成清单却不写对应 friction。高分答案应明确：chartering 针对 adverse selection，examination 和 capital requirement 针对 moral hazard。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>必会公式 / 推导</h2>
+          <p class="section-note">模块 6 的算式不复杂，但一定要会把式子翻译回“流动性折价、run incentive 和监管逻辑”。</p>
+        </div>
+        <span class="badge">核心公式链</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>四类工具的价值结构</strong>
+          <pre><code>Loan:
+v = R / [λ + (1-λ)μ]
+
+Puttable loan:
+v = [R + (1-λ)μr] / [λ + (1-λ)μ]
+
+Bond:
+v = R / [λ + (1-λ)(1-θμ)]
+
+Banknote:
+v = [R + (1-λ)(1-θ)μr] / [λ + (1-λ)(1-μ)]</code></pre>
+          <p>核心直觉：可赎回和可交易都会减少 liquidity shock 带来的折价。</p>
+        </div>
+        <div class="card">
+          <strong>Diamond-Dybvig 存款合同</strong>
+          <pre><code>Bank offers:
+withdraw early → r1
+withdraw late  → r2
+
+Constraints:
+1 - I = θ r1
+(1-θ)r2 = I R
+r1 &lt; r2</code></pre>
+          <p>银行比 autarky 更优，是因为它在 early / late type 之间做了 better risk sharing。</p>
+        </div>
+        <div class="card">
+          <strong>课堂给出的典型数值</strong>
+          <pre><code>When R = 2 and early fraction θ = 0.25:
+
+Optimal banking contract:
+r1 = 1.28
+r2 = 1.813
+I = 0.68
+
+Autarky / simple insurance benchmark:
+c1 = 1
+c2 = 2</code></pre>
+          <p>注意：<code>1.28, 1.813</code> 比 <code>1, 2</code> 更平滑，因此 risk-averse agents 更喜欢。</p>
+        </div>
+        <div class="card">
+          <strong>Bank run 条件</strong>
+          <pre><code>If many depositors run at t=1,
+late withdrawal payoff falls to:
+
+r2(n) = [68 - (n-25)1.28] · 2 / (100 - n)
+
+If r2(n) &lt; 1.28,
+a late consumer prefers to run early</code></pre>
+          <p>坏均衡的关键不是 fundamentals 先坏，而是 belief 让继续等待不再最优。</p>
+        </div>
+        <div class="card">
+          <strong>Capital requirement</strong>
+          <pre><code>Leverage ratio
+= capital / total assets
+
+Well-capitalized benchmark in slides:
+leverage ratio &gt; 5%</code></pre>
+          <p>资本要求的逻辑是让 owners 自己先承担更多 downside，从而缓解 excessive risk-taking。</p>
+        </div>
+        <div class="card">
+          <strong>监管工具与 friction 的映射</strong>
+          <pre><code>Chartering / screening
+→ mitigate adverse selection
+
+Examination / supervision / capital
+→ mitigate moral hazard
+
+Disclosure
+→ strengthen market discipline
+
+Deposit insurance / LOLR
+→ stop panic and contagion</code></pre>
+          <p>考试里写清这张映射表，比分散列点更容易拿满逻辑分。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1 道完整例题</h2>
+          <p class="section-note">下面用 <code>Diamond-Dybvig</code> 的课堂数值做一题，把“银行为什么更有效”和“为什么会 run”串起来。</p>
+        </div>
+        <span class="badge">机制主例题</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>题目设定</strong>
+          <p>有 100 个存款人，每人初始 endowment 为 1。25% 是 early consumer，75% 是 late consumer。长期资产到 t=2 回报 <code>R=2</code>，若 t=1 强制清算则只有 <code>l &lt; 1</code>。银行设计存款合同：</p>
+          <pre><code>withdraw early → r1 = 1.28
+withdraw late  → r2 = 1.813</code></pre>
+          <p>银行把 <code>I=0.68</code> 投入长期资产。说明：</p>
+          <p>1. 为什么这个合同优于简单自持？</p>
+          <p>2. 为什么它又会带来 run fragility？</p>
+        </div>
+
+        <div class="step">
+          <strong>第 1 步：先解释为什么银行安排更优</strong>
+          <p>若每个人自己持有 liquid 和 illiquid asset，会得到更不平滑的消费组合，典型 benchmark 是 <code>(c1, c2) = (1, 2)</code>。而银行合同给出的是 <code>(1.28, 1.813)</code>。</p>
+          <p>对于 risk-averse agent，较平滑的跨类型消费组合效用更高，所以银行提供了 liquidity insurance。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 2 步：为什么 late consumer 可能也想跑</strong>
+          <p>因为先提款的人先拿到 <code>1.28</code>。若一个 late consumer 预期很多其他 late consumer 也会提前提取，那么等到 t=2 可拿到的 <code>r2(n)</code> 会下降：</p>
+          <pre><code>r2(n) = [68 - (n-25)1.28] · 2 / (100-n)</code></pre>
+          <p>只要这个值低于 <code>1.28</code>，理性的 late consumer 也会改成提前提取。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 3 步：均衡怎么写</strong>
+          <p>存在两个均衡：</p>
+          <p>1. <code>good equilibrium</code>：只有真正的 early consumer 提取，<code>n=25</code>，系统正常运行。</p>
+          <p>2. <code>bad equilibrium</code>：所有人都跑，银行被迫清算长期资产，支付变差，坏信念自我实现。</p>
+        </div>
+
+        <div class="step">
+          <strong>第 4 步：政策含义</strong>
+          <p><code>deposit insurance</code> 的作用不是简单“补钱”，而是让 late depositor 相信即便别人跑，自己不跑也不会吃亏。这样坏均衡失去吸引力，run incentive 被切断。</p>
+          <p>但安全网又会削弱 discipline，所以后面必须配 capital requirement、supervision 和 disclosure。</p>
+        </div>
+
+        <div class="step">
+          <strong>考试式结论</strong>
+          <p>银行合同之所以优于 autarky，是因为它为 idiosyncratic liquidity shock 提供保险；银行合同之所以脆弱，是因为 demandability + illiquid assets + coordination problem 会诱发自我实现挤兑；监管之所以必要，是因为它既要保留保险收益，也要压住脆弱性和 moral hazard。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组</h2>
+          <p class="section-note">先自己答，再展开。模块 6 的高频错题通常不是不会背，而是把“流动性保险”和“run fragility”拆开讲了。</p>
+        </div>
+        <span class="badge">3 判断 + 1 填空 + 1 小算题 + 1 迁移题</span>
+      </div>
+
+      <details>
+        <summary>判断题 1：如果一种债务是 tradable，就不需要 redeemability 了，两者在经济学上是同一件事。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>tradability 是“卖给别人”，redeemability 是“向发行人要钱”。两者都能缓解 liquidity shock，但机制不同。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 2：在 Diamond-Dybvig 模型里，bad equilibrium 发生时，并不一定是因为银行原本就是基本面意义上的资不抵债。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>run 可以是 self-fulfilling coordination failure，不需要 fundamentals 先坏到无法偿付。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断题 3：deposit insurance 只会带来好处，不会制造新的激励问题。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>它能防 panic，但也会削弱存款人监督并放大机构的 risk-taking incentive，因此要配套监管。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>推导填空：若银行合同满足 <code>1-I = θr1</code> 且 <code>(1-θ)r2 = IR</code>，则给定 <code>I</code> 后，<code>r2 = ?</code></summary>
+        <div class="answer">
+          <pre><code>r2 = IR / (1-θ)</code></pre>
+          <p>这表示晚提存款人分享长期资产的回报。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>小算题：若某银行资本为 8，资产总额为 160，则 leverage ratio 是多少？若 slides 的 well-capitalized 标准是 5%，它是否达标？</summary>
+        <div class="answer">
+          <pre><code>Leverage ratio = 8 / 160 = 5%</code></pre>
+          <p>刚好达标。题目在训练你把 capital requirement 从监管名词翻译成简单算式。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>迁移题：如果把传统 bank deposit 的 run 逻辑搬到 money market fund 或 repo market，核心不变的是什么？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>核心不变的是“短期可退出的债权 / 准债权 + 对资产价值或流动性的怀疑 + 提前退出的相对优势”。</p>
+          <p>所以现代金融里的 run 不只发生在商业银行，也会发生在 shadow banking system。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">模块 6 最常见的问题，是把“银行能提高效率”与“银行很脆弱”写成互相矛盾，其实它们正是同一合同结构的两面。</p>
+        </div>
+        <span class="badge">诊断模板</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果判断题错得多</strong>
+          <p>大概率卡在 <code>概念边界</code>，尤其是 tradability vs redeemability、panic prevention vs moral hazard。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会背 DD 模型但说不清为何更优</strong>
+          <p>大概率卡在 <code>保险逻辑</code>。先写 risk-averse agents 偏好平滑消费，再写银行如何通过 pooling type risk 做到这一点。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会讲 bank run 但不会讲监管</strong>
+          <p>大概率卡在 <code>机制映射</code>。要把 deposit insurance、LOLR、capital requirement、supervision 分别对应到“防 panic”还是“防过度冒险”。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果资本监管题总答得很空</strong>
+          <p>大概率卡在 <code>行为激励</code>。资本要求不是为了“让银行更安全”这么一句空话，而是让股东先承担更多 downside，从而减少 risk-shifting。</p>
+        </div>
+      </div>
+      <p class="footer-line">
+        若你总把 deposit insurance 写成“政府付钱给大家所以不跑”，这一点应记为 <span class="warn">待回炉</span>。更准确的写法是：<em>credible promise changes incentives ex ante, so the bad equilibrium disappears.</em>
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">模块 6 讲的是金融机构和监管，模块 7 会把脆弱性放大到系统层面，进入危机、流动性螺旋和市场异常。</p>
+        </div>
+        <span class="badge">Bridge to Module 7</span>
+      </div>
+      <div class="card">
+        <p>模块 7 会沿着这里的脆弱性继续往前推：当资产价格、融资约束和恐慌预期相互强化时，为什么会出现 credit cycle、panic run、liquidity spiral 和更广义的金融危机。</p>
+        <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
