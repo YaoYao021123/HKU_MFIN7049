@@ -1,0 +1,13 @@
+.DS_Store
+
+# Keep raw course teaching materials and assignment PDFs out of the public repo.
+mfin7049/
+HW1/
+HW2/
+final_project/
+
+# Local/generated logs and render artifacts.
+*.aux
+*.log
+*.out
+*.synctex.gz

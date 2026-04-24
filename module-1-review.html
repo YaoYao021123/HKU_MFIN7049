@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 模块 1 复习</title>
+  <style>
+    :root {
+      --bg: #f4f0e8;
+      --panel: rgba(255, 252, 246, 0.92);
+      --panel-strong: #fffaf1;
+      --ink: #1d2a2c;
+      --muted: #5a6668;
+      --accent: #a44a22;
+      --accent-soft: #f0d8c9;
+      --line: rgba(29, 42, 44, 0.14);
+      --good: #1f6b50;
+      --warn: #8a5a10;
+      --shadow: 0 18px 40px rgba(43, 35, 20, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(164, 74, 34, 0.11), transparent 32%),
+        radial-gradient(circle at top right, rgba(31, 107, 80, 0.12), transparent 28%),
+        linear-gradient(180deg, #f7f1e7 0%, var(--bg) 100%);
+      line-height: 1.65;
+    }
+
+    .shell {
+      width: min(1100px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+
+    .hero,
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      top: -70px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(164, 74, 34, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .lede {
+      max-width: 70ch;
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-grid,
+    .grid-2,
+    .grid-3,
+    .concept-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.25fr 0.95fr;
+      align-items: start;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .concept-list {
+      grid-template-columns: 1fr;
+    }
+
+    .pill-list,
+    .mini-list,
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pill-list li,
+    .mini-list li {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+    }
+
+    .meta-card,
+    .card,
+    .quiz-card,
+    .status-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+
+    .concept-block {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: var(--panel-strong);
+    }
+
+    .concept-block h3 {
+      margin-bottom: 12px;
+    }
+
+    .concept-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .concept-meta div {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+
+    .concept-meta b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .meta-card strong,
+    .card strong,
+    .quiz-card strong,
+    .status-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .section {
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: end;
+    }
+
+    .section-note {
+      color: var(--muted);
+      max-width: 64ch;
+    }
+
+    .card code,
+    .quiz-card code,
+    .status-card code,
+    .meta-card code,
+    pre code {
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-radius: 16px;
+      background: #1d2328;
+      color: #f7f4ef;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .example-flow {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: rgba(164, 74, 34, 0.06);
+      border-radius: 0 14px 14px 0;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0 16px;
+    }
+
+    details + details {
+      margin-top: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .answer {
+      padding: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--muted);
+    }
+
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .good {
+      color: var(--good);
+    }
+
+    .warn {
+      color: var(--warn);
+    }
+
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .concept-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .shell {
+        width: min(100% - 20px, 900px);
+        margin-top: 20px;
+      }
+
+      .hero,
+      .section {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Module 1 · HTML Review</div>
+          <h1>课程大图景与金融体系基础</h1>
+          <p class="lede">
+            这一讲不是铺垫，而是整门课的底层框架。后面所有估值、融资摩擦、银行挤兑、金融危机和货币政策问题，都会回到这里的几个原点：跨期交换、融资合同、信息不对称和金融基础设施。
+          </p>
+          <ul class="pill-list">
+            <li>Exam Fit: 70% 判断/解释</li>
+            <li>30% 计算/推导</li>
+            <li>Current Status: 能复述前</li>
+            <li>Mode: 混合互动</li>
+          </ul>
+        </div>
+        <div class="meta-card">
+          <strong>对应材料</strong>
+          <ul class="mini-list">
+            <li><code>MFin Course Outline 2025-2026.pdf</code></li>
+            <li><code>Slides - Introduction.pdf</code></li>
+            <li><code>Slides - 1.pdf</code></li>
+            <li><code>Slides - 2.pdf</code></li>
+            <li><code>Slides - 3.pdf</code></li>
+            <li><code>Teaching Notes-1.pdf</code></li>
+          </ul>
+          <div class="status-line">
+            <span class="badge">模块编号：1</span>
+            <span class="badge">追踪状态：进行中</span>
+            <span class="badge">下轮：模块 2</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>主题鸟瞰</h2>
+          <p class="section-note">先把整门课的地图立起来，再进入后面的估值和机制分析。</p>
+        </div>
+        <span class="badge">5-8 句逻辑梳理</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>这部分在整门课里的位置</strong>
+          <p>课程先用这一模块解释金融系统为什么存在，再逐步进入资产定价、信息摩擦、银行和危机。它回答的是“金融安排为何必要”，而不是“金融工具如何计算”这种二级问题。</p>
+          <p>如果这一层不稳，后面会出现公式会算、但不会解释经济含义的断层。</p>
+        </div>
+        <div class="card">
+          <strong>老师的主线</strong>
+          <p>从 <code>resources</code> 和 <code>talent/technology</code> 分离出发，说明 finance 的任务是跨时间和跨主体做重新配置。然后再引出为什么需要市场、合同、银行、披露和监管。</p>
+        </div>
+        <div class="card">
+          <strong>为什么考试会考</strong>
+          <p>它通常不单独出大题，但会作为后续题目的解释层。尤其在“为什么 debt 和 equity 不一样”“为什么 secondary market 会影响融资”“为什么 money 不是任何 store of value”这类判断题里反复出现。</p>
+        </div>
+        <div class="card">
+          <strong>一条总句</strong>
+          <p><span class="good">金融系统的功能</span> = 把储蓄、项目、信息和合同放进一个可执行、可定价、可交易的结构里。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>核心概念</h2>
+          <p class="section-note">优先抓最容易混淆的边界。每个概念都按“定义、直觉、考试问法、易错点”展开。</p>
+        </div>
+        <span class="badge">详细概念展开 7 组</span>
+      </div>
+      <div class="concept-list">
+        <div class="concept-block">
+          <h3>1. Finance</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>Finance 是把资源和人才/技术/项目结合起来，并在不同人和不同时间之间转移价值。</div>
+            <div><b>直觉</b>现实里“有好项目的人”不一定有钱，“有钱的人”不一定有好项目，金融系统负责把两边连接起来。</div>
+            <div><b>考试问法</b>问 finance 的本质时，不要只写投资或赚钱，要写 <code>across time transfer/exchange of value</code>。</div>
+            <div><b>易错点</b>把 finance 理解成单纯交易资产，忽略它首先是在解决资源和项目分离的问题。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>2. Financial System</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>金融系统由 markets、institutions、instruments 和 infrastructures 共同构成。</div>
+            <div><b>直觉</b>市场提供价格和交易，机构提供筛选和监控，工具定义 cash flow 权利，基础设施让合同和披露可执行。</div>
+            <div><b>考试问法</b>问“为什么金融系统复杂”时，要从 players、products、contracts 和 frictions 一起答。</div>
+            <div><b>易错点</b>只把金融系统等同于 stock market，忽略银行、债券、repo、rating agencies 和监管基础设施。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>3. Debt vs Equity</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>Debt 是有 face value 的优先索取权；equity 是对剩余现金流的状态敏感索取权。</div>
+            <div><b>直觉</b>债权人通常最多拿到 <code>K</code>，股东收益跟真实现金流高度联动，所以股权更依赖信息披露。</div>
+            <div><b>考试问法</b>常见问法是“为什么 equity more information-sensitive than debt”。</div>
+            <div><b>易错点</b>只写 debt 固定、equity 不固定，没有说明二者对 private information 的敏感度不同。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>4. Primary Market vs Secondary Market</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>Primary market 是企业或政府第一次融资的地方；secondary market 是既有证券交易的地方。</div>
+            <div><b>直觉</b>二级市场虽然不直接把钱交给企业，但它提供流动性和估值 benchmark，反过来影响一级市场融资成本。</div>
+            <div><b>考试问法</b>问 secondary market 的 social role 时，要写 price discovery、liquidity 和 valuation system。</div>
+            <div><b>易错点</b>以为二级市场只是投资者之间转手，所以和实体融资无关。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>5. Money</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>Money 至少承担三类功能：<code>medium of exchange</code>、<code>unit of account</code>、<code>store of value</code>。</div>
+            <div><b>直觉</b>一个东西能保值，不代表它适合作为交易媒介；能交易，也不代表它能稳定计价。</div>
+            <div><b>考试问法</b>判断某资产是不是 money 时，逐个检查三大功能，不要只看其中一个。</div>
+            <div><b>易错点</b>把黄金、股票或房产因为能 store value 就直接称为 money。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>6. Frictions in Finance</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>本课程最重要的 frictions 包括 valuation、contract enforcement、information asymmetry 和 agency problems。</div>
+            <div><b>直觉</b>如果没有摩擦，资金会自动流向最好项目；有摩擦后，就需要合同、银行、披露、监管和市场价格。</div>
+            <div><b>考试问法</b>解释金融制度为什么存在时，先指出它在解决哪一种 friction。</div>
+            <div><b>易错点</b>只描述现象，不说背后的 friction，例如只说“银行贷款”，不说银行在监控 borrower。</div>
+          </div>
+        </div>
+
+        <div class="concept-block">
+          <h3>7. Institution, Theory, History</h3>
+          <div class="concept-meta">
+            <div><b>定义</b>课程结构是 institution 打底，theory 解释机制，history 用危机和事件检验机制。</div>
+            <div><b>直觉</b>制度告诉你发生了什么，理论告诉你为什么会发生，历史告诉你这些机制在真实世界如何放大。</div>
+            <div><b>考试问法</b>遇到金融危机或市场异常题，不能只背事件，要把事件映射回机制。</div>
+            <div><b>易错点</b>把这门课当成制度名词背诵课，忽略老师强调的是 economic intuition 和 way of thinking。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>必会公式 / 推导</h2>
+          <p class="section-note">这一讲公式不多，但每一个都在后面不断复用。</p>
+        </div>
+        <span class="badge">考试直接可用</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <strong>宏观恒等式背后的金融含义</strong>
+          <pre><code>GDP = C + I + NX = C + S
+=> S = I + NX</code></pre>
+          <p>储蓄最终要么支持投资，要么流向对外净输出。金融系统负责让这些资金找到合适的去向。</p>
+        </div>
+        <div class="card">
+          <strong>股权和债务的状态支付</strong>
+          <pre><code>Equity to investor      = α * C~
+Equity to entrepreneur = (1-α) * C~
+
+Debt to investor       = min(K, C~)
+Debt to entrepreneur   = max(C~ - K, 0)</code></pre>
+          <p>后面凡是讨论 financing incentives，都先把 payoff 写对。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1 道完整例题</h2>
+          <p class="section-note">用最小模型看出为什么 <code>equity</code> 比 <code>debt</code> 更 information-sensitive。</p>
+        </div>
+        <span class="badge">Teaching Notes-1 同构</span>
+      </div>
+      <div class="example-flow">
+        <div class="step">
+          <strong>题目设置</strong>
+          <p>项目今天投入 <code>2</code>，未来现金流只有两种状态：Good = <code>14</code>，Bad = <code>4</code>。</p>
+        </div>
+        <div class="step">
+          <strong>情形 A：外部投资者拿 50% equity</strong>
+          <p>如果如实披露 Good，企业家拿 <code>7</code>。如果把 Good 伪装成 Bad，再按 Bad 状态分配，企业家能多保留 <code>14 - 2 - 7 = 5</code> 的额外收益。</p>
+          <p class="warn">结论：股权下，隐瞒真实状态的激励更强。</p>
+        </div>
+        <div class="step">
+          <strong>情形 B：外部投资者拿 face value = 5 的 debt</strong>
+          <p>如实履约时，企业家在 Good state 拿 <code>14 - 5 = 9</code>。若谎报为 Bad，只还 <code>4</code>，额外收益是 <code>14 - 4 - 9 = 1</code>。</p>
+          <p class="good">结论：debt 下说谎收益小很多。</p>
+        </div>
+        <div class="step">
+          <strong>一句话总结</strong>
+          <p><code>Equity is more information-sensitive than debt.</code> 因为 equity 的支付更依赖真实状态，债务支付有“封顶”结构。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>互动题组</h2>
+          <p class="section-note">先自己答，再展开答案。答案默认隐藏。</p>
+        </div>
+        <span class="badge">2 判断 + 1 填空 + 1 小算 + 1 迁移</span>
+      </div>
+
+      <details>
+        <summary>判断 1：secondary market 只影响投资者之间的交易，不影响实体融资能力。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>二级市场提供流动性、估值和 price discovery，会反过来影响一级市场融资成本和融资可行性。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断 2：只要一个资产能 store value，它就一定是 money。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>错。</p>
+          <p>Money 需要同时具备 <code>medium of exchange</code>、<code>unit of account</code> 和 <code>store of value</code> 三个功能。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>判断 3：在同样项目上，equity 一般比 debt 更 information-sensitive。</summary>
+        <div class="answer">
+          <p><strong>答案：</strong>对。</p>
+          <p>股权的支付对真实状态更敏感，外部投资者因此更依赖信息披露。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>填空：用 <code>K</code> 和 <code>C~</code> 写出债权人与股东的支付。</summary>
+        <div class="answer">
+          <pre><code>Debt holder payoff   = min(K, C~)
+Equity holder payoff = max(C~ - K, 0)</code></pre>
+        </div>
+      </details>
+
+      <details>
+        <summary>小算题：某项目未来现金流 Good = 20，Bad = 6。外部投资者拿 face value = 8 的 debt。企业家在 Good state 的剩余索取是多少？</summary>
+        <div class="answer">
+          <p><strong>答案：</strong><code>20 - 8 = 12</code>。</p>
+          <p>因为 Good state 下项目现金流足以全额偿还债务。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>迁移题：如果一个市场没有活跃的 secondary market，会先伤到 <code>valuation / contract enforcement / accounting identity</code> 中哪一项？</summary>
+        <div class="answer">
+          <p><strong>参考答案：</strong><code>valuation</code>。</p>
+          <p>因为活跃二级市场首先提供价格、流动性和可比较 benchmark；没有它，一级市场定价和退出机制都会变差。</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>即时反馈与错因</h2>
+          <p class="section-note">判断自己到底卡在什么层，而不是笼统地说“没懂”。</p>
+        </div>
+        <span class="badge">诊断模板</span>
+      </div>
+      <div class="grid-2">
+        <div class="status-card">
+          <strong>如果判断题错得多</strong>
+          <p>大概率卡在 <code>概念边界</code>，比如把 market、institution、money function 混在一起。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果公式会背但不会代</strong>
+          <p>大概率卡在 <code>题意识别</code> 或 <code>变量映射</code>，尤其是没有先认出 payoff structure。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果方向对但数值错</strong>
+          <p>大概率卡在 <code>计算细节</code>，例如把 debt 错写成固定拿 <code>K</code>，忘了 <code>min(K, C~)</code>。</p>
+        </div>
+        <div class="status-card">
+          <strong>如果会算但不会解释</strong>
+          <p>大概率卡在 <code>经济直觉</code>，说明你只记住了结果，没有掌握为什么 debt 更不敏感。</p>
+        </div>
+      </div>
+      <div class="footer-line">
+        同一类错误若连续出现两次，应在追踪表中标记为 <code>待回炉</code>，并在下一轮开始前先做回收题。
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>下轮连接</h2>
+          <p class="section-note">下一步不是继续背概念，而是把“为什么要定价”推进成“怎么定价”。</p>
+        </div>
+        <span class="badge">Next: Module 2</span>
+      </div>
+      <div class="card">
+        <p>模块 2 会把这一讲的框架推进成正式的估值引擎：<code>interest rates</code>、<code>term structure</code>、<code>PV</code>、<code>DCF</code>、<code>tracking portfolio</code> 和 <code>certainty equivalent</code>，并开始对接 `HW1`。</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
