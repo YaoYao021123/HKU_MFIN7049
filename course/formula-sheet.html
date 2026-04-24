@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MFIN7049 Formula Sheet</title>
+  <style>
+    :root {
+      --bg: #edf1f4;
+      --panel: rgba(250, 252, 253, 0.96);
+      --panel-strong: #ffffff;
+      --ink: #18272d;
+      --muted: #607279;
+      --accent: #285f7a;
+      --accent-soft: #d9e9f2;
+      --line: rgba(24, 39, 45, 0.14);
+      --shadow: 0 18px 42px rgba(26, 40, 48, 0.08);
+      --radius: 22px;
+      --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(40, 95, 122, 0.12), transparent 34%),
+        radial-gradient(circle at top right, rgba(138, 75, 31, 0.08), transparent 28%),
+        linear-gradient(180deg, #f8fbfd 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto 56px;
+    }
+    .hero, .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 28px; margin-bottom: 20px; }
+    .section { padding: 24px; margin-top: 20px; }
+    .hero-grid, .grid-2 {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-grid { grid-template-columns: 1.2fr 0.9fr; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .eyebrow, .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--accent);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+    h1 { font-size: clamp(34px, 5vw, 54px); }
+    h2 { font-size: clamp(24px, 3vw, 32px); }
+    p { margin: 0 0 12px; }
+    .lede {
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: var(--panel-strong);
+    }
+    .card strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .section-note {
+      color: var(--muted);
+      max-width: 70ch;
+    }
+    .formula-list, .mistake-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+    .formula-list li, .mistake-list li {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.72);
+    }
+    .formula-list strong, .mistake-list strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+    code { font-family: var(--mono); }
+    a.inline-link {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(40, 95, 122, 0.28);
+    }
+    .footer-line {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2 { grid-template-columns: 1fr; }
+      .shell {
+        width: min(100% - 20px, 920px);
+        margin-top: 20px;
+      }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/katex-auto.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="assets/katex-auto.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">MFIN7049 · Formula Sheet · Wrong Answers</div>
+          <h1>公式表与高频错因页</h1>
+          <p class="lede">
+            这一页不是再讲一遍模块内容，而是把临考前最值得扫一遍的东西压在一处：一半是公式地图，一半是“最容易写错的答案模式”。如果时间很紧，这页和模拟卷是最后两页最值得刷的内容。
+          </p>
+        </div>
+        <div class="card">
+          <strong>使用建议</strong>
+          <p>先看公式区，确认自己还能从公式识别题型；再看错因区，检查自己有没有反复犯同一类逻辑错误。</p>
+          <p><span class="badge">Use before mock exam review</span></p>
+          <p><span class="badge">Focus: mapping and diagnosis</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>公式地图</h2>
+          <p class="section-note">临考前不要背散公式，而是按题型背整块结构。</p>
+        </div>
+        <span class="badge">Formula map</span>
+      </div>
+      <ul class="formula-list">
+        <li>
+          <strong>Valuation</strong>
+          <p><code>PV = E(C~)/(1+k)</code></p>
+          <p><code>k = r_f + \beta_p(E(r_m~)-r_f)</code></p>
+          <p><code>\beta_C = Cov(C~, r_m~)/Var(r_m~)</code>, <code>\beta_p = \beta_C/PV</code></p>
+          <p><code>CE = E(C~) - \beta_C(E(r_m~)-r_f)</code>, <code>PV = CE/(1+r_f)</code></p>
+        </li>
+        <li>
+          <strong>Debt / Equity Payoff</strong>
+          <p><code>Debt = min(K, C~)</code></p>
+          <p><code>Equity = max(C~-K, 0)</code></p>
+          <p>这组最重要的不是公式本身，而是先分清题目在问 <code>firm / debt / equity / entrepreneur</code> 哪一层。</p>
+        </li>
+        <li>
+          <strong>Moral Hazard</strong>
+          <p><code>c^*_E = (1-\alpha)[E(C~|H)-E(C~|L)]</code></p>
+          <p>更一般地，永远写成 <code>high effort payoff - c \ge shirk payoff</code></p>
+          <p>债务题里不要忘记成功态和失败态常会被 <code>max(C-K,0)</code> 截断。</p>
+        </li>
+        <li>
+          <strong>Posterior Update</strong>
+          <p><code>\theta~ = r~ + e~</code></p>
+          <p><code>m = \mu + [\sigma^2/(\sigma^2+\sigma_\theta^2)](\theta-\mu)</code></p>
+          <p><code>v = \sigma^2\sigma_\theta^2/(\sigma^2+\sigma_\theta^2)</code></p>
+        </li>
+        <li>
+          <strong>Risk Pricing</strong>
+          <p><code>E(R~|\theta) = exp(m + 0.5v)</code></p>
+          <p><code>\ln R_f(\theta) = m + 0.5(2\eta-1)v</code></p>
+          <p><code>\ln E(R~|\theta) - \ln R_f(\theta) = (1-\eta)v</code></p>
+        </li>
+        <li>
+          <strong>Banking / Policy</strong>
+          <p><code>MB = C + R</code></p>
+          <p>Diamond-Dybvig 里记住的是合同结构：<code>1-I = \theta r_1</code>, <code>(1-\theta)r_2 = IR</code></p>
+          <p>政策题不要只背工具名，要背传导链：<code>tool \to reserves / expectations / yield curve \to bank behavior \to credit conditions</code></p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>高频错因</h2>
+          <p class="section-note">下面这些不是“粗心”，而是整门课最容易反复错的答案模式。</p>
+        </div>
+        <span class="badge">Wrong-answer patterns</span>
+      </div>
+      <ul class="mistake-list">
+        <li>
+          <strong>把 IRR 当 required return</strong>
+          <p>错因：把“按当前买入价格能赚多少”和“按系统性风险市场要求应该赚多少”混为一谈。</p>
+        </li>
+        <li>
+          <strong>把 positive NPV 直接当成股东会接受</strong>
+          <p>错因：忘了 old debt、new debt、old equity 之间的增量分配。模块 4 的题很多就是在卡这一点。</p>
+        </li>
+        <li>
+          <strong>只检查融资 break-even，不检查 incentive compatibility</strong>
+          <p>错因：把“资金能进来”和“行为被纠正”混成一件事。模块 5 的高分答案一定会把这两条约束分开写。</p>
+        </li>
+        <li>
+          <strong>risk premium 变化时只盯 posterior mean</strong>
+          <p>错因：忘了课程模型里 premium 直接跟 posterior variance 走。signal 同时影响 mean 和 variance，但 premium 这层最稳的是 variance。</p>
+        </li>
+        <li>
+          <strong>把 WE、REE、fully revealing/noisy REE 混成“价格有无信息”一个问题</strong>
+          <p>错因：没有分清价格是预算约束的一部分，还是 belief updating 的输入，以及价格信息是否被噪声污染。</p>
+        </li>
+        <li>
+          <strong>把存款保险写成“政府赔钱，所以大家不跑”</strong>
+          <p>错因：没有抓住 ex ante incentive change。更准确的写法是：可信承诺改变 late depositor 的最优反应，所以坏均衡失去吸引力。</p>
+        </li>
+        <li>
+          <strong>把危机题写成事件时间线，而不是反馈回路</strong>
+          <p>错因：你写了 shock，却没写 <code>balance-sheet deterioration \to tighter constraint \to forced response \to further deterioration</code>。</p>
+        </li>
+        <li>
+          <strong>把 QE 写成单纯“印钱”</strong>
+          <p>错因：忽略了期限结构、term premium、portfolio balance 和 expectations channel。模块 8 的政策题基本都卡传导链，不卡口号。</p>
+        </li>
+      </ul>
+      <p class="footer-line">返回目录页：<a class="inline-link" href="index.html">course/index.html</a></p>
+    </section>
+  </main>
+</body>
+</html>
