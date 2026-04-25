@@ -174,9 +174,9 @@
         <li>
           <strong>Valuation</strong>
           <p><code>PV = E(C~)/(1+k)</code></p>
-          <p><code>k = r_f + beta_p(E(r_m~)-r_f)</code></p>
-          <p><code>beta_C = Cov(C~, r_m~)/Var(r_m~)</code>, <code>beta_p = beta_C/PV</code></p>
-          <p><code>CE = E(C~) - beta_C(E(r_m~)-r_f)</code>, <code>PV = CE/(1+r_f)</code></p>
+          <p><code>k = r_f + β_p(E(r_m~)-r_f)</code></p>
+          <p><code>β_C = Cov(C~, r_m~)/Var(r_m~)</code>, <code>β_p = β_C/PV</code></p>
+          <p><code>CE = E(C~) - β_C(E(r_m~)-r_f)</code>, <code>PV = CE/(1+r_f)</code></p>
         </li>
         <li>
           <strong>Debt / Equity Payoff</strong>
@@ -186,27 +186,27 @@
         </li>
         <li>
           <strong>Moral Hazard</strong>
-          <p><code>c*_E = (1-alpha)[E(C~|H)-E(C~|L)]</code></p>
-          <p>更一般地，永远写成 <code>high effort payoff - c >= shirk payoff</code></p>
+          <p><code>c*_E = (1-α)[E(C~|H)-E(C~|L)]</code></p>
+          <p>更一般地，永远写成 <code>high effort payoff - c ≥ shirk payoff</code></p>
           <p>债务题里不要忘记成功态和失败态常会被 <code>max(C-K,0)</code> 截断。</p>
         </li>
         <li>
           <strong>Posterior Update</strong>
-          <p><code>theta~ = r~ + e~</code></p>
-          <p><code>m = mu + [sigma^2/(sigma^2+sigma_theta^2)](theta-mu)</code></p>
-          <p><code>v = sigma^2 sigma_theta^2/(sigma^2+sigma_theta^2)</code></p>
+          <p><code>θ~ = r~ + e~</code></p>
+          <p><code>m = μ + [σ²/(σ²+σ²_θ)](θ-μ)</code></p>
+          <p><code>v = σ²σ²_θ/(σ²+σ²_θ)</code></p>
         </li>
         <li>
           <strong>Risk Pricing</strong>
-          <p><code>E(R~|theta) = exp(m + 0.5v)</code></p>
-          <p><code>ln R_f(theta) = m + 0.5(2eta-1)v</code></p>
-          <p><code>ln E(R~|theta) - ln R_f(theta) = (1-eta)v</code></p>
+          <p><code>E(R~|θ) = exp(m + 0.5v)</code></p>
+          <p><code>ln R_f(θ) = m + 0.5(2η-1)v</code></p>
+          <p><code>ln E(R~|θ) - ln R_f(θ) = (1-η)v</code></p>
         </li>
         <li>
           <strong>Banking / Policy</strong>
           <p><code>MB = C + R</code></p>
-          <p>Diamond-Dybvig 里记住的是合同结构：<code>1-I = theta r_1</code>, <code>(1-theta)r_2 = IR</code></p>
-          <p>政策题不要只背工具名，要背传导链：<code>tool -> reserves / expectations / yield curve -> bank behavior -> credit conditions</code></p>
+          <p>Diamond-Dybvig 里记住的是合同结构：<code>1-I = θr_1</code>, <code>(1-θ)r_2 = IR</code></p>
+          <p>政策题不要只背工具名，要背传导链：<code>tool → reserves / expectations / yield curve → bank behavior → credit conditions</code></p>
         </li>
       </ul>
     </section>
@@ -246,7 +246,7 @@
         </li>
         <li>
           <strong>把危机题写成事件时间线，而不是反馈回路</strong>
-          <p>错因：你写了 shock，却没写 <code>balance-sheet deterioration -> tighter constraint -> forced response -> further deterioration</code>。</p>
+          <p>错因：你写了 shock，却没写 <code>balance-sheet deterioration → tighter constraint → forced response → further deterioration</code>。</p>
         </li>
         <li>
           <strong>把 QE 写成单纯“印钱”</strong>
