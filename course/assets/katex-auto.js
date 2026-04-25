@@ -3,6 +3,9 @@
     return input
       .replace(/&gt;/g, ">")
       .replace(/&lt;/g, "<")
+      .replace(/>=/g, "\\ge ")
+      .replace(/<=/g, "\\le ")
+      .replace(/->/g, "\\to ")
       .replace(/≈/g, "\\approx ")
       .replace(/≤/g, "\\le ")
       .replace(/≥/g, "\\ge ")
@@ -19,6 +22,11 @@
       .replace(/\bIRR\b/g, "IRR")
       .replace(/\bCE\b/g, "CE")
       .replace(/\bIC\b/g, "IC")
+      .replace(/\balpha\b/g, "\\alpha")
+      .replace(/\bbeta\b/g, "\\beta")
+      .replace(/\btheta\b/g, "\\theta")
+      .replace(/\bsigma\b/g, "\\sigma")
+      .replace(/\bmu\b/g, "\\mu")
       .replace(/([A-Za-zΑ-Ωα-ω])~/g, "\\tilde{$1}")
       .replace(/\bmin\(/g, "\\min(")
       .replace(/\bmax\(/g, "\\max(")
@@ -91,13 +99,16 @@
         const trimmed = line.trim();
         if (!trimmed) return;
         const row = document.createElement("div");
+
         if (looksLikeBlockMathLine(trimmed)) {
           const pair = splitLabelAndFormula(trimmed);
+
           if (pair) {
             row.className = "math-display-line math-display-pair";
             const label = document.createElement("div");
             label.className = "math-display-pair-label";
             label.textContent = pair.label;
+
             const formula = document.createElement("div");
             formula.className = "math-display-pair-formula";
             try {
@@ -109,6 +120,7 @@
               formula.className = "math-display-pair-formula math-render-error";
               formula.textContent = pair.formula;
             }
+
             row.appendChild(label);
             row.appendChild(formula);
           } else {
@@ -127,11 +139,11 @@
           row.className = "math-display-label";
           row.textContent = trimmed;
         }
+
         container.appendChild(row);
       });
 
-      const pre = codeNode.parentElement;
-      pre.replaceWith(container);
+      codeNode.parentElement.replaceWith(container);
     });
   }
 
