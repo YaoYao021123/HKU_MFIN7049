@@ -155,9 +155,9 @@
     }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426b">
+  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426c">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="assets/katex-auto.js?v=20260426b"></script>
+  <script defer src="assets/katex-auto.js?v=20260426c"></script>
 </head>
 <body>
   <main class="shell">
@@ -236,7 +236,7 @@ Project B: 0.5 概率 280, 0.5 概率 20</code></pre>
           <strong>Q14. Information and Risk Premium</strong>
           <p>设 <code>ln R~ = r~ ~ N(μ, σ²)</code>，其中 <code>μ=0.01</code>、<code>σ²=0.16</code>、<code>η=0.8</code>。现有信号 <code>θ~ = r~ + e~</code>，其中 <code>e~ ~ N(0, 0.04)</code>，且 realization <code>θ=0.09</code>。</p>
           <p>1. 求 posterior mean 和 posterior variance。</p>
-          <p>2. 求 <code>E(R~|θ)</code>、<code>Rf(θ)</code> 和 conditional premium。</p>
+          <p>2. 求 <code>E(R~|θ)</code>、<code>R_f(θ)</code> 和 conditional premium。</p>
           <p>3. 与无信号情形相比，指出 premium 为何变化。</p>
         </li>
       </ol>
@@ -272,13 +272,13 @@ Project B: 0.5 概率 280, 0.5 概率 20</code></pre>
         <div class="answer">
           <pre><code>E(C~) = 120
 市场 net return: 0.25, -0.05
-E(rm~) = 0.10
+E(r_m~) = 0.10
 
-Cov(C~, rm~)
+Cov(C~, r_m~)
 = 0.5(180-120)(0.25-0.10) + 0.5(60-120)(-0.05-0.10)
 = 9
 
-Var(rm~) = 0.5(0.15)^2 + 0.5(-0.15)^2 = 0.0225
+Var(r_m~) = 0.5(0.15)^2 + 0.5(-0.15)^2 = 0.0225
 β_C = 9 / 0.0225 = 400
 β_p = 400 / 105 ≈ 3.81
 k = 5% + 3.81(10%-5%) ≈ 24.05%
@@ -313,7 +313,7 @@ E(C|L)=130
 
 Equity:
 α = 90 / 180 = 0.5
-c*_E = (1-α)(180-130) = 25
+c^*_E = (1-α)(180-130) = 25
 
 Debt:
 0.5K + 0.5×120 = 90
@@ -321,7 +321,7 @@ K = 60
 
 high effort payoff = 0.5(240-60) + 0.5(120-60) - c = 120 - c
 shirk payoff = 0.5(180-60) + 0.5(80-60) = 70
-c*_D = 50</code></pre>
+c^*_D = 50</code></pre>
           <p>debt 更强，是因为它让 entrepreneur 在成功态保留更多 residual upside，从而提高高努力的 private return。</p>
         </div>
       </details>
@@ -334,7 +334,7 @@ m = 0.01 + 0.8(0.09-0.01) = 0.074
 v = 0.16×0.04 / 0.20 = 0.032
 
 E(R~|θ) = exp(0.074 + 0.5×0.032) = exp(0.09)
-ln Rf(θ) = 0.074 + 0.5(2×0.8-1)0.032 = 0.0836
+ln R_f(θ) = 0.074 + 0.5(2×0.8-1)0.032 = 0.0836
 premium = 0.09 - 0.0836 = 0.0064</code></pre>
           <p>无信号时 premium 为 <code>(1-η)σ² = 0.032</code>。信号把 posterior variance 从 <code>0.16</code> 压到 <code>0.032</code>，所以 premium 明显下降。</p>
         </div>

@@ -291,9 +291,9 @@
     }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426b">
+  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426c">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="assets/katex-auto.js?v=20260426b"></script>
+  <script defer src="assets/katex-auto.js?v=20260426c"></script>
 </head>
 <body>
   <main class="shell">
@@ -519,10 +519,10 @@ Conditional expected gross return:
 E(R~ | θ) = exp(m(θ) + 0.5v)
 
 Conditional risk-free rate:
-ln Rf(θ) = m(θ) + 0.5(2η - 1)v
+ln R_f(θ) = m(θ) + 0.5(2η - 1)v
 
 Conditional risk premium:
-ln E(R~ | θ) - ln Rf(θ) = (1 - η)v</code></pre>
+ln E(R~ | θ) - ln R_f(θ) = (1 - η)v</code></pre>
           <p>关键信息：signal 通过降低 posterior variance <code>v</code> 来压低 premium。</p>
         </div>
         <div class="card">
@@ -567,7 +567,7 @@ price = information component + noise component</code></pre>
       <div class="example-flow">
         <div class="step">
           <strong>题目设定</strong>
-          <p>设 <code>ln R~ = r~ ~ N(μ, σ²)</code>，其中 <code>μ = 0.02</code>、<code>σ² = 0.04</code>。投资者有参数 <code>η = 0.7</code>。现在投资者额外观察到信号 <code>θ~ = r~ + e~</code>，其中 <code>e~ ~ N(0, 0.04)</code>，并在本次 realizations 中看到 <code>θ = 0.10</code>。求 <code>E(R~ | θ)</code>、<code>Rf(θ)</code> 和 risk premium。</p>
+          <p>设 <code>ln R~ = r~ ~ N(μ, σ²)</code>，其中 <code>μ = 0.02</code>、<code>σ² = 0.04</code>。投资者有参数 <code>η = 0.7</code>。现在投资者额外观察到信号 <code>θ~ = r~ + e~</code>，其中 <code>e~ ~ N(0, 0.04)</code>，并在本次 realizations 中看到 <code>θ = 0.10</code>。求 <code>E(R~ | θ)</code>、<code>R_f(θ)</code> 和 risk premium。</p>
         </div>
         <div class="step">
           <strong>第 1 步：先做 Bayes 更新</strong>
@@ -591,18 +591,18 @@ v = 0.04 × 0.04 / (0.04 + 0.04)
         </div>
         <div class="step">
           <strong>第 3 步：算 conditional risk-free rate</strong>
-          <pre><code>ln Rf(θ) = m + 0.5(2η - 1)v
+          <pre><code>ln R_f(θ) = m + 0.5(2η - 1)v
          = 0.06 + 0.5(1.4 - 1) × 0.02
          = 0.06 + 0.004
          = 0.064
 
-Rf(θ) = exp(0.064) ≈ 1.0661</code></pre>
+R_f(θ) = exp(0.064) ≈ 1.0661</code></pre>
           <p>风险厌恶通过 <code>(1 - η)</code> 进入 premium。<code>η</code> 越低，risk-free rate 就越被往下压。</p>
         </div>
         <div class="step">
           <strong>第 4 步：算 risk premium，并与无信号情形比较</strong>
           <pre><code>Conditional premium in log return:
-ln E(R~ | θ) - ln Rf(θ)
+ln E(R~ | θ) - ln R_f(θ)
 = 0.07 - 0.064
 = 0.006
 

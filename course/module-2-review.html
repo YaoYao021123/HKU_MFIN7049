@@ -289,9 +289,9 @@
     }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426b">
+  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426c">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="assets/katex-auto.js?v=20260426b"></script>
+  <script defer src="assets/katex-auto.js?v=20260426c"></script>
 </head>
 <body>
   <main class="shell">
@@ -446,10 +446,10 @@
         <div class="concept-block">
           <h3>8. Cash-flow Beta vs Return Beta</h3>
           <div class="concept-meta">
-            <div><b>定义</b><code>βC = Cov(C~, rm~)/Var(rm~)</code>；<code>βp = Cov(rp~, rm~)/Var(rm~)</code>，且 <code>βp = βC/PV</code>。</div>
+            <div><b>定义</b><code>β_C = Cov(C~, r_m~)/Var(r_m~)</code>；<code>β_p = Cov(r_p~, r_m~)/Var(r_m~)</code>，且 <code>β_p = β_C/PV</code>。</div>
             <div><b>直觉</b>现金流 beta 是“现金流金额跟市场一起动多少”；收益率 beta 是“每 1 元公平价格承担多少系统性风险”。</div>
-            <div><b>考试问法</b>HW1 同类题最常见：先算 <code>βC</code>，再除以 <code>PV</code> 得到能进 CAPM 的 <code>βp</code>。</div>
-            <div><b>易错点</b>直接把 <code>βC = 20</code> 塞进 CAPM，得到荒谬的 required return。</div>
+            <div><b>考试问法</b>HW1 同类题最常见：先算 <code>β_C</code>，再除以 <code>PV</code> 得到能进 CAPM 的 <code>β_p</code>。</div>
+            <div><b>易错点</b>直接把 <code>β_C = 20</code> 塞进 CAPM，得到荒谬的 required return。</div>
           </div>
         </div>
       </div>
@@ -494,25 +494,25 @@ long-term rate
           <strong>估值三法</strong>
           <pre><code>DCF:
 PV = E(C~) / [1 + k]
-k = rf + βp(E(rm~) - rf)
+k = r_f + β_p(E(r_m~) - r_f)
 
 Tracking:
-b = Cov(C~, rm~) / Var(rm~)
-a = [E(C~) - b(1 + E(rm~))] / (1 + rf)
+b = Cov(C~, r_m~) / Var(r_m~)
+a = [E(C~) - b(1 + E(r_m~))] / (1 + r_f)
 PV = a + b
 
 Certainty Equivalent:
-βC = Cov(C~, rm~) / Var(rm~)
-CE = E(C~) - βC(E(rm~) - rf)
-PV = CE / (1 + rf)</code></pre>
+β_C = Cov(C~, r_m~) / Var(r_m~)
+CE = E(C~) - β_C(E(r_m~) - r_f)
+PV = CE / (1 + r_f)</code></pre>
         </div>
         <div class="card">
           <strong>必须记住的连接</strong>
           <pre><code>IRR = E(C~)/I - 1
 Required Return = E(C~)/PV - 1
 
-βp = βC / PV
-βC = PV · βp</code></pre>
+β_p = β_C / PV
+β_C = PV · β_p</code></pre>
           <p>最常见错误就是把 <code>I</code> 和 <code>PV</code> 混掉，再把 <code>IRR</code> 当成 <code>required return</code>。</p>
         </div>
       </div>
@@ -529,11 +529,11 @@ Required Return = E(C~)/PV - 1
       <div class="example-flow">
         <div class="step">
           <strong>题目骨架</strong>
-          <p>项目成本 <code>I = 16</code>，明年 cash flow 为 <code>37.3 / 26.3 / 23.3</code>，对应 market return 为 <code>40% / 20% / -20%</code>，风险自由利率 <code>rf = 6%</code>。</p>
+          <p>项目成本 <code>I = 16</code>，明年 cash flow 为 <code>37.3 / 26.3 / 23.3</code>，对应 market return 为 <code>40% / 20% / -20%</code>，风险自由利率 <code>r_f = 6%</code>。</p>
         </div>
         <div class="step">
           <strong>先做四个基础统计量</strong>
-          <p><code>E(C~) = 28.3</code>，<code>E(rm~) = 15%</code>，<code>Var(rm~) = 0.0475</code>，<code>Cov(C~, rm~) = 0.95</code>。</p>
+          <p><code>E(C~) = 28.3</code>，<code>E(r_m~) = 15%</code>，<code>Var(r_m~) = 0.0475</code>，<code>Cov(C~, r_m~) = 0.95</code>。</p>
         </div>
         <div class="step">
           <strong>Tracking portfolio</strong>
@@ -542,7 +542,7 @@ Required Return = E(C~)/PV - 1
         </div>
         <div class="step">
           <strong>Beta 与 required return</strong>
-          <p><code>βC = 20</code>，<code>βp = βC / PV = 20 / 25 = 0.8</code>。于是 <code>k = 6% + 0.8 × (15% - 6%) = 13.2%</code>。</p>
+          <p><code>β_C = 20</code>，<code>β_p = β_C / PV = 20 / 25 = 0.8</code>。于是 <code>k = 6% + 0.8 × (15% - 6%) = 13.2%</code>。</p>
         </div>
         <div class="step">
           <strong>再用另外两法回验</strong>
@@ -590,10 +590,10 @@ Required Return = E(C~)/PV - 1
       </details>
 
       <details>
-        <summary>填空：完成下面两个式子。<br><code>PV = ____ / (1 + i)^n</code><br><code>βp = ____ / PV</code></summary>
+        <summary>填空：完成下面两个式子。<br><code>PV = ____ / (1 + i)^n</code><br><code>β_p = ____ / PV</code></summary>
         <div class="answer">
           <pre><code>PV = CF / (1 + i)^n
-βp = βC / PV</code></pre>
+β_p = β_C / PV</code></pre>
         </div>
       </details>
 

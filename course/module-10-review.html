@@ -236,9 +236,9 @@
     }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426b">
+  <link rel="stylesheet" href="assets/katex-auto.css?v=20260426c">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="assets/katex-auto.js?v=20260426b"></script>
+  <script defer src="assets/katex-auto.js?v=20260426c"></script>
 </head>
 <body>
   <main class="shell">
@@ -351,17 +351,17 @@
           <strong>模板公式</strong>
           <pre><code>DCF:
 PV = E(C~) / [1 + k]
-k = rf + β_p(E(rm~) - rf)
+k = r_f + β_p(E(r_m~) - r_f)
 
 Tracking:
-b = Cov(C~, rm~) / Var(rm~)
-a = [E(C~) - b(1 + E(rm~))] / (1 + rf)
+b = Cov(C~, r_m~) / Var(r_m~)
+a = [E(C~) - b(1 + E(r_m~))] / (1 + r_f)
 PV = a + b
 
 CE:
-β_C = Cov(C~, rm~) / Var(rm~)
-CE = E(C~) - β_C(E(rm~) - rf)
-PV = CE / (1 + rf)</code></pre>
+β_C = Cov(C~, r_m~) / Var(r_m~)
+CE = E(C~) - β_C(E(r_m~) - r_f)
+PV = CE / (1 + r_f)</code></pre>
         </div>
         <div class="step">
           <strong>高频提醒</strong>
@@ -369,7 +369,7 @@ PV = CE / (1 + rf)</code></pre>
         </div>
         <div class="step">
           <strong>一题压缩版</strong>
-          <p>若 <code>E(C~)=120</code>、<code>rf=5%</code>、<code>E(rm~)=15%</code>、<code>β_C=20</code>，且已知公平价格 <code>PV=100</code>。</p>
+          <p>若 <code>E(C~)=120</code>、<code>r_f=5%</code>、<code>E(r_m~)=15%</code>、<code>β_C=20</code>，且已知公平价格 <code>PV=100</code>。</p>
           <pre><code>β_p = β_C / PV = 20 / 100 = 0.2
 k = 5% + 0.2(15%-5%) = 7%
 
@@ -449,10 +449,10 @@ Posterior variance:
 v = σ²σ²_θ / (σ² + σ²_θ)
 
 E(R~|θ) = exp(m + 0.5v)
-ln Rf(θ) = m + 0.5(2η-1)v
+ln R_f(θ) = m + 0.5(2η-1)v
 
 premium:
-ln E(R~|θ) - ln Rf(θ) = (1-η)v</code></pre>
+ln E(R~|θ) - ln R_f(θ) = (1-η)v</code></pre>
         </div>
         <div class="step">
           <strong>一题压缩版：HW2 Q2 同构</strong>
@@ -462,7 +462,7 @@ m = 0.02 + 0.5(0.10 - 0.02) = 0.06
 v = 0.04×0.04 / 0.08 = 0.02
 
 E(R~|θ) = exp(0.06 + 0.01) = exp(0.07)
-ln Rf(θ) = 0.06 + 0.5(0.4)0.02 = 0.064
+ln R_f(θ) = 0.06 + 0.5(0.4)0.02 = 0.064
 premium = 0.07 - 0.064 = 0.006</code></pre>
           <p>无信号时 premium 为 <code>(1-η)σ² = 0.012</code>，所以 signal 让 premium 减半。原因是 posterior variance 从 <code>0.04</code> 降到了 <code>0.02</code>。</p>
         </div>
@@ -479,7 +479,7 @@ premium = 0.07 - 0.064 = 0.006</code></pre>
       </div>
 
       <details>
-        <summary>Q1：若 <code>C=150</code>、<code>rf=4%</code>、<code>β_p=0.5</code>、<code>E(rm~)=12%</code>，求 required return 和 DCF 公平价格。</summary>
+        <summary>Q1：若 <code>C=150</code>、<code>r_f=4%</code>、<code>β_p=0.5</code>、<code>E(r_m~)=12%</code>，求 required return 和 DCF 公平价格。</summary>
         <div class="answer">
           <pre><code>k = 4% + 0.5(12%-4%) = 8%
 PV = 150 / 1.08 ≈ 138.89</code></pre>
@@ -556,13 +556,13 @@ premium = (1-η)v = 0.4 × 0.045 = 0.018</code></pre>
             <div class="answer">
               <pre><code>E(C~) = 120
 市场 net return 为 0.30 和 -0.10
-E(rm~) = 0.10
+E(r_m~) = 0.10
 
-Cov(C~, rm~)
+Cov(C~, r_m~)
 = 0.5(160-120)(0.30-0.10) + 0.5(80-120)(-0.10-0.10)
 = 8
 
-Var(rm~) = 0.5(0.20)^2 + 0.5(-0.20)^2 = 0.04
+Var(r_m~) = 0.5(0.20)^2 + 0.5(-0.20)^2 = 0.04
 β_C = 8 / 0.04 = 200
 β_p = β_C / P = 200 / 110 ≈ 1.818
 
