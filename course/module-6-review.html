@@ -267,6 +267,7 @@
             <li>Exam Fit: 70% 判断/解释</li>
             <li>30% 计算/推导</li>
             <li>Anchor: Teaching Notes 9</li>
+            <li>HW3 integrated</li>
             <li>Mode: 混合互动</li>
           </ul>
         </div>
@@ -277,6 +278,8 @@
             <li><code>Slides - 10.pdf</code></li>
             <li><code>Slides - 11.pdf</code></li>
             <li><code>Teaching Notes - 9.pdf</code></li>
+            <li><code>HW3/Assignment 3.pdf</code></li>
+            <li><code>HW3/Solution to Assignment 3.pdf</code></li>
           </ul>
           <div class="status-line">
             <span class="badge">模块编号：6</span>
@@ -418,7 +421,7 @@
       <div class="section-head">
         <div>
           <h2>必会公式 / 推导</h2>
-          <p class="section-note">模块 6 的算式不复杂，但一定要会把式子翻译回“流动性折价、run incentive 和监管逻辑”。</p>
+          <p class="section-note">模块 6 的算式不复杂，但 HW3 说明这里会真的把 market liquidity、redeemability 和退出阈值写成计算题，不只是背概念。</p>
         </div>
         <span class="badge">核心公式链</span>
       </div>
@@ -499,6 +502,26 @@ Deposit insurance / LOLR
 → stop panic and contagion</code></pre>
           <p>考试里写清这张映射表，比分散列点更容易拿满逻辑分。</p>
         </div>
+        <div class="card">
+          <strong>HW3 Q1：bond vs banknote valuation</strong>
+          <pre><code>Bond:
+v_bond = ρR / [ρ + (1-ρ)θ(1-ησ)]
+
+Banknote:
+v_banknote
+= [ρR + (1-ρ)θ(1-ησ)r]
+  / [ρ + (1-ρ)θ(1-ησ)]</code></pre>
+          <p>bond 只有二级市场退出；banknote 除了能交易，还带 redemption floor，所以 value 更高。</p>
+        </div>
+        <div class="card">
+          <strong>HW3 Q2：redemption threshold</strong>
+          <pre><code>Remain value per non-redeemer
+= [1 - (n/N)(0.8/0.5)] / [1 - n/N]
+
+Indifference condition:
+[1 - (n/N)(0.8/0.5)] / [1 - n/N] = 0.8</code></pre>
+          <p>别人先赎回越多，基金越需要在坏价格下卖资产，留下来的份额价值越低，这就是 run-like fragility。</p>
+        </div>
       </div>
     </section>
 
@@ -506,50 +529,62 @@ Deposit insurance / LOLR
       <div class="section-head">
         <div>
           <h2>1 道完整例题</h2>
-          <p class="section-note">下面用 <code>Diamond-Dybvig</code> 的课堂数值做一题，把“银行为什么更有效”和“为什么会 run”串起来。</p>
+          <p class="section-note">这里直接换成 HW3 Q1，因为它把模块 6 的核心概念压成了一题：同样是债务工具，一旦加入 liquidity shock、search friction 和 redeemability，价值就会分叉。</p>
         </div>
-        <span class="badge">机制主例题</span>
+        <span class="badge">HW3 Q1 Walkthrough</span>
       </div>
       <div class="example-flow">
         <div class="step">
           <strong>题目设定</strong>
-          <p>有 100 个存款人，每人初始 endowment 为 1。25% 是 early consumer，75% 是 late consumer。长期资产到 t=2 回报 <code>R=2</code>，若 t=1 强制清算则只有 <code>l &lt; 1</code>。银行设计存款合同：</p>
-          <pre><code>withdraw early → r1 = 1.28
-withdraw late  → r2 = 1.813</code></pre>
-          <p>银行把 <code>I=0.68</code> 投入长期资产。说明：</p>
-          <p>1. 为什么这个合同优于简单自持？</p>
-          <p>2. 为什么它又会带来 run fragility？</p>
+          <p>借款人发行两种工具之一：<code>bond</code> 或 <code>banknote</code>。终值 repayment <code>R = 2</code>，提前 redemption value <code>r = 0.8</code>；项目 payoff arrival intensity <code>ρ = 0.1</code>；持有人 liquidity shock intensity <code>θ = 0.2</code>；若要卖出，找到 counterparty 的概率 <code>σ = 0.5</code>，卖方 bargaining power <code>η = 0.8</code>。</p>
         </div>
 
         <div class="step">
-          <strong>第 1 步：先解释为什么银行安排更优</strong>
-          <p>若每个人自己持有 liquid 和 illiquid asset，会得到更不平滑的消费组合，典型 benchmark 是 <code>(c1, c2) = (1, 2)</code>。而银行合同给出的是 <code>(1.28, 1.813)</code>。</p>
-          <p>对于 risk-averse agent，较平滑的跨类型消费组合效用更高，所以银行提供了 liquidity insurance。</p>
+          <strong>第 1 步：先写 liquidity shock 下的退出价值</strong>
+          <p>如果项目先 payoff，工具直接给 <code>R</code>。难点在于：若持有人先遭遇 liquidity shock，就必须提前退出。对 <code>bond</code> 来说，只能靠市场转手；对 <code>banknote</code> 来说，即使卖不掉，也还能向发行人要求 <code>r</code>。</p>
         </div>
 
         <div class="step">
-          <strong>第 2 步：为什么 late consumer 可能也想跑</strong>
-          <p>因为先提款的人先拿到 <code>1.28</code>。若一个 late consumer 预期很多其他 late consumer 也会提前提取，那么等到 t=2 可拿到的 <code>r2(n)</code> 会下降：</p>
-          <pre><code>r2(n) = [68 - (n-25)1.28] · 2 / (100-n)</code></pre>
-          <p>只要这个值低于 <code>1.28</code>，理性的 late consumer 也会改成提前提取。</p>
+          <strong>第 2 步：写出 bond 的 fixed-point</strong>
+          <p>bond 持有人只有在找得到交易对手时才能退出；且成交时只能拿到 continuation value 的 <code>η</code> 份额：</p>
+          <pre><code>v_bond
+= [ρR + (1-ρ)θση v_bond]
+  / [ρ + (1-ρ)θ]
+
+⇒ v_bond
+= ρR / [ρ + (1-ρ)θ(1-ησ)]</code></pre>
+          <p>代入参数：</p>
+          <pre><code>v_bond
+= 0.1×2 / [0.1 + 0.9×0.2×(1-0.8×0.5)]
+= 0.2 / 0.208
+≈ 0.962</code></pre>
         </div>
 
         <div class="step">
-          <strong>第 3 步：均衡怎么写</strong>
-          <p>存在两个均衡：</p>
-          <p>1. <code>good equilibrium</code>：只有真正的 early consumer 提取，<code>n=25</code>，系统正常运行。</p>
-          <p>2. <code>bad equilibrium</code>：所有人都跑，银行被迫清算长期资产，支付变差，坏信念自我实现。</p>
+          <strong>第 3 步：写出 banknote 的 fixed-point</strong>
+          <p>banknote 多了 redemption floor。若 shock 来了但没法顺利卖出，持有人至少拿到 <code>r</code>；这也会抬高谈判中的外部选择，于是成交时拿到 <code>η v_banknote + (1-η)r</code>：</p>
+          <pre><code>v_banknote
+= [ρR + (1-ρ)θ(ση v_banknote + (1-ησ)r)]
+  / [ρ + (1-ρ)θ]
+
+⇒ v_banknote
+= [ρR + (1-ρ)θ(1-ησ)r]
+  / [ρ + (1-ρ)θ(1-ησ)]</code></pre>
+          <p>代入参数：</p>
+          <pre><code>v_banknote
+= [0.1×2 + 0.9×0.2×0.6×0.8] / 0.208
+= 0.2864 / 0.208
+≈ 1.377</code></pre>
         </div>
 
         <div class="step">
-          <strong>第 4 步：政策含义</strong>
-          <p><code>deposit insurance</code> 的作用不是简单“补钱”，而是让 late depositor 相信即便别人跑，自己不跑也不会吃亏。这样坏均衡失去吸引力，run incentive 被切断。</p>
-          <p>但安全网又会削弱 discipline，所以后面必须配 capital requirement、supervision 和 disclosure。</p>
+          <strong>第 4 步：比较两者并给经济直觉</strong>
+          <p><code>v_banknote &gt; v_bond</code> 有两个原因：第一，redemption 给了持有人 payoff floor；第二，这个 floor 也提高了 bargaining position，所以即使能卖出，成交价也更高。</p>
         </div>
 
         <div class="step">
-          <strong>考试式结论</strong>
-          <p>银行合同之所以优于 autarky，是因为它为 idiosyncratic liquidity shock 提供保险；银行合同之所以脆弱，是因为 demandability + illiquid assets + coordination problem 会诱发自我实现挤兑；监管之所以必要，是因为它既要保留保险收益，也要压住脆弱性和 moral hazard。</p>
+          <strong>一句话抓住 HW3 Q1</strong>
+          <p>这题考的不是“会不会背 bond / banknote 定义”，而是能不能把 <code>tradability</code>、<code>redeemability</code>、search friction 和 liquidity shock 放进同一个 valuation problem。</p>
         </div>
       </div>
     </section>
@@ -622,7 +657,22 @@ withdraw late  → r2 = 1.813</code></pre>
       </div>
 
       <details>
-        <summary>H1. 若一项债务工具可 demand redemption，但不可二级市场交易，它在课程框架里更像哪类银行脆弱性来源？</summary>
+        <summary>H1. HW3 Q2 型：基金有 <code>N = 100000</code> 个投资者，若在 2:59 PM 赎回可按 <code>0.8</code> 退出；若留下，投资者预期 2 月 23 日价格回到 <code>1</code>，但为了支付前面赎回者，基金需要在 2 月 22 日按 <code>0.5</code> 抛售一部分股票。写出使 Miss Wang 恰好无差异的阈值方程，并求 <code>n</code>。</summary>
+        <div class="answer">
+          <pre><code>Remain value per non-redeemer
+= [1 - (n/100000)(0.8/0.5)] / [1 - n/100000]
+
+Indifference:
+[1 - (n/100000)(0.8/0.5)] / [1 - n/100000] = 0.8
+
+Solve:
+n = 25000</code></pre>
+          <p>直觉是 first-mover incentive。别人先赎回越多，基金越要在更差价格下卖出更多股票，留下来的人每份份额对应的终值就越低。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 若一项债务工具可 demand redemption，但不可二级市场交易，它在课程框架里更像哪类银行脆弱性来源？</summary>
         <div class="answer">
           <p><strong>答案：</strong>更像 redeemability 驱动的 run fragility，而不是 tradability 驱动的 market liquidity 问题。</p>
           <p>高阶题的关键是区分“你是把资产卖给别人”还是“你直接向发行人要钱”。前者是交易市场流动性，后者是挤兑与清偿顺序问题。</p>
@@ -630,7 +680,7 @@ withdraw late  → r2 = 1.813</code></pre>
       </details>
 
       <details>
-        <summary>H2. 若存款保险覆盖提高到几乎全部存款，但资本监管和检查频率下降，银行体系风险一定下降吗？</summary>
+        <summary>H3. 若存款保险覆盖提高到几乎全部存款，但资本监管和检查频率下降，银行体系风险一定下降吗？</summary>
         <div class="answer">
           <p><strong>答案：</strong>不一定。</p>
           <p>panic risk 会下降，但 asset-side risk-taking incentive 可能变强。更接近作业的答法是：bad equilibrium 被切断，但 moral hazard 可能沿另一条线抬头。</p>
@@ -638,7 +688,7 @@ withdraw late  → r2 = 1.813</code></pre>
       </details>
 
       <details>
-        <summary>H3. 如果题目把 bank run 搬到 shadow banking，比如 MMMF 或 repo funding，核心机制变了吗？</summary>
+        <summary>H4. 如果题目把 bank run 搬到 shadow banking，比如 MMMF 或 repo funding，核心机制变了吗？</summary>
         <div class="answer">
           <p><strong>答案：</strong>没有本质改变，只是合同载体换了。</p>
           <p>只要存在短期可撤回融资、资产长期且需折价变现、以及先走者受益的支付顺序，就会出现 run-like fragility。高分答案应指出：商业银行存款并不是 run 的唯一载体。</p>
