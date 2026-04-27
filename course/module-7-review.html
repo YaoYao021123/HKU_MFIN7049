@@ -267,6 +267,7 @@
             <li>Exam Fit: 70% 判断/解释</li>
             <li>30% 计算/推导</li>
             <li>Anchor: Slides 12/13 + Notes 3/10/11</li>
+            <li>HW3 integrated</li>
             <li>Mode: 混合互动</li>
           </ul>
         </div>
@@ -278,6 +279,8 @@
             <li><code>Teaching Notes-3.pdf</code></li>
             <li><code>Teaching Notes - 10.pdf</code></li>
             <li><code>Teaching Notes - 11.pdf</code></li>
+            <li><code>HW3/Assignment 3.pdf</code></li>
+            <li><code>HW3/Solution to Assignment 3.pdf</code></li>
           </ul>
           <div class="status-line">
             <span class="badge">模块编号：7</span>
@@ -419,7 +422,7 @@
       <div class="section-head">
         <div>
           <h2>必会公式 / 推导</h2>
-          <p class="section-note">模块 7 多数题偏机制解释，但有几条公式和关系式能帮你把逻辑说得更硬。</p>
+          <p class="section-note">模块 7 多数题偏机制解释，但 HW3 说明它也会把 market liquidity、redeemability 和 run threshold 写成硬计算题。</p>
         </div>
         <span class="badge">核心公式链</span>
       </div>
@@ -486,6 +489,26 @@ and too little on private signal x_i</code></pre>
 → mispricing worsens</code></pre>
           <p>这解释了为什么“市场错了”不等于你能靠纠错赚到钱。</p>
         </div>
+        <div class="card">
+          <strong>HW3 Q1：bond vs banknote valuation</strong>
+          <pre><code>Bond:
+v_bond = ρR / [ρ + (1-ρ)θ(1-ησ)]
+
+Banknote:
+v_banknote
+= [ρR + (1-ρ)θ(1-ησ)r]
+  / [ρ + (1-ρ)θ(1-ησ)]</code></pre>
+          <p>tradeable debt 的关键是二级市场是否找得到对手方；demandable debt 的关键是 redemption floor 如何抬高退出价值和议价地位。</p>
+        </div>
+        <div class="card">
+          <strong>HW3 Q2：redemption threshold</strong>
+          <pre><code>Remain value per non-redeemer
+= [1 - (n/N)(0.8/0.5)] / [1 - n/N]
+
+Indifference condition:
+[1 - (n/N)(0.8/0.5)] / [1 - n/N] = 0.8</code></pre>
+          <p>这类题的核心不是代数本身，而是 first-mover incentive：别人越先走，留下来的人越被稀释，run incentive 就越强。</p>
+        </div>
       </div>
     </section>
 
@@ -493,44 +516,64 @@ and too little on private signal x_i</code></pre>
       <div class="section-head">
         <div>
           <h2>1 道完整例题</h2>
-          <p class="section-note">下面用“twin crisis + liquidity spiral”的混合题，把模块 7 的多个机制压成一条清楚的答题链。</p>
+          <p class="section-note">这里直接换成 HW3 Q1，因为它把模块 6 的合同结构带进了模块 7 的 stress 环境：同样是债务工具，一旦加入二级市场搜寻摩擦和提前消费冲击，价值就会分叉。</p>
         </div>
-        <span class="badge">综合机制题</span>
+        <span class="badge">HW3 Q1 Walkthrough</span>
       </div>
       <div class="example-flow">
         <div class="step">
           <strong>题目设定</strong>
-          <p>某新兴市场经济体经历了数年金融自由化和外资流入。银行大量以美元短债融资，再把资金贷给本币收入企业。随后美国利率上升，本国股市下跌，汇率承压，银行开始失去批发融资。说明为什么这可能演变成 <code>twin crisis</code>，并指出其中至少两个放大机制。</p>
+          <p>借款人发行两种工具之一：`bond` 或 `banknote`。终值 repayment <code>R = 2</code>，提前 redemption value <code>r = 0.8</code>；项目 payoff arrival intensity <code>ρ = 0.1</code>；持有人 liquidity shock intensity <code>θ = 0.2</code>；若要卖出，找到 counterparty 的概率 <code>σ = 0.5</code>，卖方 bargaining power <code>η = 0.8</code>。</p>
         </div>
 
         <div class="step">
-          <strong>第 1 步：先写初始脆弱性</strong>
-          <p>金融自由化和外资流入带来 credit boom。银行与企业杠杆上升，同时存在 <code>currency mismatch</code>：负债是美元，本币收入无法自然对冲。</p>
+          <strong>第 1 步：先写 liquidity shock 下的退出价值</strong>
+          <p>如果投资先 payoff，则工具直接给 <code>R</code>。难点在于：若持有人先遭遇 liquidity shock，就必须想办法退出。对普通 <code>bond</code> 来说，退出只能依赖二级市场交易；对 <code>banknote</code> 来说，即使谈不成，也还有 <code>r</code> 这个 redemption floor。</p>
         </div>
 
         <div class="step">
-          <strong>第 2 步：触发器出现</strong>
-          <p>外部利率上升使外部融资环境变差，资本开始撤离；股市和抵押品价格下跌又削弱企业与银行净值，adverse selection 和 moral hazard 加重。</p>
+          <strong>第 2 步：写出 bond 的 fixed-point</strong>
+          <p>当发生 liquidity shock 时，bond 持有人只有在找得到交易对手时才能退出；且在找到对手后，只能拿到 continuation value 的 <code>η</code> 份额。因此：</p>
+          <pre><code>v_bond
+= [ρR + (1-ρ)θση v_bond]
+  / [ρ + (1-ρ)θ]
+
+⇒ v_bond
+= ρR / [ρ + (1-ρ)θ(1-ησ)]</code></pre>
+          <p>代入参数：</p>
+          <pre><code>v_bond
+= 0.1×2 / [0.1 + 0.9×0.2×(1-0.8×0.5)]
+= 0.2 / 0.208
+≈ 0.962</code></pre>
         </div>
 
         <div class="step">
-          <strong>第 3 步：货币危机与银行危机互相咬合</strong>
-          <p>政府若为了保汇率而大幅加息，会压垮本已脆弱的银行与企业；若不加息，投机者预期贬值，currency crisis 更快发生。这时一旦本币贬值，外币债务的本币价值上升，银行和企业净值被进一步打击。</p>
+          <strong>第 3 步：写出 banknote 的 fixed-point</strong>
+          <p>banknote 多了一个关键项：如果 shock 来了但没法顺利卖出，持有人至少能拿到 <code>r</code>；而且这个 floor 也会抬高谈判时的外部选择，因此成交时可拿到 <code>η v_banknote + (1-η)r</code>。于是：</p>
+          <pre><code>v_banknote
+= [ρR + (1-ρ)θ(ση v_banknote + (1-ησ)r)]
+  / [ρ + (1-ρ)θ]
+
+⇒ v_banknote
+= [ρR + (1-ρ)θ(1-ησ)r]
+  / [ρ + (1-ρ)θ(1-ησ)]</code></pre>
+          <p>代入参数：</p>
+          <pre><code>v_banknote
+= [0.1×2 + 0.9×0.2×0.6×0.8] / 0.208
+= 0.2864 / 0.208
+≈ 1.377</code></pre>
         </div>
 
         <div class="step">
-          <strong>第 4 步：放大机制 1，liquidity / margin spiral</strong>
-          <p>资产价格下跌导致 collateral value 下降，haircut 上升，融资约束收紧，被迫去杠杆和 fire sale 又继续压低价格。</p>
+          <strong>第 4 步：比较两者并给经济直觉</strong>
+          <p><code>v_banknote &gt; v_bond</code>，不是偶然。核心有两点：</p>
+          <p>第一，<code>redemption</code> 提供了 payoff floor，所以即使找不到对手方，也不至于价值归零。</p>
+          <p>第二，这个 floor 也会抬高 bargaining position，所以即使能卖出，banknote 持有人在交易中拿到的价格也更高。</p>
         </div>
 
         <div class="step">
-          <strong>第 5 步：放大机制 2，ambiguity and panic</strong>
-          <p>市场参与者不知道谁的美元敞口最大、谁会先断供，于是按 worst-case 收缩头寸，形成 flight-to-quality 和 panic funding withdrawal。</p>
-        </div>
-
-        <div class="step">
-          <strong>标准结论</strong>
-          <p>这不是“汇率跌一点、银行亏一点”的线性故事，而是：<code>外部冲击 → 资产负债表恶化 → 汇率危机与银行危机相互强化 → fire sale / panic / credit contraction</code> 的非线性连锁反应。这就是 twin crisis 的核心。</p>
+          <strong>一句话抓住 HW3 Q1</strong>
+          <p>模块 7 在这里考的不是“会不会背 bond/banknote 定义”，而是你能不能把 <code>tradability</code>、<code>redeemability</code>、market search friction 和 liquidity shock 放进同一个 valuation problem 里。</p>
         </div>
       </div>
     </section>
@@ -604,7 +647,22 @@ After devaluation = 100 × 1.5 = 150</code></pre>
       </div>
 
       <details>
-        <summary>H1. 若两个国家都本币贬值，但只有一个国家同时爆发银行危机，题目最可能在暗示哪种结构性差异？</summary>
+        <summary>H1. HW3 Q2 型：基金有 <code>N = 100000</code> 个投资者，若在 2:59 PM 赎回可按 <code>0.8</code> 退出；若留下，投资者预期 2 月 23 日价格回到 <code>1</code>，但为了支付前面赎回者，基金需要在 2 月 22 日按 <code>0.5</code> 抛售一部分股票。写出使 Miss Wang 恰好无差异的阈值方程，并求 <code>n</code>。</summary>
+        <div class="answer">
+          <pre><code>Remain value per non-redeemer
+= [1 - (n/100000)(0.8/0.5)] / [1 - n/100000]
+
+Indifference:
+[1 - (n/100000)(0.8/0.5)] / [1 - n/100000] = 0.8
+
+Solve:
+n = 25000</code></pre>
+          <p>直觉是 first-mover incentive。别人先赎回越多，基金越要在更差价格下卖出更多股票，留下来的人每份份额对应的终值就越低。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>H2. 若两个国家都本币贬值，但只有一个国家同时爆发银行危机，题目最可能在暗示哪种结构性差异？</summary>
         <div class="answer">
           <p><strong>答案：</strong>更严重的 <code>currency mismatch</code>、更脆弱的银行资产负债表，或更短的外部融资期限结构。</p>
           <p>单纯汇率变化不自动推出 twin crisis。更硬的答法会写：外币负债、本币收入、短债滚动依赖和资本流入逆转共同决定危机是否穿透到银行系统。</p>
@@ -612,7 +670,7 @@ After devaluation = 100 × 1.5 = 150</code></pre>
       </details>
 
       <details>
-        <summary>H2. 若资产价格下跌触发追加保证金，追加保证金迫使卖出，而卖出又进一步压低价格。这条链里哪个环节最体现“市场不是摩擦less”的含义？</summary>
+        <summary>H3. 若资产价格下跌触发追加保证金，追加保证金迫使卖出，而卖出又进一步压低价格。这条链里哪个环节最体现“市场不是 frictionless”的含义？</summary>
         <div class="answer">
           <p><strong>答案：</strong>融资约束和 haircut / margin requirement 的内生收紧。</p>
           <p>如果市场真是 frictionless，价格偏离 fundamental 时套利者会无限接盘。现实里正是 funding constraint 把“你可能长期是对的”改写成“你会在回归前先死掉”。</p>
@@ -620,7 +678,7 @@ After devaluation = 100 × 1.5 = 150</code></pre>
       </details>
 
       <details>
-        <summary>H3. beauty contest 环境里，为什么公共信号质量下降时，市场波动可能反而更大？</summary>
+        <summary>H4. beauty contest 环境里，为什么公共信号质量下降时，市场波动可能反而更大？</summary>
         <div class="answer">
           <p><strong>答案：</strong>因为大家仍会高度关注一个协调基准，但这个基准本身更噪，从而把共同行为推得更偏。</p>
           <p>这不是单纯“信息更差所以均值更差”的故事，而是协调对象更差会把群体行为的同步误差放大。作业型题常让你把信息质量和 coordination motive 放在一起解释。</p>

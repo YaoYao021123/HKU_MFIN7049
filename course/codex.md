@@ -20,7 +20,7 @@
 | 模块 4 | 融资结构与逆向选择 | `mfin7049/Slides - 8.pdf`、`mfin7049/Teaching Notes-2.pdf`、`mfin7049/Teaching Notes - 7.pdf` | 理解金融结构为何存在、adverse selection、equity vs debt 在信息不对称下的差异、asset substitution、debt overhang |
 | 模块 5 | 道德风险、契约设计与融资效率 | `mfin7049/Teaching Notes - 8.pdf`、`mfin7049/Slides - 10.pdf`、`HW2/Assignment 2.pdf` 第 1、3 题 | 掌握 moral hazard、激励相容、为什么 debt 在某些环境下更能缓解道德风险、监管与融资摩擦的连接 |
 | 模块 6 | 银行、金融机构与监管 | `mfin7049/Slides - 9.pdf`、`mfin7049/Slides - 10.pdf`、`mfin7049/Slides - 11.pdf`、`mfin7049/Teaching Notes - 9.pdf` | 掌握银行作为特殊金融机构、`tradability / redeemability`、`banknote / bond / loan`、bank run 与监管逻辑 |
-| 模块 7 | 危机机制与市场异常 | `mfin7049/Slides - 12.pdf`、`mfin7049/Slides - 13.pdf`、`mfin7049/Teaching Notes-3.pdf`、`mfin7049/Teaching Notes - 10.pdf`、`mfin7049/Teaching Notes - 11.pdf` | 掌握 credit cycle、twin crises、ambiguity aversion、liquidity spirals、panic runs、beauty contest、limits to arbitrage、portfolio insurance crash |
+| 模块 7 | 危机机制与市场异常 | `mfin7049/Slides - 12.pdf`、`mfin7049/Slides - 13.pdf`、`mfin7049/Teaching Notes-3.pdf`、`mfin7049/Teaching Notes - 10.pdf`、`mfin7049/Teaching Notes - 11.pdf`、`HW3/Assignment 3.pdf` | 掌握 credit cycle、twin crises、ambiguity aversion、liquidity spirals、panic runs、beauty contest、limits to arbitrage、portfolio insurance crash，以及 `bond vs banknote` 和 redemption threshold 这类 stress-state 题型 |
 | 模块 8 | 央行、货币供给与政策框架 | `mfin7049/Slides - 14.pdf`、`mfin7049/Slides - 15.pdf`、`mfin7049/Slides - 16.pdf`、`mfin7049/Slides - 17.pdf`、`mfin7049/Slides - Chinese Bond Markets and Interbank Market.pdf`、`mfin7049/Teaching Notes-3.pdf` 中 inflation/QE 内容 | 掌握 central bank、money supply process、policy tools、policy strategy、中国债券市场与 interbank market 的制度背景 |
 | 模块 9 | 综合选择题冲刺 | 前 8 个模块全部材料 | 抽取高频判断题、机制题、比较题，按考试中约 `70%` 的客观题比例做连续互动闯关 |
 | 模块 10 | 综合计算题冲刺 | `HW1/Assignment 1.pdf`、`HW2/Assignment 2.pdf`、`Teaching Notes - 4.pdf`、`Teaching Notes - 5.pdf`、`Teaching Notes - 7.pdf`、`Teaching Notes - 8.pdf` | 聚焦估值题、融资激励题、信息/风险溢价推导题，并做参数变形训练 |
@@ -154,8 +154,11 @@ HTML 输出规范：
 | `HW2/Assignment 2.pdf` | Q1 | 模块 5、模块 10 | 借债融资下的 project substitution / shareholder incentives / lender anticipation | 作为 moral hazard 与融资激励主例题 |
 | `HW2/Assignment 2.pdf` | Q2 | 模块 3、模块 10 | 在 Benhabib-Liu-Wang 模型中加入 signal，求 `E(R)`、`Rf`、risk premium 并解释直觉 | 作为风险定价与信息模块的推导母题 |
 | `HW2/Assignment 2.pdf` | Q3 | 模块 5、模块 10 | 比较 equity 与 debt 在不同 effort cost `c` 下能否实现效率 | 作为激励相容区间题和参数变形训练题 |
+| `HW3/Assignment 3.pdf` | Q1 | 模块 7 | 把 `tradability`、`redeemability`、liquidity shock、search friction 和 bargaining power 放进同一个 valuation problem | 作为模块 7 的完整例题，训练 `bond vs banknote` 的 fixed-point valuation |
+| `HW3/Assignment 3.pdf` | Q2 | 模块 7、模块 9 | mutual fund redemption、first-mover incentive、run threshold 和 fire-sale dilution | 作为模块 7 的高阶阈值题，并在客观题冲刺里反复回收 run logic |
 
 使用约束：
 - `HW1` 只放在估值主线中使用，不提前拆散到 institution 部分。
 - `HW2 Q2` 只在风险定价/信息主线中使用，强调信号如何改变 posterior variance 与 risk premium。
 - `HW2 Q1/Q3` 只在融资摩擦主线中使用，强调行为激励和 contract design。
+- `HW3 Q1/Q2` 只在模块 7 的压力状态主线中使用，强调 market liquidity、redeemability、first-mover incentive 与 panic / run 逻辑。
